@@ -2,6 +2,8 @@
 
 iMARGI-Docker distributes the iMARGI sequencing data processing pipeline
 
+[![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
+
 - [iMARGI-Docker](#imargi-docker)
   - [Description](#description)
   - [Repo Contents](#repo-contents)
