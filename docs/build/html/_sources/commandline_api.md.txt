@@ -4,9 +4,7 @@ We created several script tools. Here we show the usage and source code of all t
 
 ## imargi_wrapper.sh
 
-```eval_rst
-:download:`imargi_wrapper.sh <tools/imargi_wrapper.sh>`
-```
+[*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_wrapper.sh)
 
 ```
     Usage: $PROGNAME [-r <ref_name>] [-N <base_name>] [-g <ref_fasta>]
@@ -38,9 +36,7 @@ We created several script tools. Here we show the usage and source code of all t
 
 ## imargi_clean.sh
 
-```eval_rst
-:download:`imargi_clean.sh <tools/imargi_clean.sh>`
-```
+[*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_clean.sh)
 
 ``` 
     Usage: imargi_clean.sh [-1 <fastq.gz_R1>] [-2 <fastq.gz_R2>] [-o <output_dir>] [-f <filter_CT>] [-d <drop>] 
@@ -72,9 +68,7 @@ We created several script tools. Here we show the usage and source code of all t
 
 ## imargi_rsfrags.sh
 
-```eval_rst
-:download:`imargi_rsfrags.sh <tools/imargi_rsfrags.sh>`
-```
+[*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_rsfrags.sh)
 
 ```
     Usage: imargi_rsfrags.sh [-r <ref_fasta>] [-c <chromSize_file>] [-e <enzyme_name>] [-C <cut_position>] [-o <output_dir>] 
@@ -96,9 +90,7 @@ We created several script tools. Here we show the usage and source code of all t
 
 ## imargi_parse.sh
 
-```eval_rst
-:download:`imargi_parse.sh <tools/imargi_parse.sh>`
-```
+[*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_parse.sh)
 
 ```
     Usage: imargi_parse.sh [-r <ref_name>] [-c <chromSize_file>] [-R <restrict_sites>] [-b <bam_file>] [-o <output_dir>] 
@@ -128,9 +120,7 @@ We created several script tools. Here we show the usage and source code of all t
 
 ## imargi_stats.sh
 
-```eval_rst
-:download:`imargi_stats.sh <tools/imargi_stats.sh>`
-```
+[*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_stats.sh)
 
 ```
     Usage: imargi_stats.sh [-D <distance_type>] [-d <distance_threshold>] [-F <deal_with_filter>]
@@ -155,9 +145,7 @@ We created several script tools. Here we show the usage and source code of all t
 
 ## imargi_distfilter.sh
 
-```eval_rst
-:download:`imargi_distfilter.sh <tools/imargi_distfilter.sh>`
-```
+[*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_distfilter.sh)
 
 ```
     Usage: imargi_distfilter.sh [-D <distance_type>] [-d <distance_threshold>] [-F <deal_with_filter>]
@@ -182,9 +170,7 @@ We created several script tools. Here we show the usage and source code of all t
 
 ## imargi_convert.sh
 
-```eval_rst
-:download:`imargi_convert.sh <tools/imargi_convert.sh>`
-```
+[*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_convert.sh)
 
 ```
     Usage: imargi_convert.sh [-f <file_format>] [-k <keep_cols>] [-b <bin_size>] [-i <input_file>] [-o <output_file>]
@@ -206,9 +192,7 @@ We created several script tools. Here we show the usage and source code of all t
 
 ## imargi_annotate.sh
 
-```eval_rst
-:download:`imargi_annotate.sh <tools/imargi_annotate.sh>`
-```
+[*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_annotate.sh)
 
 ```
     Usage: imargi_annotate.sh [-f <file_format>] [-A <annotation_type>] [-a <annotation_file>]

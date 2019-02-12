@@ -4,8 +4,7 @@ PROGNAME=$0
 usage() {
     cat << EOF >&2
     Usage: $PROGNAME [-r <ref_fasta>] [-c <chromSize_file>] [-e <enzyme_name>] [-C <cut_position>] [-o <output_dir>] 
-                     [-g <max_inter_align_gap>] [-O offset_restriction_site] [-d <drop>] [-D <intermediate_dir>] 
-                     [-s <stats_flag>] [-t <threads>] 
+
     Dependency: cooler
     This script use cooler digest to generate the restriction Enzyme digested fragments bed file for iMARGI
     -r : Reference genome fasta file

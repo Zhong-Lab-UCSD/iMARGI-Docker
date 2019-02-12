@@ -132,17 +132,17 @@ docker run -u 1043 -v ~/imargi_example:/imargi imargi imargi_wrapper.sh \
 
 #### Running Time Profile
 
-It took about xx minutes to perform the pipeline. The most of time was consumed by building bwa index files. So once
-you built the bwa index, supply it to the command with `-i` next time.
+It took about 85 minutes to perform the pipeline. The most of time (75 min) was consumed by building bwa index files.
+So once you built the bwa index, supply it to the command with `-i` next time.
 
 Step | Time | Speed up suggestion
 ---------|----------|----------
 Generating chromosome size file | 10 sec | It's fast, but you can supply with `-c` once you've generated it.
-Generating bwa index | 15 min | Supply with `-i` once you've built it.
-Generating restriction fragment file | 3 min | Supply with `-R` once you've created it.
-cleaning | 5 min | It's fast and not parallelization.
-bwa mapping | 5 min | More CPU cores with `-t`.
-interaction pair parsing | 10 min | More CPU cores.
+Generating bwa index | 75 min | Supply with `-i` once you've built it.
+Generating restriction fragment file | 4 min | Supply with `-R` once you've created it.
+cleaning | 10 sec | It's fast and not parallelization.
+bwa mapping | 2 min | More CPU cores with `-t`.
+interaction pair parsing | 1 min | More CPU cores with `-t`.
 
 #### Expected Result files
 
