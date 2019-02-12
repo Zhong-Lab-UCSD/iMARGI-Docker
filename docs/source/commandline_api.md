@@ -6,7 +6,7 @@ We created several script tools. Here we show the usage and source code of all t
 
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_wrapper.sh)
 
-```
+``` bash
     Usage: $PROGNAME [-r <ref_name>] [-N <base_name>] [-g <ref_fasta>]
                      [-c <chromSize_file>] [-i <bwa_index>] [-R <restrict_sites>]
                      [-G <max_inter_align_gap>] [-O <offset_restriction_site>] [-M <max_ligation_size>]
@@ -38,7 +38,7 @@ We created several script tools. Here we show the usage and source code of all t
 
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_clean.sh)
 
-``` 
+``` bash
     Usage: imargi_clean.sh [-1 <fastq.gz_R1>] [-2 <fastq.gz_R2>] [-o <output_dir>] [-f <filter_CT>] [-d <drop>] 
                 [-t <threads>] [-b <block_size>]
     
@@ -70,7 +70,7 @@ We created several script tools. Here we show the usage and source code of all t
 
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_rsfrags.sh)
 
-```
+``` bash
     Usage: imargi_rsfrags.sh [-r <ref_fasta>] [-c <chromSize_file>] [-e <enzyme_name>] [-C <cut_position>] [-o <output_dir>] 
                     [-g <max_inter_align_gap>] [-O offset_restriction_site] [-d <drop>] [-D <intermediate_dir>] 
                     [-s <stats_flag>] [-t <threads>] 
@@ -92,7 +92,7 @@ We created several script tools. Here we show the usage and source code of all t
 
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_parse.sh)
 
-```
+``` bash
     Usage: imargi_parse.sh [-r <ref_name>] [-c <chromSize_file>] [-R <restrict_sites>] [-b <bam_file>] [-o <output_dir>] 
                     [-Q <min_mapq>] [-G <max_inter_align_gap>] [-O <offset_restriction_site>] [-M <max_ligation_size>]
                     [-d <drop>] [-D <intermediate_dir>] [-t <threads>] 
@@ -122,7 +122,7 @@ We created several script tools. Here we show the usage and source code of all t
 
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_stats.sh)
 
-```
+``` bash
     Usage: imargi_stats.sh [-D <distance_type>] [-d <distance_threshold>] [-F <deal_with_filter>]
                 [-i <input_file>] [-o <output_file>]
 
@@ -147,7 +147,7 @@ We created several script tools. Here we show the usage and source code of all t
 
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_distfilter.sh)
 
-```
+``` bash
     Usage: imargi_distfilter.sh [-D <distance_type>] [-d <distance_threshold>] [-F <deal_with_filter>]
                 [-i <input_file>] [-o <output_file>]
 
@@ -172,7 +172,7 @@ We created several script tools. Here we show the usage and source code of all t
 
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_convert.sh)
 
-```
+``` bash
     Usage: imargi_convert.sh [-f <file_format>] [-k <keep_cols>] [-b <bin_size>] [-i <input_file>] [-o <output_file>]
 
     Dependency: gzip, awk, cool
@@ -194,7 +194,7 @@ We created several script tools. Here we show the usage and source code of all t
 
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_annotate.sh)
 
-```
+``` bash
     Usage: imargi_annotate.sh [-f <file_format>] [-A <annotation_type>] [-a <annotation_file>]
                 [-C <end_for_annotate>] [-c <add_col_names>] [-m <min_overlap>]
                 [-i <input_file>] [-o <output_file>]
