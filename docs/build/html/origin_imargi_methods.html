@@ -1,0 +1,463 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>iMARGI Data Processing Methods &mdash; iMARGI Pipeline 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> iMARGI Pipeline
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Tools and Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_example.html">Quick Start Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="step_by_step_illustration.html">Step-by-step Illustration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="further_analysis.html">Further Analysis and Visualization Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical_note.html">Technical Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commandline_api.html">Command-line API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">iMARGI Pipeline</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>iMARGI Data Processing Methods</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="imargi-data-processing-methods">
+<h1>iMARGI Data Processing Methods<a class="headerlink" href="#imargi-data-processing-methods" title="Permalink to this headline">¶</a></h1>
+<p>In this repository, we introduce the data processing methods (tools and usages) of iMARGI, from fastq to RNA-DNA interaction map.</p>
+<ul class="simple">
+<li><a class="reference external" href="#imargi-data-processing-methods">iMARGI Data Processing Methods</a><ul>
+<li><a class="reference external" href="#1-tools-and-data-dependencies">1. Tools and data dependencies</a><ul>
+<li><a class="reference external" href="#11-required-tools">1.1. Required tools</a></li>
+<li><a class="reference external" href="#12-reference-data">1.2. Reference data</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#2-data-processing">2. Data processing</a><ul>
+<li><a class="reference external" href="#21-input-data-and-directory">2.1. Input data and directory</a></li>
+<li><a class="reference external" href="#22-fastq-file-cleaning">2.2. Fastq file cleaning</a></li>
+<li><a class="reference external" href="#23-mapping">2.3. Mapping</a></li>
+<li><a class="reference external" href="#24-pair-parsing-de-duplication-and-filtering">2.4. Pair parsing, de-duplication and filtering</a></li>
+<li><a class="reference external" href="#25-multiple-output-formats">2.5. Multiple output formats</a><ul>
+<li><a class="reference external" href="#251-pairs-format">2.5.1. <code class="docutils literal notranslate"><span class="pre">.pairs</span></code> format</a></li>
+<li><a class="reference external" href="#252-bedpe-format">2.5.2. BEDPE format</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference external" href="#3-further-analysis-tips">3. Further analysis tips</a></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="tools-and-data-dependencies">
+<h2>1. Tools and data dependencies<a class="headerlink" href="#tools-and-data-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>To incorporate with standard pipelines of 4D Nucleome project (4DN), we use the same tools and reference data adopted
+by 4DN DCIC (4D Nucleome Data Coordination and Integration Center) to process iMARGI data.</p>
+<div class="section" id="required-tools">
+<h3>1.1. Required tools<a class="headerlink" href="#required-tools" title="Permalink to this headline">¶</a></h3>
+<p>Make sure that all the required tools are installed on your linux system with correct exec path configurations.</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/lh3/bwa">bwa</a> (version 0.7.17)</li>
+<li><a class="reference external" href="https://github.com/mirnylab/pairtools">pairtools</a> (version 0.2.0)</li>
+<li><a class="reference external" href="http://www.htslib.org/download/">samtools</a> (version 1.9)</li>
+<li><a class="reference external" href="https://github.com/lh3/seqtk">seqtk</a> (version 1.3)</li>
+<li><a class="reference external" href="https://github.com/nh13/pbgzip">pbgzip</a></li>
+<li><a class="reference external" href="https://www.gnu.org/software/parallel/">GNU parallel</a></li>
+<li><a class="reference external" href="./ct_clean_pefastq.sh">ct_clean_pefastq.sh</a>: provided in this repository. Put it in your exec path and <code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">+x</span></code>,
+or specify directory when you use it.</li>
+<li><a class="reference external" href="./pairs_to_bedpe.sh">pairs_to_bedpe.sh</a>: provided in this repository. Put it in your exec path and <code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">+x</span></code>, or specify directory
+when you use it.</li>
+<li><a class="reference external" href="https://www.gnu.org/software/gawk/manual/html_node/Quick-Installation.html">GNU awk</a>: most of Linux distributions
+have GNU awk default installed.</li>
+<li><code class="docutils literal notranslate"><span class="pre">bash</span></code>, <code class="docutils literal notranslate"><span class="pre">sort</span></code>, <code class="docutils literal notranslate"><span class="pre">gunzip</span></code>, <code class="docutils literal notranslate"><span class="pre">zcat</span></code>: Almost all of Linux distributions have these tools default installed.</li>
+</ul>
+</div>
+<div class="section" id="reference-data">
+<h3>1.2. Reference data<a class="headerlink" href="#reference-data" title="Permalink to this headline">¶</a></h3>
+<p>The reference genome and gene annotation GTF file used in 4DN are the same as ENCODE project. They can be downloaded
+from <a class="reference external" href="https://www.encodeproject.org/data-standards/reference-sequences/">ENCODE project website</a>.</p>
+<ul class="simple">
+<li>Reference Genome: GRCh38_no_alt_analysis_set_GCA_000001405.15. <a class="reference external" href="https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/&#64;&#64;download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz">download link</a></li>
+<li>Gene Annotations:  GRCh38 GENCODE V24 Primary (GTF format). <a class="reference external" href="https://www.encodeproject.org/files/ENCFF824ZKD/&#64;&#64;download/ENCFF824ZKD.gtf.gz">download link</a></li>
+<li>chromSize.txt. You can generate it or download from UCSC genome browser. We also provided it <a class="reference external" href="./chromSize.txt">here</a>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="data-processing">
+<h2>2. Data processing<a class="headerlink" href="#data-processing" title="Permalink to this headline">¶</a></h2>
+<p>As the iMARGI data we generated are big high-throughput sequencing data (hundreds of millions read pairs), so a high
+performance computing machine with Linux system is necessary, such as 8 CPU cores with 32 GB memory. Almost all of the
+tools used here support parallel computing.</p>
+<div class="section" id="input-data-and-directory">
+<h3>2.1. Input data and directory<a class="headerlink" href="#input-data-and-directory" title="Permalink to this headline">¶</a></h3>
+<p>The raw data generated by iMARGI experimental technique are paired-end sequencing read pairs in FASTQ format. That’s
+the only input data we needed. Besides, we also need reference genome and gene annotation file.
+Here, we assume the input files and directory like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="p">|</span>-- <span class="p">|</span>
+    <span class="p">|</span>-- ref
+    <span class="p">|</span>   <span class="p">|</span>-- GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta
+    <span class="p">|</span>   <span class="p">|</span>-- gencode.v24.primary_assembly.annotation.gtf
+    <span class="p">|</span>
+    <span class="p">|</span>-- raw_data
+    <span class="p">|</span>   <span class="p">|</span>-- HEK_iMARGI_R1.fastq.gz
+    <span class="p">|</span>   <span class="p">|</span>-- HEK_iMARGI_R2.fastq.gz
+    <span class="p">|</span>   <span class="p">|</span>-- chromSize.txt
+    <span class="p">|</span>   
+    <span class="p">|</span>-- clean_fastq
+    <span class="p">|</span>   <span class="p">|</span>--
+    <span class="p">|</span>
+    <span class="p">|</span>-- mapping_output
+    <span class="p">|</span>   <span class="p">|</span>--
+    <span class="p">|</span>
+    <span class="p">|</span>-- pairs_output
+        <span class="p">|</span>--
+</pre></div>
+</div>
+</div>
+<div class="section" id="fastq-file-cleaning">
+<h3>2.2. Fastq file cleaning<a class="headerlink" href="#fastq-file-cleaning" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>input: raw paired FASTQ files <code class="docutils literal notranslate"><span class="pre">./raw_data/HEK_iMARGI_R1.fastq.gz</span></code> and <code class="docutils literal notranslate"><span class="pre">./raw_data/HEK_iMARGI_R2.fastq.gz</span></code></li>
+<li>output: clean paired FASTQ files <code class="docutils literal notranslate"><span class="pre">./clean_fastq/clean_HEK_iMARGI_R1.fastq.gz</span></code> and <code class="docutils literal notranslate"><span class="pre">./clean_fastq/clean_HEK_iMARGI_R2.</span> <span class="pre">fastq.gz</span></code></li>
+</ul>
+<p>According to the design of iMARGI sequencing library construction, we need to clean the fastq files before mapping.
+The first 2 bases (5’ end) of RNA end (Read 1) are random nucleotides, which need to be removed before mapping.
+The first 2 bases (5’ end) of DNA end (Read 2) must be “CT” for correct ligation of RNA and DNA fragments. So we will
+filter our the read pairs without “CT” as the first two bases of DNA end (Read 2).</p>
+<p>We use the bash script <a class="reference external" href="./ct_clean_pefastq.sh"><code class="docutils literal notranslate"><span class="pre">ct_clean_pefastq.sh</span></code></a> to clean the paired fastq files. We can use one command line to do that.
+The <code class="docutils literal notranslate"><span class="pre">-t</span></code> and <code class="docutils literal notranslate"><span class="pre">-b</span></code> parameters are used for parallel computing, which means use 16 CPU cores and read in 4 million read
+pairs each time in each CPU core. You need to adjust the parameters based on you machine configurations.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash ct_clean_pair.sh <span class="se">\</span>
+    -1 ./raw_data/HEK_iMARGI_R1.fastq.gz <span class="se">\</span>
+    -2 ./raw_data/HEK_iMARGI_R2.fastq.gz <span class="se">\</span>
+    -d <span class="nb">true</span>
+    -o ./clean_fastq/ <span class="se">\</span>
+    -t <span class="m">16</span> -b <span class="m">4000000</span>
+</pre></div>
+</div>
+<p>Here is the usage and help info of the <code class="docutils literal notranslate"><span class="pre">ct_clean_pefastq.sh</span></code> script.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span> <span class="n">ct_clean_pair</span><span class="o">.</span><span class="n">sh</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz_R1</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span> <span class="o">&lt;</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz_R2</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="o">&lt;</span><span class="n">output_dir</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span> <span class="o">&lt;</span><span class="n">drop</span><span class="o">&gt;</span><span class="p">]</span>
+            <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="o">&lt;</span><span class="n">threads</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="o">&lt;</span><span class="n">block_size</span><span class="o">&gt;</span><span class="p">]</span>
+
+<span class="n">Dependency</span><span class="p">:</span> <span class="n">seqtk</span><span class="p">,</span> <span class="n">zcat</span><span class="p">,</span> <span class="n">awk</span><span class="p">,</span> <span class="n">parallel</span>
+
+<span class="n">This</span> <span class="n">script</span> <span class="n">will</span> <span class="n">clean</span> <span class="n">the</span> <span class="n">DNA</span> <span class="n">end</span> <span class="n">reads</span> <span class="p">(</span><span class="n">R2</span><span class="p">)</span> <span class="n">of</span> <span class="n">iMARGI</span> <span class="n">sequencing</span> <span class="n">Fastq</span> <span class="n">data</span><span class="o">.</span> <span class="n">According</span> <span class="n">to</span> <span class="n">the</span> <span class="n">iMARGI</span> <span class="n">design</span><span class="p">,</span>
+<span class="n">DNA</span> <span class="n">end</span> <span class="n">reads</span> <span class="p">(</span><span class="n">R2</span><span class="p">)</span> <span class="n">must</span> <span class="n">start</span> <span class="k">with</span> <span class="s2">&quot;CT&quot;</span><span class="o">.</span> <span class="n">So</span> <span class="n">it</span> <span class="n">cleans</span> <span class="n">the</span> <span class="n">data</span> <span class="n">by</span> <span class="n">filtering</span> <span class="n">out</span> <span class="n">those</span> <span class="n">R2</span> <span class="n">reads</span> <span class="ow">not</span> <span class="n">starting</span> <span class="k">with</span>
+<span class="s2">&quot;CT&quot;</span><span class="o">.</span> <span class="n">After</span> <span class="n">filtering</span> <span class="n">R2</span><span class="p">,</span> <span class="n">it</span> <span class="n">fixes</span> <span class="n">the</span> <span class="n">paired</span> <span class="n">reads</span> <span class="ow">in</span> <span class="n">R1</span><span class="o">.</span> <span class="n">If</span> <span class="s2">&quot;-d&quot;</span> <span class="n">was</span> <span class="nb">set</span> <span class="k">as</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="n">it</span> <span class="n">will</span> <span class="n">drop</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">non</span> <span class="s2">&quot;CT&quot;</span>
+<span class="n">started</span> <span class="n">R2</span> <span class="n">reads</span> <span class="ow">and</span> <span class="n">paired</span> <span class="n">R1</span> <span class="n">reads</span><span class="p">,</span> <span class="n">which</span> <span class="n">outputs</span> <span class="n">two</span> <span class="n">fastq</span> <span class="n">files</span> <span class="k">with</span> <span class="n">prefix</span> <span class="s2">&quot;clean_&quot;</span><span class="o">.</span> <span class="n">If</span> <span class="s2">&quot;-d&quot;</span> <span class="n">was</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="n">the</span>
+<span class="n">filtered</span> <span class="n">read</span> <span class="n">pairs</span> <span class="n">would</span> <span class="n">also</span> <span class="n">be</span> <span class="n">outputed</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">pair</span> <span class="n">of</span> <span class="n">fastq</span> <span class="n">files</span> <span class="k">with</span> <span class="n">prefix</span> <span class="s2">&quot;drop_&quot;</span><span class="o">.</span> <span class="n">The</span> <span class="n">default</span> <span class="n">setting</span> <span class="n">of</span> <span class="s2">&quot;-d&quot;</span>
+<span class="ow">is</span> <span class="s2">&quot;false&quot;</span><span class="o">.</span> <span class="n">The</span> <span class="nb">input</span> <span class="n">fastq</span> <span class="n">files</span> <span class="n">must</span> <span class="n">be</span> <span class="n">gzip</span> <span class="n">files</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="p">,</span> <span class="n">fastq</span><span class="o">.</span><span class="n">gz</span> <span class="ow">or</span> <span class="n">fq</span><span class="o">.</span><span class="n">gz</span><span class="o">.</span> <span class="n">The</span> <span class="n">output</span> <span class="n">files</span> <span class="n">are</span> <span class="n">also</span> <span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="o">.</span>
+
+<span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="n">R1</span> <span class="n">fastq</span><span class="o">.</span><span class="n">gz</span> <span class="n">file</span><span class="p">,</span> <span class="k">if</span> <span class="n">there</span> <span class="n">are</span> <span class="n">multiple</span> <span class="n">files</span><span class="p">,</span> <span class="n">just</span> <span class="n">separated</span> <span class="k">with</span> <span class="n">space</span><span class="p">,</span> <span class="n">such</span> <span class="k">as</span> <span class="o">-</span><span class="mi">1</span> <span class="n">l1_R1</span><span class="o">.</span><span class="n">fq</span> <span class="n">l2_R1</span><span class="o">.</span><span class="n">fq</span>
+<span class="o">-</span><span class="mi">2</span> <span class="p">:</span> <span class="n">R2</span> <span class="n">fastq</span><span class="o">.</span><span class="n">gz</span> <span class="n">file</span><span class="p">,</span> <span class="k">if</span> <span class="n">there</span> <span class="n">are</span> <span class="n">multiple</span> <span class="n">files</span><span class="p">,</span> <span class="n">just</span> <span class="n">separated</span> <span class="k">with</span> <span class="n">space</span><span class="p">,</span> <span class="n">such</span> <span class="k">as</span> <span class="o">-</span><span class="mi">1</span> <span class="n">l1_R2</span><span class="o">.</span><span class="n">fq</span> <span class="n">l2_R2</span><span class="o">.</span><span class="n">fq</span>
+<span class="o">-</span><span class="n">o</span> <span class="p">:</span> <span class="n">output</span> <span class="n">directoy</span>
+<span class="o">-</span><span class="n">d</span> <span class="p">:</span> <span class="n">Flag</span> <span class="n">of</span> <span class="n">dropping</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span> <span class="n">false</span><span class="o">.</span> <span class="n">Option</span> <span class="s2">&quot;true&quot;</span><span class="o">.</span>
+<span class="o">-</span><span class="n">t</span> <span class="p">:</span> <span class="n">CPU</span> <span class="n">threads</span> <span class="k">for</span> <span class="n">parallelized</span> <span class="n">processing</span> <span class="n">based</span> <span class="n">on</span> <span class="n">GNU</span> <span class="n">parallel</span><span class="p">,</span> <span class="n">Default</span> <span class="mi">2</span>
+<span class="o">-</span><span class="n">b</span> <span class="p">:</span> <span class="n">Fastq</span> <span class="n">data</span> <span class="n">block</span> <span class="n">size</span> <span class="p">(</span><span class="n">number</span> <span class="n">of</span> <span class="n">reads</span><span class="p">)</span> <span class="k">for</span> <span class="n">each</span> <span class="n">thread</span><span class="o">.</span> <span class="n">Default</span> <span class="mf">2000000.</span>
+<span class="o">-</span><span class="n">h</span> <span class="p">:</span> <span class="n">show</span> <span class="n">usage</span> <span class="n">help</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mapping">
+<h3>2.3. Mapping<a class="headerlink" href="#mapping" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>input: clean paired FASTQ files <code class="docutils literal notranslate"><span class="pre">./clean_fastq/clean_HEK_iMARGI_R1.fastq.gz</span></code> and <code class="docutils literal notranslate"><span class="pre">./clean_fastq/clean_HEK_iMARGI_R2.</span> <span class="pre">fastq.gz</span></code></li>
+<li>output: BAM file <code class="docutils literal notranslate"><span class="pre">./mapping_output/clean_HEK_iMARGI.bam</span></code></li>
+</ul>
+<p>We use <code class="docutils literal notranslate"><span class="pre">bwa</span> <span class="pre">mem</span></code> with <code class="docutils literal notranslate"><span class="pre">-SP5M</span></code> parameters to map cleaned read pairs to Human genome (hg38/GRch38). Before mapping, we
+need to create the bwa index files from human reference genome sequence.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># build bwa index</span>
+bwa index -p ./ref/bwa_index/bwa_index_GRCh38 ./ref/GRCh38_no_alt_analysis_set_GCA_000001405.15.fa
+
+<span class="c1"># mapping</span>
+bwa mem -t <span class="m">16</span> -SP5M ./ref/bwa_index/bwa_index_GRCh38 <span class="se">\</span>
+    ./clean_fastq/clean_HEK_iMARGI_R1.fastq.gz <span class="se">\</span>
+    ./clean_fastq/clean_HEK_iMARGI_R2.fastq.gz <span class="p">|</span><span class="se">\</span>
+    samtools view -Shb - &gt;./mapping_output/clean_HEK_iMARGI.bam
+</pre></div>
+</div>
+</div>
+<div class="section" id="pair-parsing-de-duplication-and-filtering">
+<h3>2.4. Pair parsing, de-duplication and filtering<a class="headerlink" href="#pair-parsing-de-duplication-and-filtering" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>input: BAM file <code class="docutils literal notranslate"><span class="pre">./mapping_output/clean_HEK_iMARGI.bam</span></code></li>
+<li>final output: <code class="docutils literal notranslate"><span class="pre">pairs</span></code> format (4DN) file <code class="docutils literal notranslate"><span class="pre">./pairs_output/final_HEK_iMARGI.pairs.gz</span></code></li>
+</ul>
+<p>We use pairtools in four steps. Here are some brief descriptions of the usages of pairtools in our work. If you want
+to know more, please read the <a class="reference external" href="https://github.com/mirnylab/pairtools">Github repo</a> and <a class="reference external" href="https://pairtools.readthedocs.io/en/latest/">documentation</a> of pairtools.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">pairtools</span> <span class="pre">parse</span></code>: Parse the types of read pairs based on their mapping results. Output a <code class="docutils literal notranslate"><span class="pre">.pairsam</span></code> file. The
+parameters <code class="docutils literal notranslate"><span class="pre">--add-columns</span> <span class="pre">cigar</span></code>, <code class="docutils literal notranslate"><span class="pre">--no-flip</span></code>, <code class="docutils literal notranslate"><span class="pre">--walks-policy</span> <span class="pre">5any</span></code> and <code class="docutils literal notranslate"><span class="pre">--max-inter-align-gap</span> <span class="pre">100</span></code> are important,
+don’t change it unless you know what you want to do.</li>
+<li><code class="docutils literal notranslate"><span class="pre">pairtools</span> <span class="pre">dedup</span></code>: Mark duplications in the <code class="docutils literal notranslate"><span class="pre">.pairsam</span></code> file.</li>
+<li><code class="docutils literal notranslate"><span class="pre">pairtools</span> <span class="pre">split</span></code>: Split the <code class="docutils literal notranslate"><span class="pre">.pairsam</span></code> file into a SAM file and a <code class="docutils literal notranslate"><span class="pre">.pairs</span></code> file without sam1/sam2 fields. Use
+the <code class="docutils literal notranslate"><span class="pre">.pairs</span></code> file in further analysis as its size is much smaller than the <code class="docutils literal notranslate"><span class="pre">.pairsam</span></code> file.</li>
+<li><code class="docutils literal notranslate"><span class="pre">pairtools</span> <span class="pre">select</span></code>: Filter out those read pairs which are marked as duplications, multiple mappings and 5’ most end
+was not unique mapped. We used a long filter string designed for iMARGI, don’t change it.</li>
+</ul>
+<p>Here are the command lines we used.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># parse</span>
+pairtools parse <span class="se">\</span>
+    -c ref/chromSize.txt <span class="se">\</span>
+    --assembly hg38 <span class="se">\</span>
+    --add-columns cigar <span class="se">\</span>
+    --no-flip <span class="se">\</span>
+    --output-stats stats_clean_HEK_iMARGI.pairs.txt <span class="se">\</span>
+    --walks-policy 5any <span class="se">\</span>
+    --max-inter-align-gap <span class="m">100</span>
+    --nproc-in <span class="m">16</span> <span class="se">\</span>
+    --nproc-out <span class="m">8</span> <span class="se">\</span>
+    --output ./pairs_output/clean_HEK_iMARGI.pairsam.gz
+    ./mapping_output/clean_HEK_iMARGI.bam
+
+<span class="c1"># mark duplications</span>
+pairtools dedup <span class="se">\</span>
+    --output-dups <span class="se">\</span>
+    --output-unmapped <span class="se">\</span>
+    --nproc-in <span class="m">16</span> <span class="se">\</span>
+    --nproc-out <span class="m">8</span> <span class="se">\</span>
+    --output ./pairs_output/markdup_clean_HEK_iMARGI.pairsam.gz <span class="se">\</span>
+    ./pairs_output/clean_HEK_iMARGI.pairsam.gz
+
+<span class="c1"># split pairsam to pairs and sam</span>
+pairtools split <span class="se">\</span>
+    --output-pairs ./pairs_output/markdup_clean_HEK_iMARGI.pairs.gz <span class="se">\</span>
+    --output-sam ./pairs_output/markdup_clean_HEK_iMARGI.bam <span class="se">\</span>
+    --nproc-in <span class="m">8</span> <span class="se">\</span>
+    --nproc-out <span class="m">16</span> <span class="se">\</span>
+    ./pairs_output/markdup_clean_HEK_iMARGI.pairsam.gz
+
+<span class="c1"># filter</span>
+pairtools <span class="k">select</span> <span class="se">\</span>
+    <span class="s1">&#39;((strand1==&quot;+&quot; and regex_match(cigar1, &quot;^\d+M.*&quot;)) or (strand1==&quot;-&quot; and regex_match(cigar1, &quot;.*\d+M$&quot;))) and ((strand2==&quot;+&quot; and regex_match(cigar2, &quot;^\d+M.*&quot;)) or (strand2==&quot;-&quot; and regex_match(cigar2, &quot;.*\d+M$&quot;))) and regex_match(pair_type, &quot;[UuR][UuR]&quot;)&#39;</span> <span class="se">\</span>
+    --chrom-subset ./ref/chromSize.txt <span class="se">\</span>
+    --nproc-in <span class="m">8</span> <span class="se">\</span>
+    --nproc-out <span class="m">16</span> <span class="se">\</span>
+    --output  ./pairs_output/final_HEK_iMARGI.pairs.gz <span class="se">\</span>
+    ./pairs_output/markdup_clean_HEK_iMARGI.pairs.gz
+</pre></div>
+</div>
+</div>
+<div class="section" id="multiple-output-formats">
+<h3>2.5. Multiple output formats<a class="headerlink" href="#multiple-output-formats" title="Permalink to this headline">¶</a></h3>
+<p>The final output file is <code class="docutils literal notranslate"><span class="pre">final_HEK_iMARGI.pairs.gz</span></code> which is in <code class="docutils literal notranslate"><span class="pre">.pairs</span></code> format.</p>
+<div class="section" id="pairs-format">
+<h4>2.5.1. <code class="docutils literal notranslate"><span class="pre">.pairs</span></code> format<a class="headerlink" href="#pairs-format" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">.pairs</span></code> file format is designed by 4DN.
+You can read its <a class="reference external" href="https://github.com/4dn-dcic/pairix/blob/master/pairs_format_specification">specification document</a>.</p>
+</div>
+<div class="section" id="bedpe-format">
+<h4>2.5.2. BEDPE format<a class="headerlink" href="#bedpe-format" title="Permalink to this headline">¶</a></h4>
+<p>We also provide a script tool <a class="reference external" href="./pairs_to_bedpe.sh"><code class="docutils literal notranslate"><span class="pre">pairs_to_bedpe.sh</span></code></a> to convert the output the gzip compressed
+<code class="docutils literal notranslate"><span class="pre">.pairs</span></code> format file to a gzip compressed BEDPE format file. <strong>The pairs format file must include cigar columns</strong>.
+If you want to know more about BEDPE format, please read the
+<a class="reference external" href="https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format">docs of bedtools</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash pairs_to_bedpe.sh <span class="se">\</span>
+    -i ./pairs_output/final_HEK_iMARGI.pairs.gz <span class="se">\</span>
+    -o ./pairs_output/final_HEK_iMARGI.bedpe.gz
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="further-analysis-tips">
+<h2>3. Further analysis tips<a class="headerlink" href="#further-analysis-tips" title="Permalink to this headline">¶</a></h2>
+<p>According to iMARGI library construction design, the RNA end (Read 1) is reverse strand specific. It means that when
+you annotate the RNA end with gene annotations, you need to reverse the strand, i.e., “+” -&gt; “-“ and “-“ -&gt; “+”.
+The DNA end (Read 2) is not strand specific.</p>
+<p>Many tools can be used to annotate, such as bedtools and BEDOPS. But you need to write some scripts to annotate RNA
+end and DNA end separately.</p>
+<p>If you are using R, you can try to use Bioconductor packages
+<a class="reference external" href="http://bioconductor.org/packages/release/bioc/html/GenomicRanges.html">GenomicRanges</a>,
+<a class="reference external" href="http://bioconductor.org/packages/release/bioc/html/GenomicInteractions.html">GenomicInteractions</a>, and
+<a class="reference external" href="http://bioconductor.org/packages/release/bioc/html/InteractionSet.html">InteractionSet</a>, which will help you do more
+analysis not only annotation.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zhong Lab, UCSD. iMARGI-Docker code licensed under the BSD 2 License. Documentation licensed under CC BY 3.0
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Quick Start Example &mdash; iMARGI Pipeline 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Step-by-step Illustration" href="step_by_step_illustration.html" />
+    <link rel="prev" title="Tools and Installation" href="installation.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> iMARGI Pipeline
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Tools and Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start Example</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pull-the-imargi-docker-image">Pull the iMARGI Docker Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-data-preparation">Example Data Preparation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#set-working-directory">Set Working Directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prepare-fastq-files-of-paired-end-sequencing">Prepare FASTQ Files of Paired-end Sequencing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#download-reference-genome">Download Reference Genome</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#checklist-of-preparation">Checklist of Preparation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#perform-imargi-pipeline-in-one-command">Perform iMARGI Pipeline in One Command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#output-of-imargi-pipeline">Output of iMARGI Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="step_by_step_illustration.html">Step-by-step Illustration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="further_analysis.html">Further Analysis and Visualization Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical_note.html">Technical Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commandline_api.html">Command-line API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">iMARGI Pipeline</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Quick Start Example</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="quick-start-example">
+<h1>Quick Start Example<a class="headerlink" href="#quick-start-example" title="Permalink to this headline">¶</a></h1>
+<p>This quick start example shows how to apply the iMARGI Pipeline to a real iMARGI sequencing dataset. The
+all-in-one wrapper script <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> is used here to automate the whole pipeline in one command line.
+Please go to the <a class="reference internal" href="step_by_step_illustration.html"><span class="doc">Step-by-step Illustration</span></a> section to learn the details of
+the pipeline.</p>
+<ul class="simple">
+<li><a class="reference external" href="#quick-start-example">Quick Start Example</a><ul>
+<li><a class="reference external" href="#pull-the-imargi-docker-image">Pull the iMARGI Docker Image</a></li>
+<li><a class="reference external" href="#example-data-preparation">Example Data Preparation</a><ul>
+<li><a class="reference external" href="#set-working-directory">Set Working Directory</a></li>
+<li><a class="reference external" href="#prepare-fastq-files-of-paired-end-sequencing">Prepare FASTQ Files of Paired-end Sequencing</a></li>
+<li><a class="reference external" href="#download-reference-genome">Download Reference Genome</a></li>
+<li><a class="reference external" href="#checklist-of-preparation">Checklist of Preparation</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#perform-imargi-pipeline-in-one-command">Perform iMARGI Pipeline in One Command</a></li>
+<li><a class="reference external" href="#output-of-imargi-pipeline">Output of iMARGI Pipeline</a></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="pull-the-imargi-docker-image">
+<h2>Pull the iMARGI Docker Image<a class="headerlink" href="#pull-the-imargi-docker-image" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull zhonglab/imargi
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-data-preparation">
+<h2>Example Data Preparation<a class="headerlink" href="#example-data-preparation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="set-working-directory">
+<h3>Set Working Directory<a class="headerlink" href="#set-working-directory" title="Permalink to this headline">¶</a></h3>
+<p>We need to mount a directory on host machine to Docker container as working directory. Here we set the
+<code class="docutils literal notranslate"><span class="pre">~/imargi_example</span></code> directory as the mounted working directory, which means we need to use <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">~/imargi_example:/imargi</span></code>
+option when we run docker container. We created some sub-directories for organizing data and results.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~/imargi_example
+mkdir ref data output
+</pre></div>
+</div>
+<p>Then the structure of working directory is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~/imargi_example
+    ├── ref
+    │   └──
+    ├── data
+    │   └──
+    └── output
+        └──
+</pre></div>
+</div>
+</div>
+<div class="section" id="prepare-fastq-files-of-paired-end-sequencing">
+<h3>Prepare FASTQ Files of Paired-end Sequencing<a class="headerlink" href="#prepare-fastq-files-of-paired-end-sequencing" title="Permalink to this headline">¶</a></h3>
+<p>Here we take the HEK (HEK293T) iMARGI data set generated in our previous published paper <a id="a1"><a class="reference external" href="#f1">[1]</a></a> as the
+example. The relatd data can be accessed in GEO database by
+<a class="reference external" href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM3478205">GSM3478205</a>. The raw sequencing reads data is released
+in NCBI SRA database with accession number <a class="reference external" href="https://www.ncbi.nlm.nih.gov/sra?term=SRX5026004">SRR8206679</a>. So it can be
+downloaded and prepared by fastq-dump tool. Then we can get the iMARGI sequencing data in a pair of compressed FASTQ
+format files, <code class="docutils literal notranslate"><span class="pre">SRR8206679_1.fastq.gz</span></code> and <code class="docutils literal notranslate"><span class="pre">SRR8206679_2.fastq.gz</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/imargi_example:/imargi imargi fastq-dump --gzip --split-3 SRR8206679
+
+<span class="nb">cd</span> ~/imargi_example
+mv ./SRR8206679_*.fastq.gz ./data
+</pre></div>
+</div>
+</div>
+<div class="section" id="download-reference-genome">
+<h3>Download Reference Genome<a class="headerlink" href="#download-reference-genome" title="Permalink to this headline">¶</a></h3>
+<p>The required reference files include a reference genome sequence FASTA file and a chromosome size text file.</p>
+<p>We use the same reference genome used by
+<a class="reference external" href="https://www.4dnucleome.org/">4D Nucleome</a> and
+<a class="reference external" href="https://www.encodeproject.org/data-standards/reference-sequences/">ENCODE project</a>. The FASTA file of the reference
+genome can be downloaded use the link:
+<a class="reference external" href="https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/&#64;&#64;download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz">GRCh38_no_alt_analysis_set_GCA_000001405.15</a>.
+It needs to be decompressed using <code class="docutils literal notranslate"><span class="pre">gunzip</span> <span class="pre">-d</span></code> command.</p>
+<p>The command lines for preparing the reference genome files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~/imargi_example
+
+wget https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/@@download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz
+gunzip -d GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz
+mv GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta ./ref
+</pre></div>
+</div>
+</div>
+<div class="section" id="checklist-of-preparation">
+<h3>Checklist of Preparation<a class="headerlink" href="#checklist-of-preparation" title="Permalink to this headline">¶</a></h3>
+<p>After preparation, you will get all the required data and reference files in the working directory. It’s the minimum
+requirements, which are sequencing reads data in FASTQ format and reference genome sequence in FASTA format.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~/imargi_example
+    ├── data
+    │   ├── SRR8206679_1.fastq.gz
+    │   └── SRR8206679_2.fastq.gz
+    ├── output
+    └── ref
+        └── GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="perform-imargi-pipeline-in-one-command">
+<h2>Perform iMARGI Pipeline in One Command<a class="headerlink" href="#perform-imargi-pipeline-in-one-command" title="Permalink to this headline">¶</a></h2>
+<p>The easiest way of is using the all-in-one wrapper script <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> with default parameters.
+We used ‘-N HEK_iMARGI’ argument to set base name for all the result files.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~/imargi_example
+mkdir ./output
+docker run -v ~/imargi_example:/imargi imargi imargi_wrapper.sh <span class="se">\</span>
+    -r hg38 <span class="se">\</span>
+    -N HEK_iMARGI <span class="se">\</span>
+    -t <span class="m">16</span> <span class="se">\</span>
+    -g ./ref/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta <span class="se">\</span>
+    -1 ./data/SRR8206679_1.fastq.gz <span class="se">\</span>
+    -2 ./data/SRR8206679_1.fastq.gz <span class="se">\</span>
+    -o ./output
+</pre></div>
+</div>
+<p>As the size of sequencing data is very large (more than 350 million read pairs), it will cost about 12 hours to process.</p>
+</div>
+<div class="section" id="output-of-imargi-pipeline">
+<h2>Output of iMARGI Pipeline<a class="headerlink" href="#output-of-imargi-pipeline" title="Permalink to this headline">¶</a></h2>
+<p>Once the iMARGI Pipeline has completed, all the result files are in the output directory. The tree structure of the
+whole working directory is shown below. The final RNA-DNA interaction map is in the <code class="docutils literal notranslate"><span class="pre">final_HEK_iMARGI.pairs</span></code> file,
+which is a compressed .pairs format file and can be used for further analysis. All the intermediate result files are
+also kept in several sub-directories. As we used the minimum input requirements, so the pipeline automatically
+generated several new reference files in the same directory of reference genome, including chromosome sizes, bwa index
+and AluI digestion fragments. When processing new dataset, you can reuse these new generated reference files with
+corresponding arguments instead of only using <code class="docutils literal notranslate"><span class="pre">-g</span></code> argument, which will save you some time and disk space. For more
+detail, please check the <a class="reference internal" href="step_by_step_illustration.html"><span class="doc">Step-by-step Illustration</span></a> and
+<a class="reference internal" href="commandline_api.html"><span class="doc">Command-line API</span></a> sections.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~/imargi_example/
+    ├── data
+    │   ├── SRR8206679_1.fastq.gz
+    │   └── SRR8206679_1.fastq.gz
+    ├── ref
+    │   ├── GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta
+    │   ├── GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.fai
+    │   ├── chrom.sizes.hg38.txt
+    │   ├── AluI_frags.bed.gz
+    │   └── bwa_index
+    │       ├── bwa_index_hg38.amb
+    │       ├── bwa_index_hg38.ann
+    │       ├── bwa_index_hg38.bwt
+    │       ├── bwa_index_hg38.pac
+    │       └── bwa_index_hg38.sa
+    └── output
+        ├── bwa_output
+        │   └── HEK_iMARGI.bam
+        ├── clean_fastq
+        │   ├── clean_SRR8206679_1.fastq.gz
+        │   └── clean_SRR8206679_2.fastq.gz
+        ├── parse_temp
+        │   ├── dedup_HEK_iMARGI.pairs.gz
+        │   ├── drop_HEK_iMARGI.pairs.gz
+        │   ├── duplication_HEK_iMARGI.pairs.gz
+        │   ├── sorted_all_HEK_iMARGI.pairs.gz
+        │   ├── stats_dedup_HEK_iMARGI.txt
+        │   └── unmapped_HEK_iMARGI.pairs.gz
+        ├── final_HEK_iMARGI.pairs.gz
+        └── stats_final_HEK_iMARGI.txt
+</pre></div>
+</div>
+<p><strong>Reference:</strong></p>
+<p><small><a class="reference external" href="#a1">[1]</a> <span id="f1"></span> Yan, Z. et al. Genome-wide co-localization of RNA-DNA interactions and fusion RNA pairs. bioRxiv 472019 (2018). doi:10.1101/472019</small></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="step_by_step_illustration.html" class="btn btn-neutral float-right" title="Step-by-step Illustration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral" title="Tools and Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zhong Lab, UCSD. iMARGI-Docker code licensed under the BSD 2 License. Documentation licensed under CC BY 3.0
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

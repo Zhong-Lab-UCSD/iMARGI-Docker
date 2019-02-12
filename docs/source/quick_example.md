@@ -51,7 +51,9 @@ Then the structure of working directory is:
 Here we take the HEK (HEK293T) iMARGI data set generated in our previous published paper <a id="a1">[[1]](#f1)</a> as the
 example. The relatd data can be accessed in GEO database by
 [GSM3478205](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM3478205). The raw sequencing reads data is released
-in NCBI SRA database with accession number [SRR8206679](https://www.ncbi.nlm.nih.gov/sra?term=SRX5026004). So it can be downloaded and prepared by fastq-dump tool. Then we can get the iMARGI sequencing data in a pair of compressed FASTQ format files, `SRR8206679_1.fastq.gz` and `SRR8206679_2.fastq.gz`.
+in NCBI SRA database with accession number [SRR8206679](https://www.ncbi.nlm.nih.gov/sra?term=SRX5026004). So it can be
+downloaded and prepared by fastq-dump tool. Then we can get the iMARGI sequencing data in a pair of compressed FASTQ
+format files, `SRR8206679_1.fastq.gz` and `SRR8206679_2.fastq.gz`.
 
 ``` bash
 docker run -v ~/imargi_example:/imargi imargi fastq-dump --gzip --split-3 SRR8206679

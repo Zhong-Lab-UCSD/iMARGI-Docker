@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Further Analysis and Visualization Guides &mdash; iMARGI Pipeline 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Technical Notes" href="technical_note.html" />
+    <link rel="prev" title="Step-by-step Illustration" href="step_by_step_illustration.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> iMARGI Pipeline
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Tools and Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_example.html">Quick Start Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="step_by_step_illustration.html">Step-by-step Illustration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Further Analysis and Visualization Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#simple-statistics-report">Simple Statistics Report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distance-filtering-of-pairs">Distance Filtering of Pairs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#annotation-of-genomic-features">Annotation of Genomic Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-format-conversion">Data Format Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visualization">Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#higlass">HiGlass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#give">GIVE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="technical_note.html">Technical Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commandline_api.html">Command-line API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">iMARGI Pipeline</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Further Analysis and Visualization Guides</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="further-analysis-and-visualization-guides">
+<h1>Further Analysis and Visualization Guides<a class="headerlink" href="#further-analysis-and-visualization-guides" title="Permalink to this headline">¶</a></h1>
+<p>Here we give some instructions for further analysis of the valid RNA-DNA interaction map.</p>
+<ul class="simple">
+<li><a class="reference external" href="#further-analysis-and-visualization-guides">Further Analysis and Visualization Guides</a><ul>
+<li><a class="reference external" href="#simple-statistics-report">Simple Statistics Report</a></li>
+<li><a class="reference external" href="#distance-filtering-of-pairs">Distance Filtering of Pairs</a></li>
+<li><a class="reference external" href="#annotation-of-genomic-features">Annotation of Genomic Features</a></li>
+<li><a class="reference external" href="#data-format-conversion">Data Format Conversion</a></li>
+<li><a class="reference external" href="#visualization">Visualization</a><ul>
+<li><a class="reference external" href="#higlass">HiGlass</a></li>
+<li><a class="reference external" href="#give">GIVE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="section" id="simple-statistics-report">
+<h2>Simple Statistics Report<a class="headerlink" href="#simple-statistics-report" title="Permalink to this headline">¶</a></h2>
+<p>When you got the processed RNA-DNA interaction data in .pairs format, you definitely want to know some basic data
+statistics, such as number of intra- and inter-chromosomal interactions. We provide <code class="docutils literal notranslate"><span class="pre">imargi_stats.sh</span></code> to generate a
+simple text data statistics report. The example command is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/imargi_example:/imargi imargi imargi_stats.sh <span class="se">\</span>
+    -D 5end <span class="se">\</span>
+    -d <span class="m">200000</span> <span class="se">\</span>
+    -i ./output/final_HEK_iMARGI.pairs.gz <span class="se">\</span>
+    -o ./output/report_final_HEK_iMARGI.txt
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">-d</span></code> argument sets the genomic distance threshold of defining proximal and distal interactions (intra-chromosomal).
+It will report the number of proximal and distal interactions. Besides, you can set a list of values separated with <code class="docutils literal notranslate"><span class="pre">,</span></code>,
+such as <code class="docutils literal notranslate"><span class="pre">-d</span> <span class="pre">1000,2000,10000,20000,200000,1000000</span></code>, then the report will include the statistics number with different
+thresholds (space is not allowed). The distance is directly calculated based on the mapped 5’ end position (default
+is <code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">5end</span></code>). You can use <code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">outer</span></code> or <code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">inner</span></code> argument to set using the distance of farthest or nearest ends of
+mapped read pair, respectively. When use <code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">outer</span></code> or <code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">inner</span></code>, the tool will use the extra cigar information in
+the .pairs data.</p>
+<p>The generated report includes these statistics:</p>
+<ul class="simple">
+<li>Total number of RNA-DNA interactions</li>
+<li>Number of inter-chromosomal interactions</li>
+<li>Number of intra-chromosomal interactions</li>
+<li>Number of distal and proximal intra-chromosomal interactions</li>
+</ul>
+</div>
+<div class="section" id="distance-filtering-of-pairs">
+<h2>Distance Filtering of Pairs<a class="headerlink" href="#distance-filtering-of-pairs" title="Permalink to this headline">¶</a></h2>
+<p>In the intra-chromosomal interactions, the most majority are short-range (proximal) interactions, which likely represent
+interactions between nascent transcripts and their neighboring genomic sequences. We usually filter out those proximal
+interactions with a distance threshold, which depends on the requirements of further analysis. We provide
+<code class="docutils literal notranslate"><span class="pre">imargi_distfilter.sh</span></code> tool for filtering interaction based on interaction genomic distance. The example command is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/imargi_example:/imargi imargi imargi_distfilter.sh <span class="se">\</span>
+    -D 5end <span class="se">\</span>
+    -d <span class="m">20000</span> <span class="se">\</span>
+    -i ./output/final_HEK_iMARGI.pairs.gz <span class="se">\</span>
+    -o ./output/filter20k_final_HEK_iMARGI.pairs.gz
+</pre></div>
+</div>
+<p>The command will filter out those intra-chromosomal interactions with genomic distance less than 200,000 (<code class="docutils literal notranslate"><span class="pre">-d</span> <span class="pre">200000</span></code>).
+The distance is directly calculated based on the mapped 5’ end position (default is <code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">5end</span></code>). You can use<code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">outer</span></code> or
+<code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">inner</span></code> argument to set using the distance of farthest or nearest ends of read pair, respectively. When use
+<code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">outer</span></code> or <code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">inner</span></code>, the tool will use the extra cigar information in the .pairs data.</p>
+</div>
+<div class="section" id="annotation-of-genomic-features">
+<h2>Annotation of Genomic Features<a class="headerlink" href="#annotation-of-genomic-features" title="Permalink to this headline">¶</a></h2>
+<p>Annotating RNA-ends and DNA-ends with genomic features are valuable for investigation the biological meanings of
+RNA-DNA interactions. Using <code class="docutils literal notranslate"><span class="pre">imargi_annotate.sh</span></code>, users can annotate both RNA and DNA ends with gene annotations in
+GTF/GFF format or any other genomic features in a simple BED file (each line is a named genomic feature). The example
+command below will generate two new gene annotation columns named as gene1 and gene2 in the output .pairs format file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/imargi_example:/imargi imargi imargi_annotate.sh <span class="se">\</span>
+    -f pairs <span class="se">\</span>
+    -A gtf <span class="se">\</span>
+    -a ./ref/gencode.v24.annotation.gtf <span class="se">\</span>
+    -C both <span class="se">\</span>
+    -c gene1,gene2 <span class="se">\</span>
+    -m <span class="m">1</span> <span class="se">\</span>
+    -i ./output/final_HEK_iMARGI.pairs.gz <span class="se">\</span>
+    -o ./output/annot_final_HEK_iMARGI.pairs.gz
+</pre></div>
+</div>
+<p>There are several important arguments you can use to customize your filter.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">-A</span></code>: Only accept <code class="docutils literal notranslate"><span class="pre">-A</span> <span class="pre">gtf</span></code> for annotating gene with GTF file or <code class="docutils literal notranslate"><span class="pre">-A</span> <span class="pre">bed</span></code> for annotating any other genomic features
+in a simple BED format file. Default is <code class="docutils literal notranslate"><span class="pre">-A</span> <span class="pre">gtf</span></code>. <code class="docutils literal notranslate"><span class="pre">-a</span></code> give the annotation information file.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-C</span></code>: Determine Which end to be annotated. It accepts <code class="docutils literal notranslate"><span class="pre">-C</span> <span class="pre">RNA</span></code>, <code class="docutils literal notranslate"><span class="pre">-C</span> <span class="pre">DNA</span></code> or <code class="docutils literal notranslate"><span class="pre">-C</span> <span class="pre">both</span></code>. Default is <code class="docutils literal notranslate"><span class="pre">-C</span> <span class="pre">both</span></code>, then both RNA and
+DNA ends will be annotated. The lowercase <code class="docutils literal notranslate"><span class="pre">-c</span></code> argument give the names of annotation column in the output file.
+If <code class="docutils literal notranslate"><span class="pre">-C</span> <span class="pre">both</span></code>, then you need set two column names separated with comma <code class="docutils literal notranslate"><span class="pre">,</span></code>, i.e., <code class="docutils literal notranslate"><span class="pre">-c</span> <span class="pre">gene1,gene2</span></code>. Space is not
+allowed. Don’t use the 18 reserved column names to name the annotation columns.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-f</span></code>: The input and output file format. Only accept <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">pairs</span></code> or <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">bedpe</span></code>. Default is <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">pairs</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-m</span></code>: Minimum bases of overlapping for annotation. <code class="docutils literal notranslate"><span class="pre">-m</span> <span class="pre">1</span></code> means at least one base overlapping. <code class="docutils literal notranslate"><span class="pre">-m</span> <span class="pre">0</span></code> means it must be
+inside of the genomic feature.</li>
+</ul>
+</div>
+<div class="section" id="data-format-conversion">
+<h2>Data Format Conversion<a class="headerlink" href="#data-format-conversion" title="Permalink to this headline">¶</a></h2>
+<p>For further analysis and visualization, other formats instead of .pairs format might be needed. We provide
+<code class="docutils literal notranslate"><span class="pre">imargi_convert.sh</span></code> for converting formats. It can convert .pairs format to BEDPE, .cool and GIVE interaction format
+with different <code class="docutils literal notranslate"><span class="pre">-f</span></code> argument options. The example command is below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/imargi_example:/imargi imargi imargi_convert.sh <span class="se">\</span>
+    -f bedpe <span class="se">\</span>
+    -i ./output/final_HEK_iMARGI.pairs.gz <span class="se">\</span>
+    -o ./output/final_HEK_iMARGI.bedpe.gz
+</pre></div>
+</div>
+<p>The command will generate a new BEDPE format file from original .pairs format file. By default, it will drop all the
+extra information columns when convert to BEDPE format. You can use <code class="docutils literal notranslate"><span class="pre">-k</span></code> argument with column names separated by
+comma <code class="docutils literal notranslate"><span class="pre">,</span></code>, such as <code class="docutils literal notranslate"><span class="pre">-k</span> <span class="pre">cigar1,cigar2</span></code>, to keep these columns in the output BEDPE file.</p>
+<p>If you change <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">bedpe</span></code> to <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">cool</span></code> or <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">give</span></code>, it will generate .cool/.mcool format or GIVE interaction format
+file, respectively, which can be used by HiGlass and GIVE for visualization. With <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">cool</span></code>, it will output both
+single resolution .cool file and multi-resolution .mcool file. The .mcool file can be used by HiGlass.</p>
+</div>
+<div class="section" id="visualization">
+<h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h2>
+<p>There are multiple ways for visualization of RNA-DNA interactions. Here we suggest two interactive visualization
+software, <a class="reference external" href="http://higlass.io/">HiGlass</a> and <a class="reference external" href="https://givengine.org">GIVE</a>.</p>
+<div class="section" id="higlass">
+<h3>HiGlass<a class="headerlink" href="#higlass" title="Permalink to this headline">¶</a></h3>
+<p>HiGlass supports an interactive heatmap visualization of .cool file. So you just need to use <code class="docutils literal notranslate"><span class="pre">imargi_convert.sh</span></code> to
+convert .pairs file to .cool/.mcool file.
+Please read the <a class="reference external" href="https://github.com/higlass/higlass/wiki">HiGlass documentation</a> to know how to use it. Besides, there
+is an Jupyter Notebook version of HiGlass, <a class="reference external" href="https://github.com/higlass/higlass-jupyter">jupyter-higlass</a>.</p>
+<p><img alt="_images/higlass_view.png" src="_images/higlass_view.png" />HiGLass view</p>
+</div>
+<div class="section" id="give">
+<h3>GIVE<a class="headerlink" href="#give" title="Permalink to this headline">¶</a></h3>
+<p>GIVE uses links between two traditional linear genome tracks to represents genomic interactions. We just need to use
+<code class="docutils literal notranslate"><span class="pre">imargi_convert.sh</span></code> to convert the .pairs format file to GIVE interaction format file. Please read the
+<a class="reference external" href="https://github.com/Zhong-Lab-UCSD/Genomic-Interactive-Visualization-Engine/tree/master/tutorials">GIVE tutorial</a> to
+learn how to use it.</p>
+<p><img alt="_images/give_view.png" src="_images/give_view.png" />GIVE view</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="technical_note.html" class="btn btn-neutral float-right" title="Technical Notes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="step_by_step_illustration.html" class="btn btn-neutral" title="Step-by-step Illustration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zhong Lab, UCSD. iMARGI-Docker code licensed under the BSD 2 License. Documentation licensed under CC BY 3.0
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

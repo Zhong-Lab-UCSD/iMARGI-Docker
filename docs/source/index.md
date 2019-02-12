@@ -12,17 +12,20 @@ fewer cells for the experiment while obtaining more informative sequencing read 
 <i><center>Schematic overview of the iMARGI experimental protocol </i><a id="a3">[[3]](#f3)</a></center>
 
 Here, we introduce the sequencing data analysis pipeline for iMARGI, which is the most critical step for computational
-workflow of analyzing RNA-genome interactions. Generally, the pipeline includes three main steps:
+workflow of analyzing RNA-genome interactions. The pipeline is distributed in a Docker image,
+[iMARGI-Docker](https://hub.docker.com/r/zhonglab/imargi/), which delivers all the iMARGI data analysis related tools,
+such as bwa <a id="a4">[[4]](#f4)</a> and pairtools <a id="a5">[[5]](#f5)</a>. iMARGI-Docker source code is licensed
+under the [BSD 2 license](./src/LICENSE), and it's hosted at [GitHub](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker).
+
+Generally, the pipeline includes three main steps:
 
 - Cleaning: Clean paired-end sequencing reads in FASTQ format
 - Mapping: Map sequencing reads to reference genome
 - Parsing: Parse and filter to get valid RNA-DNA interaction pairs from mapped read pairs
 
-We distributed the pipeline in a Docker image, [iMARGI-Docker](https://hub.docker.com/r/zhonglab/imargi/), which
-delivers all the iMARGI data analysis related tools, such as bwa <a id="a4">[[4]](#f4)</a> and
-pairtools <a id="a5">[[5]](#f5)</a>. For convenience, we provide an all-in-one wrapper script `imargi_wrapper.sh` to
-automate the whole pipeline in one command line. Users are also able to perform each step separately using its
-corresponding tool. In addition, we provide several tools for preparing data for further analysis and visualization.
+For convenience, we provide an all-in-one wrapper script `imargi_wrapper.sh` to automate the whole pipeline in one
+command line. Users are also able to perform each step separately using its corresponding tool. In addition, we provide
+several tools for preparing data for further analysis and visualization.
 
 ![](./figures/iMARGI_docker.png)
 <i><center>Schematic overview of the iMARGI data analysis pipeline </i><a id="a3">[[3]](#f3)</a></center>

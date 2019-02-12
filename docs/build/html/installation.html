@@ -1,0 +1,431 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tools and Installation &mdash; iMARGI Pipeline 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Quick Start Example" href="quick_example.html" />
+    <link rel="prev" title="Overview" href="index.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> iMARGI Pipeline
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tools and Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#docker-container-usage-instructions">Docker Container Usage Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies-instruction">Dependencies Instruction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quick_example.html">Quick Start Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="step_by_step_illustration.html">Step-by-step Illustration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="further_analysis.html">Further Analysis and Visualization Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical_note.html">Technical Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commandline_api.html">Command-line API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">iMARGI Pipeline</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Tools and Installation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tools-and-installation">
+<h1>Tools and Installation<a class="headerlink" href="#tools-and-installation" title="Permalink to this headline">¶</a></h1>
+<p>In the iMARGI pipeline, a bundle of tools and several bash scripts created by us are required. For convenience,
+we built <a class="reference external" href="https://hub.docker.com/r/zhonglab/imargi">iMARGI-Docker</a> to distribute the pipeline. It delivers all the
+configured tools.</p>
+<ul class="simple">
+<li><a class="reference external" href="#tools-and-installation">Tools and Installation</a><ul>
+<li><a class="reference external" href="#docker-container-usage-instructions">Docker Container Usage Instructions</a></li>
+<li><a class="reference external" href="#dependencies-instruction">Dependencies Instruction</a></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="docker-container-usage-instructions">
+<h2>Docker Container Usage Instructions<a class="headerlink" href="#docker-container-usage-instructions" title="Permalink to this headline">¶</a></h2>
+<p>An iMARGI Docker image is available in <a class="reference external" href="https://hub.docker.com/r/zhonglab/imargi">Docker-Hub</a>. It’s
+much easier to apply the iMARGI pipeline using the docker container than installing and configuring all the required
+tools.</p>
+<p>Docker Community Edition or Enterprise Edition is required to be installed and configured on the Linux server (root
+authority is required for installing Docker CE).
+<a class="reference external" href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">Here is the guides of installing Docker CE on Ubuntu</a>.</p>
+<p>After Docker CE was installed, you can pull the latest iMARGI Docker image to your sever.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull zhonglab/imargi
+</pre></div>
+</div>
+<p>To use the tools in the iMARGI Docker image, you need to run a Docker container. Here is an example of creating a
+new directory with <code class="docutils literal notranslate"><span class="pre">mkdir</span></code> command through a Docker container.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/test:/imargi imargi mkdir new_dir
+</pre></div>
+</div>
+<p><img alt="_images/docker_command_example.png" src="_images/docker_command_example.png" /></p>
+<p>You should know the <code class="docutils literal notranslate"><span class="pre">-v</span></code> or <code class="docutils literal notranslate"><span class="pre">--volume</span></code> option, which assigns the <code class="docutils literal notranslate"><span class="pre">~/test</span></code> directory on your host machine to the
+working directory <code class="docutils literal notranslate"><span class="pre">/imargi</span></code> of the iMARGI container. The container can only operate the files in <code class="docutils literal notranslate"><span class="pre">~/test</span></code> directory.
+In the example, a folder <code class="docutils literal notranslate"><span class="pre">new_dir</span></code> will be created in the folder <code class="docutils literal notranslate"><span class="pre">~/test/</span></code>. You can just replace the command to use
+any tool in the iMARGI Docker container.</p>
+</div>
+<div class="section" id="dependencies-instruction">
+<h2>Dependencies Instruction<a class="headerlink" href="#dependencies-instruction" title="Permalink to this headline">¶</a></h2>
+<p>All the dependencies are listed here. However, we strongly recommend using iMARGI-Docker instead of configuring these
+dependencies on your Linux server. The following table shows all those required tools with simple descriptions. Some
+of these tools, such as <code class="docutils literal notranslate"><span class="pre">bash</span></code>, <code class="docutils literal notranslate"><span class="pre">sort</span></code> and <code class="docutils literal notranslate"><span class="pre">zcat</span></code> are usually default installed in most of Linux distributions. Besides,
+you might need root access or compiling tools on Linux system to install some of these tools.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Tool</th>
+<th>Version</th>
+<th>Installation</th>
+<th>Brief description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python</td>
+<td>3.x</td>
+<td><a href="https://www.python.org/downloads/">Following instruction</a></td>
+<td>Running environment for several tools</td>
+</tr>
+<tr>
+<td>seqtk</td>
+<td>1.3</td>
+<td><a href="https://github.com/lh3/seqtk">Following instruction</a></td>
+<td>Processing FASTA/FASTQ files</td>
+</tr>
+<tr>
+<td>bwa</td>
+<td>0.7.17</td>
+<td><a href="https://github.com/lh3/bwa">Following instruction</a></td>
+<td>Mapping reads to reference genome</td>
+</tr>
+<tr>
+<td>samtools</td>
+<td>1.9</td>
+<td><a href="http://www.htslib.org/download/">Following instruction</a></td>
+<td>Manipulating SAM/BAM files</td>
+</tr>
+<tr>
+<td>htslib</td>
+<td>1.9</td>
+<td><a href="http://www.htslib.org/download/">Following instruction</a></td>
+<td>Manipulating SAM/BAM files</td>
+</tr>
+<tr>
+<td>pairtools</td>
+<td>0.2.2</td>
+<td><a href="https://pairtools.readthedocs.io/en/latest/installation.html">Following instruction</a></td>
+<td>Utilities for processing interaction pairs</td>
+</tr>
+<tr>
+<td>lz4</td>
+<td>1.8.3</td>
+<td><a href="https://github.com/lz4/lz4">Following instruction</a></td>
+<td>Extremely fast compression</td>
+</tr>
+<tr>
+<td>pbgzip</td>
+<td>-</td>
+<td><a href="https://github.com/nh13/pbgzip">Following instruction</a></td>
+<td>Compression for Genomics Data</td>
+</tr>
+<tr>
+<td>cooler</td>
+<td>0.8.2</td>
+<td><a href="https://github.com/mirnylab/cooler">Following instruction</a></td>
+<td>Utilities for genomic interaction data</td>
+</tr>
+<tr>
+<td>SRA Toolkit</td>
+<td>2.9.4</td>
+<td><a href="https://github.com/ncbi/sra-tools">Following instruction</a></td>
+<td>NCBI SRA tools</td>
+</tr>
+<tr>
+<td>GNU parallel</td>
+<td>-</td>
+<td>Linux package "parallel"</td>
+<td>Executing jobs in parallel</td>
+</tr>
+<tr>
+<td><a href="https://www.gnu.org/software/gawk/manual/html_node/Quick-Installation.html">GNU awk</a></td>
+<td>-</td>
+<td>Linux package "gawk"</td>
+<td>Text file processing tool</td>
+</tr>
+<tr>
+<td>bash</td>
+<td>-</td>
+<td>Linux package "bash"</td>
+<td>Shell environment</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>-</td>
+<td>Linux package "sort"</td>
+<td>Sort text</td>
+</tr>
+<tr>
+<td>gunzip</td>
+<td>-</td>
+<td>Linux package "gunzip"</td>
+<td>Compression tool</td>
+</tr>
+<tr>
+<td>zcat</td>
+<td>-</td>
+<td>Linux package "zcat"</td>
+<td>Readout compressed text file</td>
+</tr>
+<tr>
+<td>imargi_wrapper.sh</td>
+<td>0.1</td>
+<td>Download and <code>chmod +x</code></td>
+<td>All-in-one pipeline wrapper</td>
+</tr>
+<tr>
+<td>imargi_clean.sh</td>
+<td>0.1</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Clean iMARGI paired end fastq files</td>
+</tr>
+<tr>
+<td>imargi_parse.sh</td>
+<td>0.1</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Parse BAM to valid RNA-DNA interaction pairs</td>
+</tr>
+<tr>
+<td>imargi_stats.sh</td>
+<td>0.1</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Simple stats report of .pairs file</td>
+</tr>
+<tr>
+<td>imargi_convert.sh</td>
+<td>0.1</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Convert .pairs format to other formats</td>
+</tr>
+<tr>
+<td>imargi_distfilter.sh</td>
+<td>0.1</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Filter .pairs or BEDPE file with genomic distance threshold</td>
+</tr>
+<tr>
+<td>imargi_rsfrags.sh</td>
+<td>0.1</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Generate restriction fragment BED file</td>
+</tr>
+<tr>
+<td>imargi_restrict.py</td>
+<td>0.1</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Restriction site analysis of .pairs file</td>
+</tr>
+<tr>
+<td>imargi_annotate.sh</td>
+<td>0.1</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Annotate RNA/DNA-ends with gene annotations</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="quick_example.html" class="btn btn-neutral float-right" title="Quick Start Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zhong Lab, UCSD. iMARGI-Docker code licensed under the BSD 2 License. Documentation licensed under CC BY 3.0
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

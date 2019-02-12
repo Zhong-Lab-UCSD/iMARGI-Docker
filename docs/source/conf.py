@@ -21,13 +21,13 @@ from recommonmark.transform import AutoStructify
 # -- Project information -----------------------------------------------------
 
 project = 'iMARGI Pipeline'
-copyright = '2019 - 2022, Zhong Lab, UCSD'
+copyright = '2019, Zhong Lab, UCSD. iMARGI-Docker code licensed under the BSD 2 License. Documentation licensed under CC BY 3.0'
 author = 'Zhangming Yan'
 
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = '0.0.1'
+release = '1.0'
 
 
 # -- General configuration ---------------------------------------------------

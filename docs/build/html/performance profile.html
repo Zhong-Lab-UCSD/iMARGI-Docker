@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>bwa index &mdash; iMARGI Pipeline 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> iMARGI Pipeline
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Tools and Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_example.html">Quick Start Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="step_by_step_illustration.html">Step-by-step Illustration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="further_analysis.html">Further Analysis and Visualization Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical_note.html">Technical Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commandline_api.html">Command-line API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">iMARGI Pipeline</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>bwa index</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="bwa-index">
+<h1>bwa index<a class="headerlink" href="#bwa-index" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">v</span> <span class="o">~/</span><span class="n">research</span><span class="o">/</span><span class="n">MARGI_4DN</span><span class="o">/</span><span class="n">imargi_example</span><span class="p">:</span><span class="o">/</span><span class="n">imargi</span> <span class="n">imargi</span> <span class="n">bwa</span> <span class="n">index</span> \
+    <span class="o">-</span><span class="n">p</span> <span class="o">./</span><span class="n">ref</span><span class="o">/</span><span class="n">bwa_index</span><span class="o">/</span><span class="n">bwa_index_GRCh38</span> <span class="o">./</span><span class="n">ref</span><span class="o">/</span><span class="n">GRCh38_no_alt_analysis_set_GCA_000001405</span><span class="o">.</span><span class="mf">15.</span><span class="n">fasta</span>
+</pre></div>
+</div>
+<p>Version: 0.7.17-r1194-dirty
+CMD: bwa index -p ./ref/bwa_index/bwa_index_GRCh38 ./ref/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta
+Real time: 4839.265 sec; CPU: 4822.200 sec</p>
+</div>
+<div class="section" id="clean">
+<h1>clean<a class="headerlink" href="#clean" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">time</span> bash tools/imargi_clean_fastq.sh -1  raw_fastq/SRR8206679_1.fastq.gz -2 raw_fastq/SRR8206679_2.fastq.gz <span class="se">\</span>
+    -o output -t <span class="m">16</span> -b <span class="m">2000000</span>
+</pre></div>
+</div>
+<p>6101.94user 2459.60system 11:32.13elapsed 1236%CPU (0avgtext+0avgdata 32000maxresident)k
+75975280inputs+85582640outputs (1major+417576335minor)pagefaults 0swaps</p>
+</div>
+<div class="section" id="mapping">
+<h1>mapping<a class="headerlink" href="#mapping" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">time</span> bwa mem -t <span class="m">16</span> -SP5M ./ref/bwa_index/bwa_index_GRCh38 <span class="se">\</span>
+    ./clean_fastq/clean_SRR8206679_1.fastq.gz ./clean_fastq/clean_SRR8206679_2.fastq.gz <span class="p">|</span> <span class="se">\</span>
+    samtools view -@ <span class="m">15</span> -Shb - &gt;./output/HEK_iMARGI.bam
+</pre></div>
+</div>
+<p>229676.05user 10590.82system 4:12:19elapsed 1586%CPU (0avgtext+0avgdata 9430528maxresident)k
+96178192inputs+0outputs (0major+4909367983minor)pagefaults 0swaps</p>
+</div>
+<div class="section" id="parsing-and-filtering">
+<h1>parsing and filtering<a class="headerlink" href="#parsing-and-filtering" title="Permalink to this headline">¶</a></h1>
+<p>Start parsing and deduplication …
+Sun Jan 20 19:28:20 PST 2019
+55948.08user 5881.36system 5:27:54elapsed 314%CPU (0avgtext+0avgdata 1130424maxresident)k
+122919624inputs+154081216outputs (0major+657876360minor)pagefaults 0swaps</p>
+<p>Mon Jan 21 00:59:47 PST 2019
+Start filtering …
+Mon Jan 21 01:15:54 PST 2019
+Parsing and filtering finished.
+2541.66user 1929.22system 16:07.00elapsed 462%CPU (0avgtext+0avgdata 2099000maxresident)k
+10272424inputs+9512520outputs (89major+68513040minor)pagefaults 0swaps</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zhong Lab, UCSD. iMARGI-Docker code licensed under the BSD 2 License. Documentation licensed under CC BY 3.0
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

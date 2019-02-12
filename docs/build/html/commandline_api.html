@@ -1,0 +1,443 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Command-line API &mdash; iMARGI Pipeline 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Technical Notes" href="technical_note.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> iMARGI Pipeline
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Tools and Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_example.html">Quick Start Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="step_by_step_illustration.html">Step-by-step Illustration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="further_analysis.html">Further Analysis and Visualization Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical_note.html">Technical Notes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Command-line API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#imargi-wrapper-sh">imargi_wrapper.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#imargi-clean-sh">imargi_clean.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#imargi-rsfrags-sh">imargi_rsfrags.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#imargi-parse-sh">imargi_parse.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#imargi-stats-sh">imargi_stats.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#imargi-distfilter-sh">imargi_distfilter.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#imargi-convert-sh">imargi_convert.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#imargi-annotate-sh">imargi_annotate.sh</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">iMARGI Pipeline</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Command-line API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="command-line-api">
+<h1>Command-line API<a class="headerlink" href="#command-line-api" title="Permalink to this headline">¶</a></h1>
+<p>We created several script tools. Here we show the usage and source code of all these tools.</p>
+<div class="section" id="imargi-wrapper-sh">
+<h2>imargi_wrapper.sh<a class="headerlink" href="#imargi-wrapper-sh" title="Permalink to this headline">¶</a></h2>
+<p><code class="xref download docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    Usage: $PROGNAME [-r &lt;ref_name&gt;] [-N &lt;base_name&gt;] [-g &lt;ref_fasta&gt;]
+                     [-c &lt;chromSize_file&gt;] [-i &lt;bwa_index&gt;] [-R &lt;restrict_sites&gt;]
+                     [-G &lt;max_inter_align_gap&gt;] [-O &lt;offset_restriction_site&gt;] [-M &lt;max_ligation_size&gt;]
+                     [-t &lt;threads&gt;] [-1 &lt;fastq.gz_R1&gt;] [-2 &lt;fastq.gz_R2&gt;] [-o &lt;output_dir&gt;] 
+    
+    Dependency: seqtk, samtools, bwa, pairtools, pbgzip
+
+    This is an all-in-one wrapper script of iMARGI Pipeline.
+
+    -r : Reference assembly name, such as &quot;hg38&quot;
+    -N : Base name for ouput result. Such as -N HEK_iMARGI, then the output file will be renamed using the base name,
+         such as final_HEK_iMARGI.paris.gz, HEK_iMARGI.bam.
+    -g : Reference genome fasta file. It will be used to generate ref files of &#39;-c&#39;, &#39;-i&#39; and &#39;-R&#39;. If any of them are
+         not supplied. It will be generated from the reference fasta file.
+    -c : Chromosome size file.
+    -i : bwa index
+    -R : DNA restriction enzyme digestion fragments bed file.
+    -G : Max inter align gap for pairtools parsing. Default 20. It will allow R1 5&#39; end clipping.
+    -O : Max offset bases for filtering pairs based on R2 5&#39; end positions to restriction sites. Default 3.
+    -M : Max size of ligation fragment for sequencing. It&#39;s used for filtering unligated DNA sequence.
+    -t : Max CPU threads for parallelized processing, at least 4. (Default 8)
+    -1 : R1 fastq.gz file, if there are multiple files, just separated with space, such as -1 lane1_R1.fq lane2_R1.fq
+    -2 : R2 fastq.gz file, if there are multiple files, just separated with space, such as -1 lane1_R2.fq lane2_R2.fq
+    -o : Output directoy
+    -h : Show usage help
+</pre></div>
+</div>
+</div>
+<div class="section" id="imargi-clean-sh">
+<h2>imargi_clean.sh<a class="headerlink" href="#imargi-clean-sh" title="Permalink to this headline">¶</a></h2>
+<p><code class="xref download docutils literal notranslate"><span class="pre">imargi_clean.sh</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">Usage</span><span class="p">:</span> <span class="n">imargi_clean</span><span class="o">.</span><span class="n">sh</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz_R1</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span> <span class="o">&lt;</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz_R2</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="o">&lt;</span><span class="n">output_dir</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="o">&lt;</span><span class="n">filter_CT</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span> <span class="o">&lt;</span><span class="n">drop</span><span class="o">&gt;</span><span class="p">]</span> 
+                <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="o">&lt;</span><span class="n">threads</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="o">&lt;</span><span class="n">block_size</span><span class="o">&gt;</span><span class="p">]</span>
+    
+    <span class="n">Dependencies</span><span class="p">:</span> <span class="n">seqtk</span><span class="p">,</span> <span class="n">gzip</span><span class="p">,</span> <span class="n">zcat</span><span class="p">,</span> <span class="n">awk</span><span class="p">,</span> <span class="n">parallel</span>
+
+    <span class="n">This</span> <span class="n">script</span> <span class="n">will</span> <span class="n">clean</span> <span class="n">the</span> <span class="n">paired</span> <span class="n">reads</span> <span class="p">(</span><span class="n">R1</span> <span class="ow">and</span> <span class="n">R2</span><span class="p">)</span> <span class="n">of</span> <span class="n">iMARGI</span> <span class="n">sequencing</span> <span class="n">Fastq</span> <span class="n">data</span><span class="o">.</span> <span class="n">According</span> <span class="n">to</span> <span class="n">the</span> <span class="n">iMARGI</span> <span class="n">design</span><span class="p">,</span>
+    <span class="n">RNA</span> <span class="n">end</span> <span class="n">reads</span> <span class="p">(</span><span class="n">R1</span><span class="p">)</span> <span class="n">start</span> <span class="k">with</span> <span class="mi">2</span> <span class="n">random</span> <span class="n">based</span><span class="p">,</span> <span class="ow">and</span> <span class="n">DNA</span> <span class="n">end</span> <span class="n">reads</span> <span class="p">(</span><span class="n">R2</span><span class="p">)</span> <span class="n">of</span> <span class="n">successful</span> <span class="n">ligation</span> <span class="n">fragments</span> <span class="n">start</span>
+    <span class="k">with</span> <span class="s2">&quot;CT&quot;</span><span class="o">.</span> <span class="n">We</span> <span class="n">need</span> <span class="n">to</span> <span class="n">remove</span> <span class="n">the</span> <span class="n">first</span> <span class="mi">2</span> <span class="n">bases</span> <span class="n">of</span> <span class="n">R1</span> <span class="k">for</span> <span class="n">better</span> <span class="n">mapping</span><span class="o">.</span> <span class="n">For</span> <span class="n">R2</span><span class="p">,</span> <span class="n">We</span> <span class="n">can</span> <span class="n">strictly</span> <span class="n">clean</span> <span class="n">the</span> <span class="n">data</span> <span class="n">by</span>
+    <span class="n">filtering</span> <span class="n">out</span> <span class="n">those</span> <span class="n">R2</span> <span class="n">reads</span> <span class="ow">not</span> <span class="n">starting</span> <span class="k">with</span> <span class="s2">&quot;CT&quot;</span> <span class="ow">in</span> <span class="n">this</span> <span class="n">step</span> <span class="n">by</span> <span class="n">setting</span> <span class="s2">&quot;-f CT&quot;</span><span class="o">.</span> <span class="n">Alternatively</span><span class="p">,</span> 
+    <span class="n">you</span> <span class="n">can</span> <span class="n">skip</span> <span class="n">the</span> <span class="s2">&quot;CT&quot;</span> <span class="n">filtering</span> <span class="n">without</span> <span class="s2">&quot;-f&quot;</span> <span class="n">parameter</span><span class="o">.</span> <span class="n">You</span> <span class="n">can</span> <span class="n">apply</span> <span class="n">the</span> <span class="s2">&quot;CT&quot;</span> <span class="n">filtering</span> <span class="ow">in</span> <span class="n">interaction</span> <span class="n">pairs</span>
+    <span class="n">filtering</span> <span class="n">step</span><span class="o">.</span>
+    <span class="n">If</span> <span class="n">you</span> <span class="n">choose</span> <span class="n">to</span> <span class="n">do</span> <span class="s2">&quot;CT&quot;</span> <span class="n">filtering</span><span class="p">,</span> <span class="n">the</span> <span class="n">script</span> <span class="n">also</span> <span class="n">fixes</span> <span class="n">the</span> <span class="n">paired</span> <span class="n">reads</span> <span class="ow">in</span> <span class="n">R1</span><span class="o">.</span> <span class="n">If</span> <span class="s2">&quot;-d&quot;</span> <span class="n">was</span> <span class="nb">set</span> <span class="k">as</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+    <span class="n">it</span> <span class="n">will</span> <span class="n">drop</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">non</span> <span class="s2">&quot;CT&quot;</span> <span class="n">started</span> <span class="n">R2</span> <span class="n">reads</span> <span class="ow">and</span> <span class="n">paired</span> <span class="n">R1</span> <span class="n">reads</span><span class="p">,</span> <span class="n">which</span> <span class="n">outputs</span> <span class="n">two</span> <span class="n">fastq</span> <span class="n">files</span> <span class="k">with</span> <span class="n">prefix</span>
+    <span class="s2">&quot;clean_&quot;</span><span class="o">.</span> <span class="n">If</span> <span class="s2">&quot;-d&quot;</span> <span class="n">was</span> <span class="s2">&quot;false&quot;</span><span class="p">,</span> <span class="n">the</span> <span class="n">filtered</span> <span class="n">read</span> <span class="n">pairs</span> <span class="n">would</span> <span class="n">also</span> <span class="n">be</span> <span class="n">outputed</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">pair</span> <span class="n">of</span> <span class="n">fastq</span> <span class="n">files</span> <span class="k">with</span> <span class="n">prefix</span>
+    <span class="s2">&quot;drop_&quot;</span><span class="o">.</span> <span class="s2">&quot;-d&quot;</span> <span class="n">only</span> <span class="n">works</span> <span class="n">when</span> <span class="s2">&quot;-f&quot;</span> <span class="ow">is</span> <span class="nb">set</span><span class="p">,</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">default</span> <span class="n">setting</span> <span class="n">of</span> <span class="s2">&quot;-d&quot;</span> <span class="ow">is</span> <span class="s2">&quot;false&quot;</span><span class="o">.</span>
+    <span class="n">The</span> <span class="nb">input</span> <span class="n">fastq</span> <span class="n">files</span> <span class="n">must</span> <span class="n">be</span> <span class="n">gzip</span> <span class="n">files</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="p">,</span> <span class="n">fastq</span><span class="o">.</span><span class="n">gz</span> <span class="ow">or</span> <span class="n">fq</span><span class="o">.</span><span class="n">gz</span><span class="o">.</span> <span class="n">The</span> <span class="n">output</span> <span class="n">files</span> <span class="n">are</span> <span class="n">also</span> <span class="n">gzipped</span> <span class="n">files</span> <span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="o">.</span>
+
+    <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="n">R1</span> <span class="n">fastq</span><span class="o">.</span><span class="n">gz</span> <span class="n">file</span><span class="p">,</span> <span class="k">if</span> <span class="n">there</span> <span class="n">are</span> <span class="n">multiple</span> <span class="n">files</span><span class="p">,</span> <span class="n">just</span> <span class="n">separated</span> <span class="k">with</span> <span class="n">space</span><span class="p">,</span> <span class="n">such</span> <span class="k">as</span> <span class="o">-</span><span class="mi">1</span> <span class="n">lane1_R1</span><span class="o">.</span><span class="n">fq</span> <span class="n">lane2_R1</span><span class="o">.</span><span class="n">fq</span>
+    <span class="o">-</span><span class="mi">2</span> <span class="p">:</span> <span class="n">R2</span> <span class="n">fastq</span><span class="o">.</span><span class="n">gz</span> <span class="n">file</span><span class="p">,</span> <span class="k">if</span> <span class="n">there</span> <span class="n">are</span> <span class="n">multiple</span> <span class="n">files</span><span class="p">,</span> <span class="n">just</span> <span class="n">separated</span> <span class="k">with</span> <span class="n">space</span><span class="p">,</span> <span class="n">such</span> <span class="k">as</span> <span class="o">-</span><span class="mi">1</span> <span class="n">lane1_R2</span><span class="o">.</span><span class="n">fq</span> <span class="n">lane2_R2</span><span class="o">.</span><span class="n">fq</span>
+    <span class="o">-</span><span class="n">o</span> <span class="p">:</span> <span class="n">Output</span> <span class="n">directoy</span>
+    <span class="o">-</span><span class="n">f</span> <span class="p">:</span> <span class="n">Filtering</span> <span class="n">sequence</span> <span class="n">by</span> <span class="mi">5</span><span class="s1">&#39; start of R2. If not set, no filtering applied. &quot;CT&quot; filtering can be set as &quot;-f CT&quot;</span>
+    <span class="o">-</span><span class="n">d</span> <span class="p">:</span> <span class="n">Flag</span> <span class="n">of</span> <span class="n">dropping</span><span class="p">,</span> <span class="n">working</span> <span class="k">with</span> <span class="s2">&quot;-f&quot;</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span> <span class="n">false</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="p">,</span> <span class="n">output</span> <span class="n">drop_</span><span class="o">*</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span> <span class="n">files</span> <span class="n">of</span> <span class="n">dropped</span> <span class="n">read</span> <span class="n">pairs</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">t</span> <span class="p">:</span> <span class="n">Max</span> <span class="n">CPU</span> <span class="n">threads</span> <span class="k">for</span> <span class="n">parallelized</span> <span class="n">processing</span><span class="p">,</span> <span class="n">at</span> <span class="n">least</span> <span class="mf">4.</span> <span class="p">(</span><span class="n">Default</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="o">-</span><span class="n">b</span> <span class="p">:</span> <span class="n">Fastq</span> <span class="n">data</span> <span class="n">block</span> <span class="n">size</span> <span class="p">(</span><span class="n">number</span> <span class="n">of</span> <span class="n">reads</span><span class="p">)</span> <span class="k">for</span> <span class="n">each</span> <span class="n">thread</span><span class="o">.</span> <span class="n">Default</span> <span class="mf">2000000.</span>
+    <span class="o">-</span><span class="n">h</span> <span class="p">:</span> <span class="n">Show</span> <span class="n">usage</span> <span class="n">help</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="imargi-rsfrags-sh">
+<h2>imargi_rsfrags.sh<a class="headerlink" href="#imargi-rsfrags-sh" title="Permalink to this headline">¶</a></h2>
+<p><code class="xref download docutils literal notranslate"><span class="pre">imargi_rsfrags.sh</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">Usage</span><span class="p">:</span> <span class="n">imargi_rsfrags</span><span class="o">.</span><span class="n">sh</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="o">&lt;</span><span class="n">ref_fasta</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="o">&lt;</span><span class="n">chromSize_file</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">e</span> <span class="o">&lt;</span><span class="n">enzyme_name</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">C</span> <span class="o">&lt;</span><span class="n">cut_position</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="o">&lt;</span><span class="n">output_dir</span><span class="o">&gt;</span><span class="p">]</span> 
+                    <span class="p">[</span><span class="o">-</span><span class="n">g</span> <span class="o">&lt;</span><span class="n">max_inter_align_gap</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">O</span> <span class="n">offset_restriction_site</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span> <span class="o">&lt;</span><span class="n">drop</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">D</span> <span class="o">&lt;</span><span class="n">intermediate_dir</span><span class="o">&gt;</span><span class="p">]</span> 
+                    <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="o">&lt;</span><span class="n">stats_flag</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="o">&lt;</span><span class="n">threads</span><span class="o">&gt;</span><span class="p">]</span> 
+    
+    <span class="n">Dependency</span><span class="p">:</span> <span class="n">cooler</span>
+
+    <span class="n">This</span> <span class="n">script</span> <span class="n">use</span> <span class="n">cooler</span> <span class="n">digest</span> <span class="n">to</span> <span class="n">generate</span> <span class="n">the</span> <span class="n">restriction</span> <span class="n">Enzyme</span> <span class="n">digested</span> <span class="n">fragments</span> <span class="n">bed</span> <span class="n">file</span> <span class="k">for</span> <span class="n">iMARGI</span>
+
+    <span class="o">-</span><span class="n">r</span> <span class="p">:</span> <span class="n">Reference</span> <span class="n">genome</span> <span class="n">fasta</span> <span class="n">file</span>
+    <span class="o">-</span><span class="n">c</span> <span class="p">:</span> <span class="n">Chromosome</span> <span class="n">size</span> <span class="n">file</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">e</span> <span class="p">:</span> <span class="n">Enzyme</span> <span class="n">name</span><span class="p">,</span> <span class="n">we</span> <span class="n">use</span> <span class="n">AluI</span> <span class="ow">in</span> <span class="n">iMARGI</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">C</span> <span class="p">:</span> <span class="n">Cut</span> <span class="n">position</span> <span class="n">right</span> <span class="n">offset</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Enzyme</span> <span class="n">sequence</span><span class="o">.</span> <span class="n">In</span> <span class="n">iMARGI</span><span class="p">,</span> <span class="n">the</span> <span class="n">enzyme</span> <span class="n">restriction</span> <span class="n">sequence</span> <span class="ow">is</span> <span class="n">AGCT</span> <span class="ow">and</span> <span class="n">it</span>
+         <span class="n">cuts</span> <span class="n">between</span> <span class="n">G</span> <span class="ow">and</span> <span class="n">C</span><span class="p">,</span> <span class="n">so</span> <span class="n">the</span> <span class="n">right</span> <span class="n">offset</span> <span class="ow">is</span> <span class="mi">2</span><span class="p">,</span> <span class="n">then</span> <span class="o">-</span><span class="n">C</span> <span class="mf">2.</span>
+    <span class="o">-</span><span class="n">o</span> <span class="p">:</span> <span class="n">Output</span> <span class="n">file</span> <span class="n">name</span> <span class="k">with</span> <span class="n">directory</span><span class="o">.</span> <span class="n">It</span><span class="s1">&#39;s a .gz file (tabix indexed bgzip file).</span>
+    <span class="o">-</span><span class="n">h</span> <span class="p">:</span> <span class="n">Show</span> <span class="n">usage</span> <span class="n">help</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="imargi-parse-sh">
+<h2>imargi_parse.sh<a class="headerlink" href="#imargi-parse-sh" title="Permalink to this headline">¶</a></h2>
+<p><code class="xref download docutils literal notranslate"><span class="pre">imargi_parse.sh</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">Usage</span><span class="p">:</span> <span class="n">imargi_parse</span><span class="o">.</span><span class="n">sh</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="o">&lt;</span><span class="n">ref_name</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="o">&lt;</span><span class="n">chromSize_file</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">R</span> <span class="o">&lt;</span><span class="n">restrict_sites</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="o">&lt;</span><span class="n">bam_file</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="o">&lt;</span><span class="n">output_dir</span><span class="o">&gt;</span><span class="p">]</span> 
+                    <span class="p">[</span><span class="o">-</span><span class="n">Q</span> <span class="o">&lt;</span><span class="n">min_mapq</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">G</span> <span class="o">&lt;</span><span class="n">max_inter_align_gap</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">O</span> <span class="o">&lt;</span><span class="n">offset_restriction_site</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">M</span> <span class="o">&lt;</span><span class="n">max_ligation_size</span><span class="o">&gt;</span><span class="p">]</span>
+                    <span class="p">[</span><span class="o">-</span><span class="n">d</span> <span class="o">&lt;</span><span class="n">drop</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">D</span> <span class="o">&lt;</span><span class="n">intermediate_dir</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="o">&lt;</span><span class="n">threads</span><span class="o">&gt;</span><span class="p">]</span> 
+    
+    <span class="n">Dependency</span><span class="p">:</span> <span class="n">pairtools</span> <span class="n">pbgzip</span>
+
+    <span class="n">This</span> <span class="n">script</span> <span class="n">will</span> <span class="n">use</span> <span class="n">pairtools</span> <span class="n">to</span> <span class="n">parse</span> <span class="n">the</span> <span class="n">BAM</span> <span class="n">alignments</span> <span class="n">to</span> <span class="n">interaction</span> <span class="n">read</span> <span class="n">pairs</span> <span class="ow">in</span> <span class="o">.</span><span class="n">pairs</span> <span class="nb">format</span><span class="p">,</span> <span class="ow">and</span> <span class="n">apply</span>
+    <span class="n">de</span><span class="o">-</span><span class="n">duplication</span> <span class="ow">and</span> <span class="n">filtering</span><span class="o">.</span>
+
+    <span class="o">-</span><span class="n">r</span> <span class="p">:</span> <span class="n">Reference</span> <span class="n">assembly</span> <span class="n">name</span><span class="p">,</span> <span class="n">such</span> <span class="k">as</span> <span class="s2">&quot;hg38&quot;</span>
+    <span class="o">-</span><span class="n">c</span> <span class="p">:</span> <span class="n">Chromosome</span> <span class="n">size</span> <span class="n">file</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">R</span> <span class="p">:</span> <span class="n">DNA</span> <span class="n">restriction</span> <span class="n">enzyme</span> <span class="n">digestion</span> <span class="n">sites</span> <span class="n">bed</span> <span class="n">file</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">b</span> <span class="p">:</span> <span class="n">BAM</span> <span class="n">file</span> <span class="n">generated</span> <span class="n">by</span> <span class="s2">&quot;bwa mem -SP5M&quot;</span> <span class="n">mapping</span> <span class="n">of</span> <span class="n">iMARGI</span> <span class="n">data</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">o</span> <span class="p">:</span> <span class="n">Output</span> <span class="n">directoy</span>
+    <span class="o">-</span><span class="n">Q</span> <span class="p">:</span> <span class="n">Min</span> <span class="n">MAPQ</span> <span class="n">value</span><span class="p">,</span> <span class="n">default</span> <span class="mf">1.</span>
+    <span class="o">-</span><span class="n">G</span> <span class="p">:</span> <span class="n">Max</span> <span class="n">inter</span> <span class="n">align</span> <span class="n">gap</span> <span class="k">for</span> <span class="n">pairtools</span> <span class="n">parsing</span><span class="o">.</span> <span class="n">Default</span> <span class="mf">20.</span> <span class="n">It</span> <span class="n">will</span> <span class="n">allow</span> <span class="n">R1</span> <span class="mi">5</span><span class="s1">&#39; end clipping.</span>
+    <span class="o">-</span><span class="n">O</span> <span class="p">:</span> <span class="n">Max</span> <span class="n">mis</span><span class="o">-</span><span class="n">offset</span> <span class="n">bases</span> <span class="k">for</span> <span class="n">filtering</span> <span class="n">pairs</span> <span class="n">based</span> <span class="n">on</span> <span class="n">R2</span> <span class="mi">5</span><span class="s1">&#39; end positions to restriction sites. Default 0.</span>
+    <span class="o">-</span><span class="n">M</span> <span class="p">:</span> <span class="n">Max</span> <span class="n">size</span> <span class="n">of</span> <span class="n">ligation</span> <span class="n">fragment</span> <span class="k">for</span> <span class="n">sequencing</span><span class="o">.</span> <span class="n">It</span><span class="s1">&#39;s used for filtering unligated DNA sequence.</span>
+    <span class="o">-</span><span class="n">d</span> <span class="p">:</span> <span class="n">Flag</span> <span class="n">of</span> <span class="n">dropping</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span> <span class="n">false</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="p">,</span> <span class="n">output</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">intermediate</span> <span class="n">results</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">D</span> <span class="p">:</span> <span class="n">Directory</span> <span class="k">for</span> <span class="n">intermediate</span> <span class="n">results</span><span class="o">.</span> <span class="n">Works</span> <span class="n">when</span> <span class="o">-</span><span class="n">d</span> <span class="n">false</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">sub</span><span class="o">-</span><span class="n">folder</span> <span class="s2">&quot;intermediate_results&quot;</span> 
+         <span class="ow">in</span> <span class="n">output</span> <span class="n">directory</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">t</span> <span class="p">:</span> <span class="n">Max</span> <span class="n">CPU</span> <span class="n">threads</span> <span class="k">for</span> <span class="n">parallelized</span> <span class="n">processing</span><span class="p">,</span> <span class="n">at</span> <span class="n">least</span> <span class="mf">4.</span> <span class="p">(</span><span class="n">Default</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="o">-</span><span class="n">h</span> <span class="p">:</span> <span class="n">Show</span> <span class="n">usage</span> <span class="n">help</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="imargi-stats-sh">
+<h2>imargi_stats.sh<a class="headerlink" href="#imargi-stats-sh" title="Permalink to this headline">¶</a></h2>
+<p><code class="xref download docutils literal notranslate"><span class="pre">imargi_stats.sh</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">Usage</span><span class="p">:</span> <span class="n">imargi_stats</span><span class="o">.</span><span class="n">sh</span> <span class="p">[</span><span class="o">-</span><span class="n">D</span> <span class="o">&lt;</span><span class="n">distance_type</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span> <span class="o">&lt;</span><span class="n">distance_threshold</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">F</span> <span class="o">&lt;</span><span class="n">deal_with_filter</span><span class="o">&gt;</span><span class="p">]</span>
+                <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="o">&lt;</span><span class="n">input_file</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="o">&lt;</span><span class="n">output_file</span><span class="o">&gt;</span><span class="p">]</span>
+
+    <span class="n">Dependency</span><span class="p">:</span> <span class="n">gzip</span><span class="p">,</span> <span class="n">awk</span>
+
+    <span class="n">This</span> <span class="n">script</span> <span class="n">can</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="nb">filter</span> <span class="n">out</span> <span class="n">short</span><span class="o">-</span><span class="nb">range</span> <span class="n">intra</span><span class="o">-</span><span class="n">chromosomal</span> <span class="n">interactions</span> <span class="k">with</span> <span class="n">a</span> <span class="n">threshold</span> <span class="n">genomic</span> <span class="n">distance</span><span class="o">.</span>
+
+    <span class="o">-</span><span class="n">D</span> <span class="p">:</span> <span class="n">Distance</span> <span class="nb">type</span><span class="o">.</span> <span class="n">The</span> <span class="n">default</span> <span class="n">genomic</span> <span class="n">position</span> <span class="ow">in</span> <span class="o">.</span><span class="n">pairs</span> <span class="n">file</span> <span class="ow">is</span> <span class="n">the</span> <span class="mi">5</span><span class="s1">&#39; end position, so the default distance</span>
+         <span class="nb">type</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">distance</span> <span class="n">between</span> <span class="mi">5</span><span class="s1">&#39; end of R1 and R2, which meand &#39;</span><span class="o">-</span><span class="n">D</span> <span class="mi">5</span><span class="n">end</span><span class="s1">&#39;. The alternative choices are &#39;</span><span class="n">outer</span><span class="s1">&#39;</span>
+         <span class="ow">and</span> <span class="s1">&#39;inner&#39;</span><span class="o">.</span> <span class="s1">&#39;outer&#39;</span> <span class="n">means</span> <span class="n">the</span> <span class="n">outer</span><span class="o">-</span><span class="n">side</span> <span class="n">distance</span> <span class="n">between</span> <span class="n">R1</span> <span class="ow">and</span> <span class="n">R2</span> <span class="n">read</span> <span class="n">pairs</span><span class="o">.</span> <span class="s1">&#39;inner&#39;</span> <span class="n">means</span> <span class="n">the</span> <span class="n">inner</span><span class="o">-</span><span class="n">side</span>
+         <span class="n">distance</span> <span class="n">between</span> <span class="n">R1</span> <span class="ow">and</span> <span class="n">R2</span> <span class="n">read</span> <span class="n">pairs</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span> <span class="s1">&#39;5end&#39;</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">d</span> <span class="p">:</span> <span class="n">sets</span> <span class="n">the</span> <span class="n">genomic</span> <span class="n">distance</span> <span class="n">threshold</span> <span class="n">of</span> <span class="n">defining</span> <span class="n">proximal</span> <span class="ow">and</span> <span class="n">distal</span> <span class="n">interactions</span> <span class="p">(</span><span class="n">intra</span><span class="o">-</span><span class="n">chromosomal</span><span class="p">)</span><span class="o">.</span> <span class="n">It</span> <span class="n">will</span>
+         <span class="n">report</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">proximal</span> <span class="ow">and</span> <span class="n">distal</span> <span class="n">interactions</span><span class="o">.</span> <span class="n">Besides</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="nb">set</span> <span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">values</span> <span class="n">separated</span> <span class="k">with</span>
+         <span class="n">comma</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">such</span> <span class="k">as</span> <span class="s1">&#39;-d 1000,2000,10000,20000,100000,1000000&#39;</span><span class="p">,</span> <span class="n">then</span> <span class="n">the</span> <span class="n">report</span> <span class="n">will</span> <span class="n">include</span> <span class="n">the</span> <span class="n">statistics</span>
+         <span class="n">number</span> <span class="k">with</span> <span class="n">different</span> <span class="n">thresholds</span> <span class="p">(</span><span class="n">space</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">allowed</span><span class="p">)</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">i</span> <span class="p">:</span> <span class="n">Input</span> <span class="o">.</span><span class="n">pairs</span><span class="o">.</span><span class="n">gz</span> <span class="n">file</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">o</span> <span class="p">:</span> <span class="n">Output</span> <span class="o">.</span><span class="n">pairs</span><span class="o">.</span><span class="n">gz</span> <span class="n">file</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">h</span> <span class="p">:</span> <span class="n">Show</span> <span class="n">usage</span> <span class="n">help</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="imargi-distfilter-sh">
+<h2>imargi_distfilter.sh<a class="headerlink" href="#imargi-distfilter-sh" title="Permalink to this headline">¶</a></h2>
+<p><code class="xref download docutils literal notranslate"><span class="pre">imargi_distfilter.sh</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    Usage: imargi_distfilter.sh [-D &lt;distance_type&gt;] [-d &lt;distance_threshold&gt;] [-F &lt;deal_with_filter&gt;]
+                [-i &lt;input_file&gt;] [-o &lt;output_file&gt;]
+
+    Dependency: gzip, awk
+
+    This script can be used to filter out short-range intra-chromosomal interactions with a threshold genomic distance.
+
+    -D : Distance type. The default genomic position in .pairs file is the 5&#39; end position, so the default distance
+         type is the distance between 5&#39; end of R1 and R2, which meand &#39;-D 5end&#39;. The alternative choices are &#39;outer&#39;
+         and &#39;inner&#39;. &#39;outer&#39; means the outer-side distance between R1 and R2 read pairs. &#39;inner&#39; means the inner-side
+         distance between R1 and R2 read pairs. Default is &#39;5end&#39;.
+    -d : The distance threshold for filtering. Default is 200000 (distance &lt;200000 will be filtered out).
+    -F : How to deal with the interactions need to be filtered out? &#39;-F&#39; accepts &#39;drop&#39; and &#39;output&#39;. &#39;drop&#39; means
+         drop those interactions. &#39;output&#39; means output an new file of all the filtered out interactions with prefix
+         &#39;filterOut_&#39;. Default is &#39;drop&#39;.
+    -i : Input .pairs.gz file.
+    -o : Output .pairs.gz file.
+    -h : Show usage help
+</pre></div>
+</div>
+</div>
+<div class="section" id="imargi-convert-sh">
+<h2>imargi_convert.sh<a class="headerlink" href="#imargi-convert-sh" title="Permalink to this headline">¶</a></h2>
+<p><code class="xref download docutils literal notranslate"><span class="pre">imargi_convert.sh</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">Usage</span><span class="p">:</span> <span class="n">imargi_convert</span><span class="o">.</span><span class="n">sh</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="o">&lt;</span><span class="n">file_format</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">k</span> <span class="o">&lt;</span><span class="n">keep_cols</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="o">&lt;</span><span class="n">bin_size</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="o">&lt;</span><span class="n">input_file</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="o">&lt;</span><span class="n">output_file</span><span class="o">&gt;</span><span class="p">]</span>
+
+    <span class="n">Dependency</span><span class="p">:</span> <span class="n">gzip</span><span class="p">,</span> <span class="n">awk</span><span class="p">,</span> <span class="n">cool</span>
+
+    <span class="n">This</span> <span class="n">script</span> <span class="n">can</span> <span class="n">convert</span> <span class="o">.</span><span class="n">pairs</span> <span class="nb">format</span> <span class="n">to</span> <span class="n">BEDPE</span><span class="p">,</span> <span class="o">.</span><span class="n">cool</span><span class="p">,</span> <span class="ow">and</span> <span class="n">GIVE</span> <span class="n">interaction</span> <span class="nb">format</span><span class="o">.</span>
+
+    <span class="o">-</span><span class="n">f</span> <span class="p">:</span> <span class="n">The</span> <span class="n">target</span> <span class="nb">format</span><span class="p">,</span> <span class="n">only</span> <span class="n">accept</span> <span class="s1">&#39;cool&#39;</span><span class="p">,</span> <span class="s1">&#39;bedpe&#39;</span> <span class="ow">and</span> <span class="s1">&#39;give&#39;</span><span class="o">.</span> <span class="n">For</span> <span class="s1">&#39;cool&#39;</span><span class="p">,</span> <span class="n">it</span> <span class="n">will</span> <span class="n">generate</span>
+         <span class="n">a</span> <span class="s2">&quot;.cool&quot;</span> <span class="n">file</span> <span class="k">with</span> <span class="n">defined</span> <span class="n">resolution</span> <span class="n">of</span> <span class="o">-</span><span class="n">b</span> <span class="n">option</span> <span class="ow">and</span> <span class="n">a</span> <span class="n">multi</span><span class="o">-</span><span class="n">resolution</span> <span class="s2">&quot;.mcool&quot;</span> <span class="n">file</span>
+         <span class="n">based</span> <span class="n">on</span> <span class="n">the</span> <span class="s2">&quot;.cool&quot;</span> <span class="n">file</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">k</span> <span class="p">:</span> <span class="n">Keep</span> <span class="n">extra</span> <span class="n">information</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">BEDPE</span><span class="o">.</span> <span class="n">Columns</span> <span class="n">ids</span> <span class="ow">in</span> <span class="o">.</span><span class="n">pairs</span> <span class="n">file</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">keep</span><span class="o">.</span>
+         <span class="n">For</span> <span class="n">example</span><span class="p">,</span> <span class="s1">&#39;cigar1,cigar2&#39;</span><span class="o">.</span> <span class="n">Default</span> <span class="n">value</span> <span class="ow">is</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="p">,</span> <span class="n">drop</span> <span class="nb">all</span> <span class="n">extra</span> <span class="n">cols</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">b</span> <span class="p">:</span> <span class="nb">bin</span> <span class="n">size</span> <span class="k">for</span> <span class="n">cool</span> <span class="nb">format</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span> <span class="mf">5000.</span>
+    <span class="o">-</span><span class="n">i</span> <span class="p">:</span> <span class="n">Input</span> <span class="n">file</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">o</span> <span class="p">:</span> <span class="n">Output</span> <span class="n">file</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">h</span> <span class="p">:</span> <span class="n">Show</span> <span class="n">usage</span> <span class="n">help</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="imargi-annotate-sh">
+<h2>imargi_annotate.sh<a class="headerlink" href="#imargi-annotate-sh" title="Permalink to this headline">¶</a></h2>
+<p><code class="xref download docutils literal notranslate"><span class="pre">imargi_annotate.sh</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">Usage</span><span class="p">:</span> <span class="n">imargi_annotate</span><span class="o">.</span><span class="n">sh</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="o">&lt;</span><span class="n">file_format</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">A</span> <span class="o">&lt;</span><span class="n">annotation_type</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">a</span> <span class="o">&lt;</span><span class="n">annotation_file</span><span class="o">&gt;</span><span class="p">]</span>
+                <span class="p">[</span><span class="o">-</span><span class="n">C</span> <span class="o">&lt;</span><span class="n">end_for_annotate</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="o">&lt;</span><span class="n">add_col_names</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">m</span> <span class="o">&lt;</span><span class="n">min_overlap</span><span class="o">&gt;</span><span class="p">]</span>
+                <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="o">&lt;</span><span class="n">input_file</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="o">&lt;</span><span class="n">output_file</span><span class="o">&gt;</span><span class="p">]</span>
+
+    <span class="n">Dependency</span><span class="p">:</span> <span class="n">gzip</span><span class="p">,</span> <span class="n">awk</span><span class="p">,</span> <span class="n">cool</span><span class="p">,</span> <span class="n">BEDOPS</span>
+
+    <span class="n">This</span> <span class="n">script</span> <span class="n">can</span> <span class="n">annotate</span> <span class="n">both</span> <span class="n">RNA</span> <span class="ow">and</span> <span class="n">DNA</span> <span class="n">ends</span> <span class="k">with</span> <span class="n">gene</span> <span class="n">annotations</span> <span class="ow">in</span> <span class="n">GTF</span><span class="o">/</span><span class="n">GFF</span> <span class="nb">format</span> <span class="ow">or</span> <span class="nb">any</span> <span class="n">other</span> <span class="n">genomic</span>
+    <span class="n">features</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">simple</span> <span class="n">BED</span> <span class="n">file</span> <span class="p">(</span><span class="n">each</span> <span class="n">line</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">named</span> <span class="n">genomic</span> <span class="n">feature</span><span class="p">)</span><span class="o">.</span>
+
+    <span class="o">-</span><span class="n">f</span> <span class="p">:</span> <span class="n">The</span> <span class="nb">input</span> <span class="n">file</span> <span class="nb">format</span><span class="p">,</span> <span class="n">only</span> <span class="n">accept</span> <span class="s1">&#39;pairs&#39;</span><span class="p">,</span> <span class="ow">or</span> <span class="s1">&#39;bedpe&#39;</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">A</span> <span class="p">:</span> <span class="n">Only</span> <span class="n">accept</span> <span class="s1">&#39;-A gtf&#39;</span> <span class="k">for</span> <span class="n">annotating</span> <span class="n">gene</span> <span class="k">with</span> <span class="n">GTF</span> <span class="n">file</span> <span class="ow">or</span> <span class="s1">&#39;-A bed&#39;</span> <span class="k">for</span> <span class="n">annotating</span> <span class="nb">any</span> <span class="n">other</span> <span class="n">genomic</span> <span class="n">features</span>
+         <span class="ow">in</span> <span class="n">a</span> <span class="n">simple</span> <span class="n">BED</span> <span class="nb">format</span> <span class="n">file</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span> <span class="s1">&#39;-A gtf&#39;</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">a</span> <span class="p">:</span> <span class="n">The</span> <span class="n">annotation</span> <span class="n">information</span> <span class="n">file</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">C</span> <span class="p">:</span> <span class="n">Determine</span> <span class="n">Which</span> <span class="n">end</span> <span class="n">to</span> <span class="n">be</span> <span class="n">annotated</span><span class="o">.</span> <span class="n">It</span> <span class="n">accepts</span> <span class="s1">&#39;-C RNA&#39;</span><span class="p">,</span> <span class="s1">&#39;-C DNA&#39;</span> <span class="ow">or</span> <span class="s1">&#39;-C both&#39;</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span> <span class="s1">&#39;-C both&#39;</span><span class="p">,</span>
+         <span class="n">then</span> <span class="n">both</span> <span class="n">RNA</span> <span class="ow">and</span> <span class="n">DNA</span> <span class="n">ends</span> <span class="n">will</span> <span class="n">be</span> <span class="n">annotated</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">c</span> <span class="p">:</span> <span class="n">The</span> <span class="n">names</span> <span class="n">of</span> <span class="n">annotation</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">output</span> <span class="n">file</span><span class="o">.</span> <span class="n">If</span> <span class="s1">&#39;-C both&#39;</span><span class="p">,</span> <span class="n">then</span> <span class="n">you</span> <span class="n">need</span> <span class="nb">set</span> <span class="n">two</span> <span class="n">column</span> <span class="n">names</span> <span class="n">separated</span>
+         <span class="k">with</span> <span class="n">comma</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="p">,</span> <span class="s1">&#39;-c gene1,gene2&#39;</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">m</span><span class="p">:</span>  <span class="n">Minimum</span> <span class="n">bases</span> <span class="n">of</span> <span class="n">overlapping</span> <span class="k">for</span> <span class="n">annotation</span><span class="o">.</span> <span class="s1">&#39;-m 1&#39;</span> <span class="n">means</span> <span class="n">at</span> <span class="n">least</span> <span class="n">one</span> <span class="n">base</span> <span class="n">overlapping</span><span class="o">.</span> <span class="n">Default</span> <span class="s1">&#39;-m 1&#39;</span><span class="o">.</span>
+         <span class="s1">&#39;-m 0&#39;</span> <span class="n">means</span> <span class="n">it</span> <span class="n">must</span> <span class="n">be</span> <span class="n">inside</span> <span class="n">of</span> <span class="n">the</span> <span class="n">genomic</span> <span class="n">feature</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">i</span> <span class="p">:</span> <span class="n">Input</span> <span class="n">file</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">o</span> <span class="p">:</span> <span class="n">Output</span> <span class="n">file</span><span class="o">.</span>
+    <span class="o">-</span><span class="n">h</span> <span class="p">:</span> <span class="n">Show</span> <span class="n">usage</span> <span class="n">help</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="technical_note.html" class="btn btn-neutral" title="Technical Notes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zhong Lab, UCSD. iMARGI-Docker code licensed under the BSD 2 License. Documentation licensed under CC BY 3.0
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
