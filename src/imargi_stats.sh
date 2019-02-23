@@ -3,8 +3,7 @@ PROGNAME=$0
 
 usage() {
     cat << EOF >&2
-    Usage: $PROGNAME [-D <distance_type>] [-d <distance_threshold>] [-F <deal_with_filter>]
-                [-i <input_file>] [-o <output_file>]
+    Usage: $PROGNAME [-D <distance_type>] [-d <distance_threshold>] [-i <input_file>] [-o <output_file>]
 
     Dependency: gzip, awk
     This script can be used to filter out short-range intra-chromosomal interactions with a threshold genomic distance.

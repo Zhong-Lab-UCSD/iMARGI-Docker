@@ -172,7 +172,7 @@ bwa mem -t 16 -SP5M ./ref/bwa_index/bwa_index_GRCh38 \
 
 | Type | Description/Tool | Files/Key Parameters |
 ---------|----------|---------
-**Tool** | `imargi_parse.sh` | `-r <ref_name>` <br> `-c <chromSize_file>` <br> `-R <restrict_frags_file>` <br> `-b <bam_file>` <br> `<output_dir>` <br> `-t <threads>`
+**Tool** | `imargi_parse.sh` | `-r <ref_name>` <br> `-c <chromSize_file>` <br> `-R <restrict_frags_file>` <br> `-b <bam_file>` <br> `-o <output_dir>` <br> `-t <threads>`
 **Input**  | BAM file | `.output/bwa_output/HEK_iMARGI.bam`
 **Output** | .pairs file | `./output/final_HEK_iMARGI.pairs.gz`
 
@@ -228,7 +228,7 @@ in our work. If you want to know more, please check the [GitHub repo](https://gi
 >  be un-ligated RNA
 >  - dist2 < offset & dist1 < offset: sequencing fragment might be a un-ligated DNA if the distance of R1 and R2 is less
 >  than the maximum sequencing fragment size and the strands of R1 and R2 are opposite
->  - dist < offset & dist 1> offset: proper RNA-DNA ligation
+>  - dist2 < offset & dist1 > offset: proper RNA-DNA ligation
 >  
 >  The filtering argument used in pairtools is:
 > 

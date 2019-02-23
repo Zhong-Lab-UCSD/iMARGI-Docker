@@ -123,8 +123,7 @@ We created several script tools. Here we show the usage and source code of all t
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_stats.sh)
 
 ``` bash
-    Usage: imargi_stats.sh [-D <distance_type>] [-d <distance_threshold>] [-F <deal_with_filter>]
-                [-i <input_file>] [-o <output_file>]
+    Usage: imargi_stats.sh [-D <distance_type>] [-d <distance_threshold>] [-i <input_file>] [-o <output_file>]
 
     Dependency: gzip, awk
 

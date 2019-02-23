@@ -46,7 +46,6 @@ UTIL_NAME = 'imargi_restrict'
         ' By default, the output is printed into stdout.')
 
 @common_io_options
-
 def restrict(pairs_path, frags, output, **kwargs):
     '''Check and assign restriction fragments to R2 (DNA ends).
     Identify the successfully ligated RNA-DNA molecule.
