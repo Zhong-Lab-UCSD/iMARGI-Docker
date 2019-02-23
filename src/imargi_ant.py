@@ -37,7 +37,7 @@ UTIL_NAME = 'imargi_annotate'
     '-l', '--ant_level',
     type=str,
     default='gene_body',
-    help='gene annotation level for GTF annotation, default is gene_body')
+    help='gene annotation level for GTF annotation, default is gene')
 
 @click.option(
     '-f', '--ant_attr',
@@ -105,11 +105,12 @@ def annotate(pairs_path, ant_format, ant_file, ant_level, ant_attr, ant_mode, an
     else:
         ant = read_bed(ant_file)
 
-    annotate_pairs(pairs_path, ant, ant_mode, ant_col, min_over, cigar_col, output, **kwargs)
+    annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, cigar_col, output, **kwargs)
 
 def read_gtf(ant_file, ant_level, ant_attr):
     gtf = HTSeq.GFF_Reader(ant_file)
     ant = HTSeq.GenomicArrayOfSets( "auto", stranded = True )
+    ant_attr = ant_attr.split(',')
     for feature in gtf:
         if feature.type == ant_level:
             attrs = []
@@ -118,26 +119,12 @@ def read_gtf(ant_file, ant_level, ant_attr):
             ant[feature.iv] += "|".join(attrs)
     return ant
 
-attr = ["gene_id", "gene_name", "gene_type"]
-genes = HTSeq.GenomicArrayOfSets( "auto", stranded=True )
-for feature in ant:
-    if feature.type == "gene":
-        ant_attr = []
-        for i in attr:
-            ant_attr += [feature.attr[i]]
-        ant_str = "|".join(ant_attr)
-        genes[feature.iv] += ant_str
-
-
 def read_bed(ant_file):
     ant = []
     return ant
 
 def annotate_region(ant, chr_str, pos, strand, match_length, min_over, strand_type):  
     ant_region = set()
-    if min_over == 0:
-        min_over = end - start
-    
     # change 1-based to zero-based genomic coordinate
     if strand == "+":
         start = pos - 1
@@ -145,6 +132,10 @@ def annotate_region(ant, chr_str, pos, strand, match_length, min_over, strand_ty
     else:
         start = pos - match_length
         end = pos
+
+    min_over = int(min_over)
+    if min_over == 0:
+        min_over = match_length
 
     if strand_type == 'r':
         strand = '-' if strand == '+' else '+'
@@ -165,7 +156,10 @@ def annotate_region(ant, chr_str, pos, strand, match_length, min_over, strand_ty
         for iv, val in ant[region_iv].steps():
             if iv.length >= min_over:
                 ant_region |= val
-    return ",".join(ant_region)
+    if len(ant_region) > 0:
+        return ','.join(ant_region)
+    else:
+        return '.'
 
 def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, cigar_col, output, **kwargs):
     instream = (_fileio.auto_open(pairs_path, mode='r', 
@@ -184,7 +178,7 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
     if len(header) == 0:
         sys.stderr.write('.pairs file doesn\'t have header rows!\n')
         raise SystemExit(1)
-    
+
     col_names = header[-1].split(' ')
     if col_names[0] != '#columns:':
         sys.stderr.write('The last tow of .pairs header is not a valid col_names row (start with \'#columns:\')!\n')
@@ -210,14 +204,15 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
         if i not in ['s', 'r', 'n']:
             sys.stderr.write('Invalid strand specific type for annotation!\n')
             raise SystemExit(1)
+    if ant_mode.lower == 'both':
+        header[-1] = header[-1] + ' ' + ' '.join(ant_col)
+    else:
+        header[-1] = header[-1] + ' ' + ant_col[0]
 
-    header[-1] = header[-1] + ' ' + ' '.join(ant_col)
     outstream.writelines(l + '\n' for l in header)
 
     for line in body_stream:
         cols = line.rstrip().split(_pairsam_format.PAIRSAM_SEP)
-
-        annotate_region(ant, chr_str, pos, strand, match_length, min_over, strand_type)
         
         if ant_mode.lower() == 'rna':
             chrom1, pos1, strand1, cigar1 = cols[_pairsam_format.COL_C1], int(cols[_pairsam_format.COL_P1]), \
@@ -252,7 +247,7 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
             ant_str += _pairsam_format.PAIRSAM_SEP + \
                 annotate_region(ant, chrom2, pos2, strand2, match_length2, min_over, strand_type[1])
         
-        outstream.write(_pairsam_format.PAIRSAM_SEP.join([line, ant_str]))
+        outstream.write(_pairsam_format.PAIRSAM_SEP.join([line.rstrip(), ant_str]))
         outstream.write('\n')
     
     if instream != sys.stdin:

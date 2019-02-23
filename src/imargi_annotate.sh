@@ -18,7 +18,7 @@ usage() {
     -A : Only accept '-A gtf' for annotating gene with GTF file or '-A bed' for annotating any other genomic features
          in a simple BED format file, whose 4th column is the feature name. Default is '-A gtf'.
     -a : The annotation information file.
-    -l : Only work with '-A gtf'. Gene annotation level, 'exon' or 'gene_body'. Default is '-l gene_body'.
+    -l : Only work with '-A gtf'. Gene annotation level, 'exon' or 'gene'. Default is '-l gene'.
     -f : Only work with '-A gtf'. There are many gene feature attributes can be added, such as gene_id, gene_name,
          or gene_type. Use ',' to seperate the features. In the output results, these features are seperated with
          '|'. Default is '-f gene_id,gene_name,gene_type'. Blank space is not allowed!
@@ -45,20 +45,32 @@ EOF
     exit 1
 }
 
-while getopts :A:a:l:f:C:c:m:G:i:o:h opt; do
+while getopts :A:a:l:f:C:c:s:m:G:i:o:h opt; do
     case $opt in
         A) ant_format=${OPTARG};;
         a) ant_file=${OPTARG};;
-        a) ant_level=${OPTARG};;
-        a) ant_attr=${OPTARG};;
+        l) ant_level=${OPTARG};;
+        f) ant_attr=${OPTARG};;
         C) ant_mode=${OPTARG};;
         c) ant_col=${OPTARG};;
+        s) strand_type=${OPTARG};;
         m) min_over=${OPTARG};;
         G) cigar_col=${OPTARG};;
         i) input_file=${OPTARG};;
-        O) output_file=${OPTARG};;
+        o) output_file=${OPTARG};;
         h) usage;;
     esac
 done
 
-python imargi_ant.py 
+imargi_ant.py \
+     --ant_format $ant_format \
+     --ant_file $ant_file \
+     --ant_level $ant_level \
+     --ant_attr $ant_attr \
+     --ant_mode $ant_mode \
+     --ant_col $ant_col \
+     --strand_type $strand_type \
+     --min_over $min_over \
+     --cigar_col $cigar_col \
+     --output $output_file \
+     $input_file
