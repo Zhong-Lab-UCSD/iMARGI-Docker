@@ -202,7 +202,7 @@ imargi_parse.sh \
     -O 3 \
     -M 1000 \
     -d false \
-    -D $output_dir/parse_temp 
+    -D $output_dir/parse_temp
 ```
 
 The core tool used in `imargi_wrapper.sh` is `pairtools`. Here are some brief descriptions of the usages of pairtools
@@ -215,6 +215,9 @@ in our work. If you want to know more, please check the [GitHub repo](https://gi
 - `pairtools dedup`: Mark and de-duplications in the `.pairs` file.
 - `pairtools select`: Filter out those read pairs which are marked as duplications, multiple mappings and 5' most end
   was not unique mapped. We used a long filter string designed for iMARGI, don't change it.
+
+There will be `pipelineStats_xx.log` file in the output directory. It reports some basic statistics of the parsing
+results, such as total number of read pairs, unique mapped read pairs and valid RNA-DNA interactions.
 
 > **Filtering strategies**
 > 
@@ -244,6 +247,12 @@ in our work. If you want to know more, please check the [GitHub repo](https://gi
 >          (strand1 == \"-\" and strand2 == \"+\" and int(frag1_start) >= int(frag2_start) and \
 >             abs(int(frag1_end) - int(frag2_start)) <= "$max_ligation_size"))))"  
 >  ```
+
+Although we set several filtering strategies, they still cannot filter out all 'contaminations'. So we use genomic
+distance as a final filter. Filtering out those short-range interactions is better for further analysis. We provide a
+tool `imargi_distfilter.sh` to do genomic distance filter. Please read more in the
+[further analysis instructions](./further_analysis.md).
+
 
 ## Output Files
 

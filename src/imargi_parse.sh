@@ -102,7 +102,7 @@ ummapped_pairs=$inter_dir"/unmapped_"$filebase".pairs.gz"
 duplication_pairs=$inter_dir"/duplication_"$filebase".pairs.gz"
 final_pairs=$output_dir"/final_"$filebase".pairs.gz"
 drop_pairs=$inter_dir"/drop_"$filebase".pairs.gz"
-stats=$output_dir"/stats_final_"$filebase".txt"
+stats=$inter_dir"/stats_final_"$filebase".txt"
 # ummapped_pairsam=$inter_dir"/unmapped_"$filebase".pairsam.gz"
 # duplication_pairs=$inter_dir"/duplication_"$filebase".pairs.gz"
 # dedup_pairsam=$inter_dir"/dedup_"$filebase".pairsam.gz"
@@ -191,10 +191,26 @@ pairtools stats \
     --output $stats \
     $final_pairs
 
+rm $all_pairs
+
+awk 'BEGIN{
+        FS="\t"; OFS="\t"
+    }FNR==NR{
+        if(FNR<7){count_raw[$1]=$2};
+    }FNR!=NR{
+        if(FNR<9){count[$1]=$2}else{exit};
+    }END{
+        print "total_read_pairs", count_raw["total"];
+        print "single_side_unique_mapped", count_raw["total_single_sided_mapped"];
+        print "unique_mapped_pairs", count_raw["total_mapped"];
+        print "non_dup_unique_mapped_paris", count_raw["total_nodups"];
+        print "total_valid_interactions", count["total"];
+        print "inter_chr", count["trans"];
+        print "intra_chr", count["cis"];
+    }'  $inter_dir/stats_dedup_$filebase.txt $stats > $output_dir/pipelineStats_$filebase.log
+
 date
 echo "Parsing and filtering finished."
-
-rm $all_pairs
 
 if [[ "$dflag" == "true" ]]; then
     rm -rf $inter_dir

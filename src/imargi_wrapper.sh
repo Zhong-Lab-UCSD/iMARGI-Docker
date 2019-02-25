@@ -157,15 +157,15 @@ for i in ${R2[@]};do
     R2_str=$R2_str' '$i
 done
 echo ">>>>>>>>>>>>>>>> Start bwa mem mapping ..."
-# imargi_clean.sh -1 $R1_str -2 $R2_str -N $base_name -o $output_dir/clean_fastq -t $threads
+imargi_clean.sh -1 $R1_str -2 $R2_str -N $base_name -o $output_dir/clean_fastq -t $threads
 
-# date
-# echo ">>>>>>>>>>>>>>>> Start bwa mem mapping ..."
+date
+echo ">>>>>>>>>>>>>>>> Start bwa mem mapping ..."
 
-# bwa mem -t $threads -SP5M $bwa_index \
-#     $output_dir/clean_fastq/clean_${base_name}_R1.fastq.gz \
-#     $output_dir/clean_fastq/clean_${base_name}_R2.fastq.gz | \
-#     samtools view -@ $threads -Shb - > $output_dir/bwa_output/$base_name.bam
+bwa mem -t $threads -SP5M $bwa_index \
+    $output_dir/clean_fastq/clean_${base_name}_R1.fastq.gz \
+    $output_dir/clean_fastq/clean_${base_name}_R2.fastq.gz | \
+    samtools view -@ $threads -Shb - > $output_dir/bwa_output/$base_name.bam
 
 date
 echo ">>>>>>>>>>>>>>>> Start parsing valid RNA-DNA interactions ..."

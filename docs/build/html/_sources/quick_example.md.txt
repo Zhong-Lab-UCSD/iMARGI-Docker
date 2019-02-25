@@ -158,9 +158,10 @@ detail, please check the [Step-by-step Illustration](./step_by_step_illustration
         │   ├── duplication_HEK_iMARGI.pairs.gz
         │   ├── sorted_all_HEK_iMARGI.pairs.gz
         │   ├── stats_dedup_HEK_iMARGI.txt
+        |   ├── stats_final_HEK_iMARGI.txt
         │   └── unmapped_HEK_iMARGI.pairs.gz
         ├── final_HEK_iMARGI.pairs.gz
-        └── stats_final_HEK_iMARGI.txt
+        └── pipelineStats_HEK_iMARGI.log
 ```
 
 **Reference:**

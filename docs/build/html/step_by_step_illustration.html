@@ -17,34 +17,36 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Further Analysis and Visualization Guides" href="further_analysis.html" />
     <link rel="prev" title="Quick Start Example" href="quick_example.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -442,7 +444,7 @@ bwa mem -t <span class="m">16</span> -SP5M ./ref/bwa_index/bwa_index_GRCh38 <spa
 <tr>
 <td><strong>Tool</strong></td>
 <td><code>imargi_parse.sh</code></td>
-<td><code>-r &lt;ref_name&gt;</code> <br> <code>-c &lt;chromSize_file&gt;</code> <br> <code>-R &lt;restrict_frags_file&gt;</code> <br> <code>-b &lt;bam_file&gt;</code> <br> <code>&lt;output_dir&gt;</code> <br> <code>-t &lt;threads&gt;</code></td>
+<td><code>-r &lt;ref_name&gt;</code> <br> <code>-c &lt;chromSize_file&gt;</code> <br> <code>-R &lt;restrict_frags_file&gt;</code> <br> <code>-b &lt;bam_file&gt;</code> <br> <code>-o &lt;output_dir&gt;</code> <br> <code>-t &lt;threads&gt;</code></td>
 </tr>
 <tr>
 <td><strong>Input</strong></td>
@@ -479,7 +481,7 @@ are treated as “null” alignments. [default: 20]</li>
     -O <span class="m">3</span> <span class="se">\</span>
     -M <span class="m">1000</span> <span class="se">\</span>
     -d <span class="nb">false</span> <span class="se">\</span>
-    -D <span class="nv">$output_dir</span>/parse_temp 
+    -D <span class="nv">$output_dir</span>/parse_temp
 </pre></div>
 </div>
 <p>The core tool used in <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> is <code class="docutils literal notranslate"><span class="pre">pairtools</span></code>. Here are some brief descriptions of the usages of pairtools
@@ -493,6 +495,8 @@ unless you know what you want to do.</li>
 <li><code class="docutils literal notranslate"><span class="pre">pairtools</span> <span class="pre">select</span></code>: Filter out those read pairs which are marked as duplications, multiple mappings and 5’ most end
 was not unique mapped. We used a long filter string designed for iMARGI, don’t change it.</li>
 </ul>
+<p>There will be <code class="docutils literal notranslate"><span class="pre">pipelineStats_xx.log</span></code> file in the output directory. It reports some basic statistics of the parsing
+results, such as total number of read pairs, unique mapped read pairs and valid RNA-DNA interactions.</p>
 <blockquote>
 <div><p><strong>Filtering strategies</strong></p>
 <p>Besides of filtering out unmapped, duplicated and multiple mapped read pairs, we also use
@@ -505,7 +509,7 @@ threshold of offset:</p>
 be un-ligated RNA</li>
 <li>dist2 &lt; offset &amp; dist1 &lt; offset: sequencing fragment might be a un-ligated DNA if the distance of R1 and R2 is less
 than the maximum sequencing fragment size and the strands of R1 and R2 are opposite</li>
-<li>dist &lt; offset &amp; dist 1&gt; offset: proper RNA-DNA ligation</li>
+<li>dist2 &lt; offset &amp; dist1 &gt; offset: proper RNA-DNA ligation</li>
 </ul>
 <p>The filtering argument used in pairtools is:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span> <span class="s2">&quot;regex_match(pair_type, \&quot;[UuR][UuR]\&quot;) and \</span>
@@ -521,6 +525,10 @@ than the maximum sequencing fragment size and the strands of R1 and R2 are oppos
 </pre></div>
 </div>
 </div></blockquote>
+<p>Although we set several filtering strategies, they still cannot filter out all ‘contaminations’. So we use genomic
+distance as a final filter. Filtering out those short-range interactions is better for further analysis. We provide a
+tool <code class="docutils literal notranslate"><span class="pre">imargi_distfilter.sh</span></code> to do genomic distance filter. Please read more in the
+<a class="reference internal" href="further_analysis.html"><span class="doc">further analysis instructions</span></a>.</p>
 </div>
 <div class="section" id="output-files">
 <h2>Output Files<a class="headerlink" href="#output-files" title="Permalink to this headline">¶</a></h2>
@@ -766,7 +774,7 @@ The first 7 columns are standard information, 8-18 are extra information. All th
         <a href="further_analysis.html" class="btn btn-neutral float-right" title="Further Analysis and Visualization Guides" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="quick_example.html" class="btn btn-neutral" title="Quick Start Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="quick_example.html" class="btn btn-neutral float-left" title="Quick Start Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -792,36 +800,16 @@ The first 7 columns are standard information, 8-18 are extra information. All th
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'1.0',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

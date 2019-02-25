@@ -17,34 +17,36 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Technical Notes" href="technical_note.html" />
     <link rel="prev" title="Step-by-step Illustration" href="step_by_step_illustration.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -230,27 +232,40 @@ RNA-DNA interactions. Using <code class="docutils literal notranslate"><span cla
 GTF/GFF format or any other genomic features in a simple BED file (each line is a named genomic feature). The example
 command below will generate two new gene annotation columns named as gene1 and gene2 in the output .pairs format file.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/imargi_example:/imargi imargi imargi_annotate.sh <span class="se">\</span>
-    -f pairs <span class="se">\</span>
     -A gtf <span class="se">\</span>
     -a ./ref/gencode.v24.annotation.gtf <span class="se">\</span>
+    -l gene <span class="se">\</span>
+    -f gene_id,gene_name,gene_type <span class="se">\</span>
     -C both <span class="se">\</span>
     -c gene1,gene2 <span class="se">\</span>
-    -m <span class="m">1</span> <span class="se">\</span>
+    -s rn <span class="se">\</span>
+    -m <span class="m">1</span>,1 <span class="se">\</span>
+    -G cigar1,cigar2 <span class="se">\</span>
     -i ./output/final_HEK_iMARGI.pairs.gz <span class="se">\</span>
     -o ./output/annot_final_HEK_iMARGI.pairs.gz
 </pre></div>
 </div>
-<p>There are several important arguments you can use to customize your filter.</p>
+<p>There are several important arguments you can use to customize your annotation.</p>
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">-A</span></code>: Only accept <code class="docutils literal notranslate"><span class="pre">-A</span> <span class="pre">gtf</span></code> for annotating gene with GTF file or <code class="docutils literal notranslate"><span class="pre">-A</span> <span class="pre">bed</span></code> for annotating any other genomic features
 in a simple BED format file. Default is <code class="docutils literal notranslate"><span class="pre">-A</span> <span class="pre">gtf</span></code>. <code class="docutils literal notranslate"><span class="pre">-a</span></code> give the annotation information file.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-l</span></code>: Annotation level for GTF file. GTF file has different level information, such as exon and gene body. The default
+is annotate based on gene body genomic coordinates, <code class="docutils literal notranslate"><span class="pre">-l</span> <span class="pre">gene</span></code>. If you want to strictly annotate, then use <code class="docutils literal notranslate"><span class="pre">-l</span> <span class="pre">exon</span></code>
+mode.</li>
 <li><code class="docutils literal notranslate"><span class="pre">-C</span></code>: Determine Which end to be annotated. It accepts <code class="docutils literal notranslate"><span class="pre">-C</span> <span class="pre">RNA</span></code>, <code class="docutils literal notranslate"><span class="pre">-C</span> <span class="pre">DNA</span></code> or <code class="docutils literal notranslate"><span class="pre">-C</span> <span class="pre">both</span></code>. Default is <code class="docutils literal notranslate"><span class="pre">-C</span> <span class="pre">both</span></code>, then both RNA and
 DNA ends will be annotated. The lowercase <code class="docutils literal notranslate"><span class="pre">-c</span></code> argument give the names of annotation column in the output file.
 If <code class="docutils literal notranslate"><span class="pre">-C</span> <span class="pre">both</span></code>, then you need set two column names separated with comma <code class="docutils literal notranslate"><span class="pre">,</span></code>, i.e., <code class="docutils literal notranslate"><span class="pre">-c</span> <span class="pre">gene1,gene2</span></code>. Space is not
 allowed. Don’t use the 18 reserved column names to name the annotation columns.</li>
-<li><code class="docutils literal notranslate"><span class="pre">-f</span></code>: The input and output file format. Only accept <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">pairs</span></code> or <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">bedpe</span></code>. Default is <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">pairs</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-f</span></code>: annotation feature attributes for GTF file (<code class="docutils literal notranslate"><span class="pre">-A</span> <span class="pre">gtf</span></code>). You can set it based on your GTF file content.
+Default is <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">gene_id,gene_name,gene_type</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-s</span></code>: Strand specific option. The RNA end of iMARGI is reverse-strand-specific, so we annotate its gene locus using
+its reverse strand.’s’ means strand specific, ‘r’ means reverse-strand-specific, and ‘n’ means none strand specific,
+ignoring it. So the default is <code class="docutils literal notranslate"><span class="pre">-s</span> <span class="pre">rn</span></code>.</li>
 <li><code class="docutils literal notranslate"><span class="pre">-m</span></code>: Minimum bases of overlapping for annotation. <code class="docutils literal notranslate"><span class="pre">-m</span> <span class="pre">1</span></code> means at least one base overlapping. <code class="docutils literal notranslate"><span class="pre">-m</span> <span class="pre">0</span></code> means it must be
-inside of the genomic feature.</li>
+inside of the genomic feature. If annotate both ends with <code class="docutils literal notranslate"><span class="pre">-C</span> <span class="pre">both</span></code>, then you need two values for <code class="docutils literal notranslate"><span class="pre">-m</span></code> separated by
+comma <code class="docutils literal notranslate"><span class="pre">,</span></code>, such as <code class="docutils literal notranslate"><span class="pre">-m</span> <span class="pre">1,1</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-G</span></code>: cigar information used for annotation. If you only want to annotate based on default position reported in .pairs
+file, i.e., 5’ end genomic coordinate, then set <code class="docutils literal notranslate"><span class="pre">-G</span> <span class="pre">false,false</span></code>. Default is <code class="docutils literal notranslate"><span class="pre">-G</span> <span class="pre">cigar1,cigar2</span></code>.</li>
 </ul>
 </div>
 <div class="section" id="data-format-conversion">
@@ -305,7 +320,7 @@ learn how to use it.</p>
         <a href="technical_note.html" class="btn btn-neutral float-right" title="Technical Notes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="step_by_step_illustration.html" class="btn btn-neutral" title="Step-by-step Illustration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="step_by_step_illustration.html" class="btn btn-neutral float-left" title="Step-by-step Illustration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -331,36 +346,16 @@ learn how to use it.</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'1.0',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

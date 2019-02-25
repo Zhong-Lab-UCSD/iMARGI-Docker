@@ -172,7 +172,7 @@ bwa mem -t 16 -SP5M ./ref/bwa_index/bwa_index_GRCh38 \
 
 | Type | Description/Tool | Files/Key Parameters |
 ---------|----------|---------
-**Tool** | `imargi_parse.sh` | `-r <ref_name>` <br> `-c <chromSize_file>` <br> `-R <restrict_frags_file>` <br> `-b <bam_file>` <br> `<output_dir>` <br> `-t <threads>`
+**Tool** | `imargi_parse.sh` | `-r <ref_name>` <br> `-c <chromSize_file>` <br> `-R <restrict_frags_file>` <br> `-b <bam_file>` <br> `-o <output_dir>` <br> `-t <threads>`
 **Input**  | BAM file | `.output/bwa_output/HEK_iMARGI.bam`
 **Output** | .pairs file | `./output/final_HEK_iMARGI.pairs.gz`
 
@@ -202,7 +202,7 @@ imargi_parse.sh \
     -O 3 \
     -M 1000 \
     -d false \
-    -D $output_dir/parse_temp 
+    -D $output_dir/parse_temp
 ```
 
 The core tool used in `imargi_wrapper.sh` is `pairtools`. Here are some brief descriptions of the usages of pairtools
@@ -216,6 +216,9 @@ in our work. If you want to know more, please check the [GitHub repo](https://gi
 - `pairtools select`: Filter out those read pairs which are marked as duplications, multiple mappings and 5' most end
   was not unique mapped. We used a long filter string designed for iMARGI, don't change it.
 
+There will be `pipelineStats_xx.log` file in the output directory. It reports some basic statistics of the parsing
+results, such as total number of read pairs, unique mapped read pairs and valid RNA-DNA interactions.
+
 > **Filtering strategies**
 > 
 > Besides of filtering out unmapped, duplicated and multiple mapped read pairs, we also use
@@ -228,7 +231,7 @@ in our work. If you want to know more, please check the [GitHub repo](https://gi
 >  be un-ligated RNA
 >  - dist2 < offset & dist1 < offset: sequencing fragment might be a un-ligated DNA if the distance of R1 and R2 is less
 >  than the maximum sequencing fragment size and the strands of R1 and R2 are opposite
->  - dist < offset & dist 1> offset: proper RNA-DNA ligation
+>  - dist2 < offset & dist1 > offset: proper RNA-DNA ligation
 >  
 >  The filtering argument used in pairtools is:
 > 
@@ -244,6 +247,12 @@ in our work. If you want to know more, please check the [GitHub repo](https://gi
 >          (strand1 == \"-\" and strand2 == \"+\" and int(frag1_start) >= int(frag2_start) and \
 >             abs(int(frag1_end) - int(frag2_start)) <= "$max_ligation_size"))))"  
 >  ```
+
+Although we set several filtering strategies, they still cannot filter out all 'contaminations'. So we use genomic
+distance as a final filter. Filtering out those short-range interactions is better for further analysis. We provide a
+tool `imargi_distfilter.sh` to do genomic distance filter. Please read more in the
+[further analysis instructions](./further_analysis.md).
+
 
 ## Output Files
 
