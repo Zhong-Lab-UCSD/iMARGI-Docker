@@ -69,27 +69,40 @@ command below will generate two new gene annotation columns named as gene1 and g
 
 ``` bash
 docker run -v ~/imargi_example:/imargi imargi imargi_annotate.sh \
-    -f pairs \
     -A gtf \
     -a ./ref/gencode.v24.annotation.gtf \
+    -l gene \
+    -f gene_id,gene_name,gene_type \
     -C both \
     -c gene1,gene2 \
-    -m 1 \
+    -s rn \
+    -m 1,1 \
+    -G cigar1,cigar2 \
     -i ./output/final_HEK_iMARGI.pairs.gz \
     -o ./output/annot_final_HEK_iMARGI.pairs.gz
 ```
 
-There are several important arguments you can use to customize your filter.
+There are several important arguments you can use to customize your annotation.
 
 - `-A`: Only accept `-A gtf` for annotating gene with GTF file or `-A bed` for annotating any other genomic features
   in a simple BED format file. Default is `-A gtf`. `-a` give the annotation information file.
+- `-l`: Annotation level for GTF file. GTF file has different level information, such as exon and gene body. The default
+  is annotate based on gene body genomic coordinates, `-l gene`. If you want to strictly annotate, then use `-l exon`
+  mode. 
 - `-C`: Determine Which end to be annotated. It accepts `-C RNA`, `-C DNA` or `-C both`. Default is `-C both`, then both RNA and
   DNA ends will be annotated. The lowercase `-c` argument give the names of annotation column in the output file.
   If `-C both`, then you need set two column names separated with comma `,`, i.e., `-c gene1,gene2`. Space is not
   allowed. Don't use the 18 reserved column names to name the annotation columns.
-- `-f`: The input and output file format. Only accept `-f pairs` or `-f bedpe`. Default is `-f pairs`.  
+- `-f`: annotation feature attributes for GTF file (`-A gtf`). You can set it based on your GTF file content.
+  Default is `-f gene_id,gene_name,gene_type`.
+- `-s`: Strand specific option. The RNA end of iMARGI is reverse-strand-specific, so we annotate its gene locus using
+  its reverse strand.'s' means strand specific, 'r' means reverse-strand-specific, and 'n' means none strand specific, 
+  ignoring it. So the default is `-s rn`.
 - `-m`: Minimum bases of overlapping for annotation. `-m 1` means at least one base overlapping. `-m 0` means it must be
-  inside of the genomic feature.
+  inside of the genomic feature. If annotate both ends with `-C both`, then you need two values for `-m` separated by
+  comma `,`, such as `-m 1,1`.
+- `-G`: cigar information used for annotation. If you only want to annotate based on default position reported in .pairs
+  file, i.e., 5' end genomic coordinate, then set `-G false,false`. Default is `-G cigar1,cigar2`.
 
 ## Data Format Conversion
 

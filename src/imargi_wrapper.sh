@@ -25,8 +25,10 @@ usage() {
     -O : Max offset bases for filtering pairs based on R2 5' end positions to restriction sites. Default 3.
     -M : Max size of ligation fragment for sequencing. It's used for filtering unligated DNA sequence.
     -t : Max CPU threads for parallelized processing, at least 4. (Default 8)
-    -1 : R1 fastq.gz file, if there are multiple files, just separated with space, such as -1 lane1_R1.fq lane2_R1.fq
-    -2 : R2 fastq.gz file, if there are multiple files, just separated with space, such as -1 lane1_R2.fq lane2_R2.fq
+    -1 : R1 fastq.gz file, if there are multiple files, just separated with space or use wildcard,
+         such as '-1 lane1_R1.fq.gz lane2_R1.fq.gz', or '-1  lane*_R1.fq.gz'.
+    -2 : R2 fastq.gz file, if there are multiple files, just separated with space or use wildcard,
+         such as '-2 lane1_R2.fq.gz lane2_R2.fq.gz', or '-2  lane*_R2.fq.gz'.
     -o : Output directoy
     -h : Show usage help
 EOF
@@ -47,8 +49,16 @@ while getopts :r:N:g:c:i:R:G:O:M:t:1:2:o:h opt; do
         O) offset=${OPTARG};;
         M) max_ligation_size=${OPTARG};;
         t) threads=${OPTARG};;
-        1) R1=${OPTARG};;
-        2) R2=${OPTARG};;
+        1) R1=("${OPTARG}")
+            until [[ $(eval "echo \${$OPTIND}") =~ ^-.* ]] || [ -z $(eval "echo \${$OPTIND}") ]; do
+                R1+=($(eval "echo \${$OPTIND}"))
+                OPTIND=$((OPTIND + 1))
+            done;;
+        2) R2=("${OPTARG}")
+            until [[ $(eval "echo \${$OPTIND}") =~ ^-.* ]] || [ -z $(eval "echo \${$OPTIND}") ]; do
+                R2+=($(eval "echo \${$OPTIND}"))
+                OPTIND=$((OPTIND + 1))
+            done;;
         o) output_dir=${OPTARG};;
         h) usage;;
     esac
@@ -137,14 +147,25 @@ fi
 
 date
 echo ">>>>>>>>>>>>>>>> Start cleaning fastq ..."
-imargi_clean.sh -1 $R1 -2 $R2 -o $output_dir/clean_fastq -t $threads
+R1_str=''
+for i in ${R1[@]};do
+    R1_str=$R1_str' '$i
+done
 
-date
+R2_str=''
+for i in ${R2[@]};do
+    R2_str=$R2_str' '$i
+done
 echo ">>>>>>>>>>>>>>>> Start bwa mem mapping ..."
-bwa mem -t $threads -SP5M $bwa_index \
-    $output_dir/clean_fastq/clean_$(basename $R1) \
-    $output_dir/clean_fastq/clean_$(basename $R2) |\
-    samtools view -@ $threads -Shb - >$output_dir/bwa_output/$base_name.bam
+# imargi_clean.sh -1 $R1_str -2 $R2_str -N $base_name -o $output_dir/clean_fastq -t $threads
+
+# date
+# echo ">>>>>>>>>>>>>>>> Start bwa mem mapping ..."
+
+# bwa mem -t $threads -SP5M $bwa_index \
+#     $output_dir/clean_fastq/clean_${base_name}_R1.fastq.gz \
+#     $output_dir/clean_fastq/clean_${base_name}_R2.fastq.gz | \
+#     samtools view -@ $threads -Shb - > $output_dir/bwa_output/$base_name.bam
 
 date
 echo ">>>>>>>>>>>>>>>> Start parsing valid RNA-DNA interactions ..."

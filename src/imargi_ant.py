@@ -36,7 +36,7 @@ UTIL_NAME = 'imargi_annotate'
 @click.option(
     '-l', '--ant_level',
     type=str,
-    default='gene_body',
+    default='gene',
     help='gene annotation level for GTF annotation, default is gene')
 
 @click.option(
@@ -99,17 +99,21 @@ def annotate(pairs_path, ant_format, ant_file, ant_level, ant_attr, ant_mode, an
     Annotate both RNA, DNA ends with gene annotations in GTF/GFF format or any other genomic
     features in a simple BED file (each line is a named genomic feature).
     '''
+    if strand_type == 'n' or strand_type == 'nn':
+        stranded = False
+    else:
+        stranded = True
 
     if ant_format.lower() == "gtf":
-        ant = read_gtf(ant_file, ant_level, ant_attr)
+        ant = read_gtf(ant_file, ant_level, ant_attr, stranded)
     else:
-        ant = read_bed(ant_file)
+        ant = read_bed(ant_file, stranded)
 
     annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, cigar_col, output, **kwargs)
 
-def read_gtf(ant_file, ant_level, ant_attr):
+def read_gtf(ant_file, ant_level, ant_attr, stranded = True):
     gtf = HTSeq.GFF_Reader(ant_file)
-    ant = HTSeq.GenomicArrayOfSets( "auto", stranded = True )
+    ant = HTSeq.GenomicArrayOfSets("auto", stranded = stranded)
     ant_attr = ant_attr.split(',')
     for feature in gtf:
         if feature.type == ant_level:
@@ -119,8 +123,11 @@ def read_gtf(ant_file, ant_level, ant_attr):
             ant[feature.iv] += "|".join(attrs)
     return ant
 
-def read_bed(ant_file):
-    ant = []
+def read_bed(ant_file, stranded = True):
+    bed = HTSeq.BED_Reader(ant_file)
+    ant = HTSeq.GenomicArrayOfSets("auto", stranded = stranded)
+    for feature in bed:
+        ant[ feature.iv ] += feature.name
     return ant
 
 def annotate_region(ant, chr_str, pos, strand, match_length, min_over, strand_type):  
@@ -137,25 +144,33 @@ def annotate_region(ant, chr_str, pos, strand, match_length, min_over, strand_ty
     if min_over == 0:
         min_over = match_length
 
-    if strand_type == 'r':
-        strand = '-' if strand == '+' else '+'
-    else:
-        strand = '.'
-    
-    if strand == '.':
-        region_iv = HTSeq.GenomicInterval(chr_str, start, end, '+')
-        for iv, val in ant[region_iv].steps():
-            if iv.length >= min_over:
-                ant_region |= val
-        region_iv = HTSeq.GenomicInterval(chr_str, start, end, '-')
-        for iv, val in ant[region_iv].steps():
-            if iv.length >= min_over:
-                ant_region |= val
-    else:
+    ant_stranded = ant.stranded
+
+    if ant_stranded == False:
         region_iv = HTSeq.GenomicInterval(chr_str, start, end, strand)
         for iv, val in ant[region_iv].steps():
             if iv.length >= min_over:
                 ant_region |= val
+    else:
+        if strand_type == 'r':
+            strand = '-' if strand == '+' else '+'
+        else:
+            strand = '.'
+
+        if strand == '.':
+            region_iv = HTSeq.GenomicInterval(chr_str, start, end, '+')
+            for iv, val in ant[region_iv].steps():
+                if iv.length >= min_over:
+                    ant_region |= val
+            region_iv = HTSeq.GenomicInterval(chr_str, start, end, '-')
+            for iv, val in ant[region_iv].steps():
+                if iv.length >= min_over:
+                    ant_region |= val
+        else:
+            region_iv = HTSeq.GenomicInterval(chr_str, start, end, strand)
+            for iv, val in ant[region_iv].steps():
+                if iv.length >= min_over:
+                    ant_region |= val
     if len(ant_region) > 0:
         return ','.join(ant_region)
     else:
@@ -191,15 +206,6 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
             sys.stderr.write('Annotation col names already exist in .pairs file!\n')
             raise SystemExit(1)
 
-    cigar_col = cigar_col.split(',')
-    cigar_idx = []
-    for i in cigar_col:
-        if i not in col_names and i.lower() != 'false':
-            sys.stderr.write('Cigar col names doesn\'t exist in .pairs file!\n')
-            raise SystemExit(1)
-        else:
-            cigar_idx += [col_names.index(i)]
-
     for i in strand_type:
         if i not in ['s', 'r', 'n']:
             sys.stderr.write('Invalid strand specific type for annotation!\n')
@@ -208,6 +214,17 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
         header[-1] = header[-1] + ' ' + ' '.join(ant_col)
     else:
         header[-1] = header[-1] + ' ' + ant_col[0]
+
+    min_over = [int(i) for i in min_over.split(',')]
+
+    cigar_col = cigar_col.split(',')
+    cigar_idx = []
+    for i in cigar_col:
+        if i not in col_names and i.lower() != 'false':
+            sys.stderr.write('Cigar col names doesn\'t exist in .pairs file!\n')
+            raise SystemExit(1)
+        else:
+            cigar_idx += [col_names.index(i)]
 
     outstream.writelines(l + '\n' for l in header)
 
@@ -221,7 +238,7 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
                 match_length1 = 1
             else:
                 match_length1 = sum([i.ref_iv.length for i in HTSeq.parse_cigar(cigar1)])            
-            ant_str = annotate_region(ant, chrom1, pos1, strand1, match_length1, min_over, strand_type[0])
+            ant_str = annotate_region(ant, chrom1, pos1, strand1, match_length1, min_over[0], strand_type[0])
         elif ant_mode.lower() == 'dna':
             chrom2, pos2, strand2, cigar2 = cols[_pairsam_format.COL_C2], int(cols[_pairsam_format.COL_P2]), \
                 cols[_pairsam_format.COL_S2], cols[cigar_idx[0]]
@@ -229,7 +246,7 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
                 match_length2 = 1
             else:
                 match_length2 = sum([i.ref_iv.length for i in HTSeq.parse_cigar(cigar2)])    
-            ant_str = annotate_region(ant, chrom2, pos2, strand2, match_length2, min_over, strand_type[0])
+            ant_str = annotate_region(ant, chrom2, pos2, strand2, match_length2, min_over[0], strand_type[0])
         else:
             chrom1, pos1, strand1, cigar1 = cols[_pairsam_format.COL_C1], int(cols[_pairsam_format.COL_P1]), \
                 cols[_pairsam_format.COL_S1], cols[cigar_idx[0]]
@@ -237,7 +254,7 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
                 match_length1 = 1
             else:
                 match_length1 = sum([i.ref_iv.length for i in HTSeq.parse_cigar(cigar1)])            
-            ant_str = annotate_region(ant, chrom1, pos1, strand1, match_length1, min_over, strand_type[0])
+            ant_str = annotate_region(ant, chrom1, pos1, strand1, match_length1, min_over[0], strand_type[0])
             chrom2, pos2, strand2, cigar2 = cols[_pairsam_format.COL_C2], int(cols[_pairsam_format.COL_P2]), \
                 cols[_pairsam_format.COL_S2], cols[cigar_idx[1]]
             if cigar_idx[1] == 'false':
@@ -245,7 +262,7 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
             else:
                 match_length2 = sum([i.ref_iv.length for i in HTSeq.parse_cigar(cigar2)])    
             ant_str += _pairsam_format.PAIRSAM_SEP + \
-                annotate_region(ant, chrom2, pos2, strand2, match_length2, min_over, strand_type[1])
+                annotate_region(ant, chrom2, pos2, strand2, match_length2, min_over[1], strand_type[1])
         
         outstream.write(_pairsam_format.PAIRSAM_SEP.join([line.rstrip(), ant_str]))
         outstream.write('\n')

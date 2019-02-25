@@ -45,7 +45,7 @@ EOF
     exit 1
 }
 
-while getopts :A:a:l:f:C:c:s:m:G:i:o:h opt; do
+while getopts :A:a:l:f:C:c:s:m:G:t:i:o:h opt; do
     case $opt in
         A) ant_format=${OPTARG};;
         a) ant_file=${OPTARG};;
@@ -56,11 +56,60 @@ while getopts :A:a:l:f:C:c:s:m:G:i:o:h opt; do
         s) strand_type=${OPTARG};;
         m) min_over=${OPTARG};;
         G) cigar_col=${OPTARG};;
+        t) threads=${OPTARG};;
         i) input_file=${OPTARG};;
         o) output_file=${OPTARG};;
         h) usage;;
     esac
 done
+
+[ -z "$ant_format" ] && echo "Error!! Please provide annotation file format with -A" && usage
+if ! [[ "${ant_format,,}" == "bed" ||  "${ant_format,,}" == "gtf" ]]; then
+     echo "Error!! The format $ant_format is not acceptable, only gtf or bed are allowed." && usage
+fi
+
+[ ! -f "$ant_file" ] && echo "Error!! Annotation file not exist: "$ant_file && usage
+[ ! -f "$input_file" ] && echo "Error!! Input .pairs file not exist: "$input_file && usage
+[ -f "$output_file" ] && echo "Error!! Output file already exist: "$output_file && usage
+
+[ -z "$ant_level" ] && echo "Use default annotation level of GTF file: gene body" && ant_level="gene"
+[ -z "$ant_attr" ] && echo "Use default annotation attributes of GTF file: gene_id,gene_name,gene_type" \
+     && ant_attr="gene_id,gene_name,gene_type"
+
+if ! [[ "${ant_format,,}" == "gtf" ]]; then
+     echo "GTF annotation level: "$ant_level
+     echo "GTF annotation attributes: "$ant_attr
+fi
+
+[ -z "$ant_mode" ] && ant_mode="both" 
+if ! [[ "${ant_mode,,}" == "both" ||  "${ant_mode,,}" == "rna" || "${ant_mode,,}" == "dna"  ]]; then
+     echo "Error!! Wrong annotation mode $ant_mode! Only both, rna or dna are allowed." && usage
+fi
+echo "Annotation mode: "$ant_mode
+
+[ -z "$cigar_col" ] && cigar_col="cigar1,cigar2"
+[ -z "$ant_col" ] && ant_col="gene1,gene2"
+[ -z "$min_over" ] && min_over="1,1"
+[ -z "$strand_type" ] && strand_type="rn"
+[ -z "$threads" ] && threads=8
+if ! [[ "$threads" =~ ^[0-9]+$ ]]; then
+    echo "Error!! Only integer number is acceptable for -t" && usage 
+fi
+
+if [[ "${ant_mode,,}" == "both" ]]; then
+     if ! [[ "$ant_col" =~ ^[^,]+,[^,]+$ ]]; then
+          echo "Error!! Two annotation col names are required for 'both' mode with '-c', separated by ','." && usage 
+     fi
+     if ! [[ "$min_over" =~ ^[0-9]+,[0-9]+$ ]]; then
+          echo "Error!! Two minimum overlap thresholds are required for 'both' mode with '-m'." && usage 
+     fi
+     if ! [[ "$cigar_col" =~ ^[^,]+,[^,]+$ ]]; then
+          echo "Error!! Two cigar info columnss are required for 'both' mode with '-G'." && usage 
+     fi
+     if ! [[ "$strand_type" =~ ^[srn][srn]$ ]]; then
+          echo "Error!! Two characters for strand specific options are required for 'both' mode, such as 'rn'." && usage 
+     fi
+fi
 
 imargi_ant.py \
      --ant_format $ant_format \
@@ -72,5 +121,7 @@ imargi_ant.py \
      --strand_type $strand_type \
      --min_over $min_over \
      --cigar_col $cigar_col \
+     --nproc-in $(($threads/3+1)) \
+     --nproc-out $(($threads-$threads/3-1)) \
      --output $output_file \
      $input_file
