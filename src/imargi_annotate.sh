@@ -111,6 +111,9 @@ if [[ "${ant_mode,,}" == "both" ]]; then
      fi
 fi
 
+echo ">>>>>>>>>> Start annotating: ..."
+date
+
 imargi_ant.py \
      --ant_format $ant_format \
      --ant_file $ant_file \
@@ -125,3 +128,6 @@ imargi_ant.py \
      --nproc-out $(($threads-$threads/3-1)) \
      --output $output_file \
      $input_file
+
+date
+echo "<<<<<<<<<< Finished: annotation. "

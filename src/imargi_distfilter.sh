@@ -55,13 +55,14 @@ tmp_output=$output_file"_"$RANDOM
 tmp_filterOut=$filterOut_file"_"$RANDOM
 commandline=$PROGNAME" -D "$dis_type" -d "$dis_thres" -F "$filter_flag" -i "$input_file" - o "$output_file
 
+echo ">>>>>>>>>> Start: Filter "$input_file" based on "$dis_type" genomic distance ..."
 date
 
-echo "Filter "$input_file" based on "$dis_type" genomic distance ..."
 zcat $input_file |\
     awk  -v dis_type="$dis_type" -v filter_flag="$filter_flag" -v dis_thres="$dis_thres" \
     -v commandline="$commandline" -v output_file="$tmp_output" -v filterOut_file="$tmp_filterOut" \
     'BEGIN{OFS="\t"}{
+        if(NR % 1000000 == 0){print NR" records processed ..."}
         if($0 ~ /^#/){
             if($0 ~/^#columns/){
                 print "#samheader: @PG ID:imargi_distfilter.sh\tPN:imargi_distfilter.sh\tCL:"commandline > output_file;
@@ -171,6 +172,5 @@ pbgzip -t 0 -c $tmp_output > $output_file
 pbgzip -t 0 -c $tmp_filterOut > $filterOut_file
 rm $tmp_output
 rm $tmp_filterOut
-echo "Genomic distance filtering finished."
 date
-exit
+echo "<<<<<<<<<< Finished: Genomic distance filtering."

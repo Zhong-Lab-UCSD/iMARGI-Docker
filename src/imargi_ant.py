@@ -105,8 +105,10 @@ def annotate(pairs_path, ant_format, ant_file, ant_level, ant_attr, ant_mode, an
         stranded = True
 
     if ant_format.lower() == "gtf":
+        print("Loading GTF annotation file ... ")
         ant = read_gtf(ant_file, ant_level, ant_attr, stranded)
     else:
+        print("Loading BED annotation file ... ")
         ant = read_bed(ant_file, stranded)
 
     annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, cigar_col, output, **kwargs)
@@ -227,8 +229,12 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
             cigar_idx += [col_names.index(i)]
 
     outstream.writelines(l + '\n' for l in header)
-
+    count_line = 1
     for line in body_stream:
+        if count_line % 1000000 == 0:
+            print("%d records processed ..." % count_line)
+        count_line += 1
+
         cols = line.rstrip().split(_pairsam_format.PAIRSAM_SEP)
         
         if ant_mode.lower() == 'rna':

@@ -45,9 +45,9 @@ fi
 [ ! -f "$input_file" ] && echo "Error!! Input file not exist: "$input_file && usage
 [ -f "$output_file" ] && echo "Error!! Output file already exist: "$output_file && usage
 
+echo ">>>>>>>>>> Start: Stats "$input_file" based on "$dis_type" genomic distance"
 date
 
-echo "Stats "$input_file" based on "$dis_type" genomic distance ..."
 pbgzip -c -d $input_file |\
     gawk  -v dis_type="$dis_type" -v dis_thres="$dis_thres" \
     -v input_file="$input_file"  \
@@ -61,6 +61,7 @@ pbgzip -c -d $input_file |\
             distal_count[dis_arr[i]]=0;
         };
     }{
+        if(NR % 1000000 == 0){print NR" records processed ..." > "/dev/stderr" }
         if($0 !~ /^#/){
             total_count+=1;
             if($2!=$4){
@@ -174,5 +175,5 @@ pbgzip -c -d $input_file |\
     }' >$output_file
 
 
-echo "Stats finished."
 date
+echo "<<<<<<<<<< Finished: Stats."

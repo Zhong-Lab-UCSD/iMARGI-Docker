@@ -9,7 +9,8 @@ usage() {
     This script can convert .pairs format to BEDPE, .cool, and GIVE interaction format.
     -f : The target format, only accept 'cool', 'bedpe' and 'give'. For 'cool', it will generate
          a ".cool" file with defined resolution of -b option and a multi-resolution ".mcool" file
-         based on the ".cool" file.
+         based on the ".cool" file. For 'bedpe', the output will be pbgzip compressed file. So
+         keep in mind to name the output_file '-o' with '.gz' extesion.
     -k : Keep extra information column in BEDPE. Columns ids in .pairs file you want to keep.
          For example, 'cigar1,cigar2'. Default value is "", i.e., drop all extra cols.
     -b : bin size for cool format. Default is 5000.
@@ -37,9 +38,11 @@ done
 [ -f "$output_file" ] && echo "Error!! Output file already exist: "$output_file && usage
 
 if [ "$format" == "bedpe" ]; then
-    echo "Convert .pairs format "$input_file" to BEDPE format "$output_file" ..."
+    echo ">>>>>>>>> Start: Convert .pairs format $input_file to BEDPE format $output_file ..."
+    date
     zcat $input_file | \
         awk  -v keep_cols="$keep_cols" 'BEGIN{OFS="\t"}{
+            if(NR % 1000000 == 0){print NR" records processed ..." > "/dev/stderr" }
             if($1 == "#columns:"){
                 header="#chrom1\tstart1\tend1\tchrom2\tstart2\tend2\tname\tscore\tstrand1\tstrand2";
                 split(keep_cols, arr_keep, ",");
@@ -118,13 +121,15 @@ if [ "$format" == "bedpe" ]; then
                 };
                 print $2, start1, end1, $4, start2, end2, $1, 1, $6, $7, extra_info;
             }
-        }' | gzip >$output_file
+        }' |pbgzip -t 0 -c >$output_file
 fi
 
 if [ "$format" == "give" ]; then
-    echo "Convert .pairs format "$input_file" to GIVE interaction format "$output_file" ..."
+    echo ">>>>>>>>> Start: Convert .pairs format $input_file to GIVE interaction format $output_file ..."
+    date
     zcat $input_file | \
         awk  -v drop_cols="$drop_cols" 'BEGIN{OFS="\t"; count=1;}{
+            if(NR % 1000000 == 0){print NR" records processed ..." > "/dev/stderr" }
             if(!($0 ~ /^#/)){
                 type_n1=split(gensub("[0-9]+", "", "g", $11), type1, "");
                 val_n1=split($11, val1, "[A-Z=]"); 
@@ -181,7 +186,8 @@ if [ "$format" == "give" ]; then
 fi
 
 if [ "$format" == "cool" ]; then
-    echo "Convert .pairs format "$input_file" to cool format "$output_file" in "$bin_size" resolution ..."
+    echo ">>>>>>>>> Start: Convert .pairs format $input_file to cool format $output_file in $bin_size resolution ..."
+    date
     chrom_size="chromsize."$RANDOM
 
     zcat $input_file | awk 'BEGIN{OFS="\t"}{if($0 !~ /^#/){exit;}; if($0 ~/^#chromsize/){print $2, $3};}' > $chrom_size
@@ -191,3 +197,6 @@ if [ "$format" == "cool" ]; then
     cooler zoomify $output_file
     rm $chrom_size
 fi
+
+date
+echo "<<<<<<<<<< Finished: conversion."

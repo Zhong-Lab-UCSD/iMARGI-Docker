@@ -64,7 +64,6 @@ for i in ${R2[@]};do
     R2_str=$R2_str' '$i
 done
 
-echo $output_dir
 [ ! -d "$output_dir" ] && echo "Error!! Output directory not exist: "$output_dir && usage
 
 [  -z "$threads" ] && echo "Use default thread number 8'." && threads=2
@@ -79,7 +78,13 @@ clean_R2=$output_dir"/clean_"$base_name"_R2.fastq.gz"
 [ -f "$clean_R2" ] && echo "Error!! Output clean fastq file exists: "$clean_R2 && usage
 
 t_pbgzip=$(( $threads - 1 ))
-echo "Start: remove first 2 bases of reads $R1 using $threads CPU threads, 
-        $R1 and $R2 will be copied (merge if needed) to $output_dir as $clean_R2 ..."
+
+echo "Start cleaning:"
+
+echo "\tRemove first 2 bases of R1 reads and merge:\n\t\t$R1"
 zcat $R1_str | seqtk trimfq -b 2 - | pbgzip -n $t_pbgzip -t 0 -c  > $clean_R1
+
+echo "\tCopy and merge (if needed) R2 reads:\n\t\t$R2"
 cat $R2_str > $clean_R2
+
+echo "Finished: cleaned fastq files are:\n $output_dir/$clean_R1 and $output_dir/$clean_R2"

@@ -164,7 +164,8 @@ echo ">>>>>>>>>>>>>>>> Start bwa mem mapping ..."
 
 bwa mem -t $threads -SP5M $bwa_index \
     $output_dir/clean_fastq/clean_${base_name}_R1.fastq.gz \
-    $output_dir/clean_fastq/clean_${base_name}_R2.fastq.gz | \
+    $output_dir/clean_fastq/clean_${base_name}_R2.fastq.gz \
+    2>$output_dir/bwa_output/bwa_log_$base_name.txt | \
     samtools view -@ $threads -Shb - > $output_dir/bwa_output/$base_name.bam
 
 date
