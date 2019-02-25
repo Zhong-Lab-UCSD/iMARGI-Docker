@@ -112,16 +112,18 @@ if [ "$format" == "bedpe" ]; then
                     end2=$5; start2 = end2 - mval2[length(mval2)];
                 };
                 extra_info="";
-                for(i in extra_cols){
-                    if(extra_info==""){
-                        extra_info=$i; 
-                    }else{
-                        extra_info=extra_info"\t"$i
+                if(length(extra_cols)>0){
+                    for(i in extra_cols){
+                        if(extra_info==""){
+                            extra_info=$i; 
+                        }else{
+                            extra_info=extra_info"\t"$i
+                        };
                     };
-                };
-                print $2, start1, end1, $4, start2, end2, $1, 1, $6, $7, extra_info;
+                    print $2, start1, end1, $4, start2, end2, $1, 1, $6, $7, extra_info;
+                }else{print $2, start1, end1, $4, start2, end2, $1, 1, $6, $7}
             }
-        }' |pbgzip -t 0 -c >$output_file
+        }' | pbgzip -t 0 -c >$output_file
 fi
 
 if [ "$format" == "give" ]; then
