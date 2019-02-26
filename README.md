@@ -172,6 +172,7 @@ reference genome FASTA file is. Here is the final directory structure after comp
     │       └── bwa_index_hg38.sa
     └── output
         ├── bwa_output
+        │   ├── bwa_log_test_sample.txt
         │   └── test_sample.bam
         ├── clean_fastq
         │   ├── clean_sample_R1.fastq.gz
@@ -182,9 +183,10 @@ reference genome FASTA file is. Here is the final directory structure after comp
         │   ├── duplication_test_sample.pairs.gz
         │   ├── sorted_all_test_sample.pairs.gz
         │   ├── stats_dedup_test_sample.txt
+        │   ├── stats_final_test_sample.txt
         │   └── unmapped_test_sample.pairs.gz
         ├── final_test_sample.pairs.gz
-        └── stats_final_test_sample.txt
+        └── pipelineStats_test_sample.log
 ```
 
 ## License

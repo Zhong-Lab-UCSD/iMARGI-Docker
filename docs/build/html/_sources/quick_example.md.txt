@@ -148,6 +148,7 @@ detail, please check the [Step-by-step Illustration](./step_by_step_illustration
     │       └── bwa_index_hg38.sa
     └── output
         ├── bwa_output
+        │   ├── bwa_log_HEK_iMARGI.txt
         │   └── HEK_iMARGI.bam
         ├── clean_fastq
         │   ├── clean_SRR8206679_1.fastq.gz
