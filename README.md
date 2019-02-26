@@ -32,6 +32,14 @@ This repo hosts the iMARGI-Docker source code with brief introductions. For more
 analysis using iMARGI-Docker, please read our online comprehensive
 [**documentation**](https://sysbio.ucsd.edu/imargi_pipeline).
 
+We hope every user can perform the iMARGI pipeline with iMARGI-Docker. However, some old machines or operating systems
+might not support Docker technique, so users have to configure all the tools used in the pipeline to run it locally.
+It can only be done on Linux/MacOS or Windows Subsystem of Linux (WSL), and it's not easy. Please read the
+[installation dependencies section of iMARGI pipeline documentation](https://sysbio.ucsd.edu/imargi_pipeline/installation.html)
+for details. Users might need root access and have some system administration experience to successfully complete it.
+
+If you encounter any problems, please creating issues in this GitHub repo.
+
 ## Repo Contents
 
 - src: source code, such as the Dockerfile of iMARGI-Docker
@@ -56,16 +64,29 @@ the following specs:
 
 iMARGI-Docker only requires Docker. You can use Docker [Community Edition (CE)](https://docs.docker.com/install/) or
 [Enterprise Edition (EE)](https://docs.docker.com/ee/). Docker supports all the mainstream OS, such as Linux, Windows
-and Mac. For how to install and configure Docker, please read the
+and MacOS. For how to install and configure Docker, please read the
 [official documentation of Docker](https://docs.docker.com/).
 
+We recommend using Linux system, because its filesystem is better for large file processing. All the example command
+lines here and in the documentation are ran on a Linux system. Most of time, the operations in MacOS is the same as in
+Linux system, as it's also a Unix system. However, if you are using Windows system, some command lines need to be
+modified. Besides, you need to configure the CPU and memory settings of Docker on Windows system.
+
 ### Installation
+
+We recommend pulling the iMARGI-Docker image from Docker Hub. You can also re-build it on your own machine with the
+source files in `src` folder.
+
+If you cannot use Docker, please read the
+[installation section of iMARGI pipeline documentation](https://sysbio.ucsd.edu/imargi_pipeline/installation.html) for
+alternative instructions.
 
 #### Pull from Docker Hub
 
 When Docker was installed, it's easy to install iMARGI-Docker by pulling from
-[Docker Hub](https://hub.docker.com/r/zhonglab/imargi). It takes about 10 seconds to install, which depends on your
-network speed.
+[Docker Hub](https://hub.docker.com/r/zhonglab/imargi). The latest version of iMARGI-Docker image in Docker
+Hub is based on the most recent released stable version. It takes about 10 seconds to
+install, which depends on your network speed.
 
 ``` bash
 docker pull zhonglab/imargi
@@ -73,9 +94,11 @@ docker pull zhonglab/imargi
 
 #### Build with Dockerfile
 
-We provided all the source code for building iMARGI-Docker in the [`src`](./src/) folder, including Dockerfile and all
-the script tools. So you can modify and rebuild your own Docker image. It will take about several minutes to build,
-which depends on your computer performance and network speed.
+Instead of pulling from Docker Hub, you can also build the iMARGI-Docker on your own computer. We provided all the
+source code for building iMARGI-Docker in the [`src`](./src/) folder, including Dockerfile and all the script tools.
+You can download the most recent stable release or `git clone` from the master branch. So you can modify and rebuild
+your own iMARGI-Docker image. It will take about several minutes to build, which depends on your computer performance
+and network speed. The stable release is v1.0, which is the master branch.
 
 ## Software Testing Demo
 
@@ -92,7 +115,8 @@ We use the reference genome used by
 [ENCODE project](https://www.encodeproject.org/data-standards/reference-sequences/). The FASTA file of the reference
 genome is too large for us to host it in GitHub repo. You can be download it use the link:
 [GRCh38_no_alt_analysis_set_GCA_000001405.15](https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/@@download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz).
-It needs to be decompressed using `gunzip -d` command.
+It needs to be decompressed using `gunzip -d` command on Linux/MacOS. If your system is Windows, you can use 7Zip
+software to decompress the `.gz` file. Besides, you can also use the `gunzip` tool delivered in iMARGI-Docker.
 
 We assume that you put the data and reference files in the following directory structure.
 
@@ -111,7 +135,8 @@ We assume that you put the data and reference files in the following directory s
 We can use one command line to perform the whole pipeline to the testing data.
 
 ``` bash
-docker run -u 1043 -v ~/imargi_example:/imargi imargi imargi_wrapper.sh \
+docker run -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
+    imargi_wrapper.sh \
     -r hg38 \
     -N test_sample \
     -t 4 \
@@ -126,9 +151,19 @@ docker run -u 1043 -v ~/imargi_example:/imargi imargi imargi_wrapper.sh \
 - `-u 1043`: Run docker with your own UID of your Linux system (use `id` command to check your UID) to avoid file/dir
   permission problem.
 
+- `-v ~/imargi_example:/imargi`: It mounts the `~/imargi_example` directory in your host machine to workspace of the
+  running docker container. The path must be a full path. The example was ran on a Linux computer. If you ran it on a
+  Windows  computer, the path is a little different. For example, Windows path `D:\test\imargi_example` needs to be
+  rewritten as `/d/test/imargi_example`, so the `-v` argument needs to be `-v /d/test/imargi_example:/imargi`. When you
+  executed it on Windows, a window might pop up to verify that you want to share the folder.
+
+- The command line is long, so `\` was used for splitting it into multiple lines in the example. It's a Linux or MacOS
+  style. However, in Windows, you need to replace `\` with `^`.
+
 - Building bwa index costs the most running time. If you have human genome bwa index built before, you can supply it
   with `-i` argument. See more details in the
   [documentation of command line API section](https://sysbio.ucsd.edu/imargi_pipeline/commandline_api.html#imargi-wrapper-sh)
+`
 
 ### Testing Results
 
@@ -162,7 +197,7 @@ reference genome FASTA file is. Here is the final directory structure after comp
     ├── ref
     │   ├── GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta
     │   ├── GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.fai
-    │   ├── chrom.sizes.hg38.txt
+    │   ├── chromsize.hg38.txt
     │   ├── AluI_frags.bed.gz
     │   └── bwa_index
     │       ├── bwa_index_hg38.amb

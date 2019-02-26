@@ -35,8 +35,6 @@ EOF
     exit 1
 }
 
-# imargi_wrapper.sh -r hg38 -N HEK_iMARGI -c ../imargi_example/ref/hg38.chrom.sizes  -i ../imargi_example/ref/bwa_index/bwa_index_GRCh38 -R ../ref/iMARGI_AluI_rsites.bed.gz -t 16 -1 test_R1.fastq.gz  -2 test_R2.fastq.gz  -o ./wrapper_output
-
 while getopts :r:N:g:c:i:R:G:O:M:t:1:2:o:h opt; do
     case $opt in
         r) ref_name=${OPTARG};;
@@ -109,9 +107,9 @@ if [ ! -z "$ref_fa" ]; then
         echo ">>>>>>>>>>>>>>>> Ref: no chromsize argument. Start generating chromsize file from "$ref_fa" ..."
         [ ! -f "$ref_fa" ] && echo "Error!! Reference genome fasta file not exist: "$ref_fa && usage
         ref_dir=$(dirname "$ref_fa")
-        cd $ref_dir && samtools faidx $(basename "$ref_fa") && cd -
-        awk 'BEGIN{OFS="\t"}{print $1,$2}' "$ref_fa".fai > $ref_dir/chromsize.txt
-        chromsize=$ref_dir"/chromsize.txt"
+        samtools faidx $ref_fa
+        awk 'BEGIN{OFS="\t"}{print $1,$2}' "$ref_fa".fai > $ref_dir/chromsize.$ref_name.txt
+        chromsize=$ref_dir"/chromsize.$ref_name.txt"
     else
         [ ! -f "$chromsize" ] && echo "Error!! Chomosome size file not exist: "$chromsize && usage
         date

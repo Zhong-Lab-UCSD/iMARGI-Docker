@@ -81,10 +81,13 @@ t_pbgzip=$(( $threads - 1 ))
 
 echo "Start cleaning:"
 
-echo "\tRemove first 2 bases of R1 reads and merge:\n\t\t$R1"
+echo "    Remove first 2 bases of R1 reads and merge:"
+echo "        $R1"
 zcat $R1_str | seqtk trimfq -b 2 - | pbgzip -n $t_pbgzip -t 0 -c  > $clean_R1
 
-echo "\tCopy and merge (if needed) R2 reads:\n\t\t$R2"
+echo "    Copy and merge (if needed) R2 reads:"
+echo "        $R2"
 cat $R2_str > $clean_R2
 
-echo "Finished: cleaned fastq files are:\n $output_dir/$clean_R1 and $output_dir/$clean_R2"
+echo "Finished: cleaned fastq files are:"
+echo "    $output_dir/$clean_R1 and $output_dir/$clean_R2"
