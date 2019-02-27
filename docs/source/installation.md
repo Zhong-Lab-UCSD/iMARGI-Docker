@@ -72,7 +72,7 @@ cd /tmp && wget http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.9.4/sratoolkit.2.9.4
 
 apt-get install -y python3-dev libopenblas-dev python3-pip
 pip3 install numpy cython scipy pandas click
-pip3 install pairtools cooler
+pip3 install pairtools cooler HTSeq
 
 cp ./src/imargi_* /usr/local/bin/
 chmod +x /usr/local/bin/imargi_*
