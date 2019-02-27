@@ -112,10 +112,10 @@ To test whether you have successfully installed iMARGI-Docker, you can follow in
 #### iMARGI sequencing data (paired FASTQ)
 
 As real iMARGI sequencing data are always very big, so we randomly extracted a small chunk of real data for software
-testing. The data can be found in [`data`](./data/) folder. Please download them to your computer.
+testing. The data can be downloaded from the following links.
 
-- [R1 reads](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/raw/master/data/sample_R1.fastq.gz)
-- [R2 reads](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/raw/master/data/sample_R2.fastq.gz)
+- [R1 reads](https://sysbio.ucsd.edu/imargi_pipeline/sample_R1.fastq.gz)
+- [R2 reads](https://sysbio.ucsd.edu/imargi_pipeline/sample_R2.fastq.gz)
 
 #### Reference genome data (FASTA)
 
