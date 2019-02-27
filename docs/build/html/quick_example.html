@@ -17,34 +17,36 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Step-by-step Illustration" href="step_by_step_illustration.html" />
     <link rel="prev" title="Tools and Installation" href="installation.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -219,7 +221,7 @@ example. The relatd data can be accessed in GEO database by
 in NCBI SRA database with accession number <a class="reference external" href="https://www.ncbi.nlm.nih.gov/sra?term=SRX5026004">SRR8206679</a>. So it can be
 downloaded and prepared by fastq-dump tool. Then we can get the iMARGI sequencing data in a pair of compressed FASTQ
 format files, <code class="docutils literal notranslate"><span class="pre">SRR8206679_1.fastq.gz</span></code> and <code class="docutils literal notranslate"><span class="pre">SRR8206679_2.fastq.gz</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/imargi_example:/imargi imargi fastq-dump --gzip --split-3 SRR8206679
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/imargi_example:/imargi zhonglab/imargi fastq-dump --gzip --split-3 SRR8206679
 
 <span class="nb">cd</span> ~/imargi_example
 mv ./SRR8206679_*.fastq.gz ./data
@@ -265,7 +267,7 @@ requirements, which are sequencing reads data in FASTQ format and reference geno
 We used ‘-N HEK_iMARGI’ argument to set base name for all the result files.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~/imargi_example
 mkdir ./output
-docker run -v ~/imargi_example:/imargi imargi imargi_wrapper.sh <span class="se">\</span>
+docker run -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh <span class="se">\</span>
     -r hg38 <span class="se">\</span>
     -N HEK_iMARGI <span class="se">\</span>
     -t <span class="m">16</span> <span class="se">\</span>
@@ -276,6 +278,15 @@ docker run -v ~/imargi_example:/imargi imargi imargi_wrapper.sh <span class="se"
 </pre></div>
 </div>
 <p>As the size of sequencing data is very large (more than 350 million read pairs), it will cost about 12 hours to process.</p>
+<p><em>Tips</em>:</p>
+<ul class="simple">
+<li>The command will automatically generate bwa index files based on the ref genome supplied by <code class="docutils literal notranslate"><span class="pre">-g</span></code> argument, which needs
+more than 1 hour. If you have pre-built bwa index files, you can supply it with <code class="docutils literal notranslate"><span class="pre">-i</span></code> argument.</li>
+<li>If you are using Windows or MacOS, you need to use pre-built bwa index files with <code class="docutils literal notranslate"><span class="pre">-i</span></code> argument. otherwise, it will
+fail in the <code class="docutils literal notranslate"><span class="pre">bwa</span> <span class="pre">index</span></code> process. We provide Human hg38 bwa index files on our server
+(<a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/bwa_index.tar.gz">link to download</a>). In fact, if you are familiar with
+Docker volume usage, you can find a solution in the <a class="reference internal" href="technical_note.html"><span class="doc">technical note document</span></a></li>
+</ul>
 </div>
 <div class="section" id="output-of-imargi-pipeline">
 <h2>Output of iMARGI Pipeline<a class="headerlink" href="#output-of-imargi-pipeline" title="Permalink to this headline">¶</a></h2>
@@ -323,7 +334,7 @@ detail, please check the <a class="reference internal" href="step_by_step_illust
 </pre></div>
 </div>
 <p><strong>Reference:</strong></p>
-<p><small><a class="reference external" href="#a1">[1]</a> <span id="f1"></span> Yan, Z. et al. Genome-wide co-localization of RNA-DNA interactions and fusion RNA pairs. bioRxiv 472019 (2018). doi:10.1101/472019</small></p>
+<p><small><a class="reference external" href="#a1">[1]</a> <span id="f1"></span> Yan, Z. et al. Genome-wide co-localization of RNA-DNA interactions and fusion RNA pairs. PNAS February 19, 2019, 116 (8) 3328-3337. https://doi.org/10.1073/pnas.1819788116</small></p>
 </div>
 </div>
 
@@ -338,7 +349,7 @@ detail, please check the <a class="reference internal" href="step_by_step_illust
         <a href="step_by_step_illustration.html" class="btn btn-neutral float-right" title="Step-by-step Illustration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="installation.html" class="btn btn-neutral" title="Tools and Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral float-left" title="Tools and Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -364,36 +375,16 @@ detail, please check the <a class="reference internal" href="step_by_step_illust
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'1.0',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

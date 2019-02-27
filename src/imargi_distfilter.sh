@@ -16,7 +16,7 @@ usage() {
     -d : The distance threshold for filtering. Default is 200000 (distance <200000 will be filtered out).
     -F : How to deal with the interactions need to be filtered out? '-F' accepts 'drop' and 'output'. 'drop' means
          drop those interactions. 'output' means output an new file of all the filtered out interactions with prefix
-         'filterOut_'. Default is 'drop'.
+         'filterOut_'. Default is 'output'.
     -i : Input .pairs.gz file.
     -o : Output .pairs.gz file.
     -h : Show usage help
@@ -44,7 +44,7 @@ if ! [[ "$dis_thres" =~ ^[0-9]+$ ]]; then
     echo "Error!! Only integer number is acceptable for -d" && usage 
 fi
 [ -z "$filter_flag" ] && filter_flag="output"
-if [[ "$filter_flag" != "output" ]] && [[ "$dflag" != "drop" ]]; then
+if [[ "$filter_flag" != "output" ]] && [[ "$filter_flag" != "drop" ]]; then
     echo "Error!! Only 'output' or 'drop' is acceptable for -F." && usage
 fi
 [ ! -f "$input_file" ] && echo "Error!! Input file not exist: "$input_file && usage
@@ -169,8 +169,12 @@ zcat $input_file |\
     }'
 
 pbgzip -t 0 -c $tmp_output > $output_file
-pbgzip -t 0 -c $tmp_filterOut > $filterOut_file
 rm $tmp_output
-rm $tmp_filterOut
+
+if [[ "$filter_flag" == "output" ]] ; then
+    pbgzip -t 0 -c $tmp_filterOut > $filterOut_file
+    rm $tmp_filterOut
+fi
+
 date
 echo "<<<<<<<<<< Finished: Genomic distance filtering."

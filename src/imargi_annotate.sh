@@ -9,7 +9,7 @@ usage() {
                 [-m <min_overlap>] [-G <cigar>]
                 [-t <threads>] [-i <input_file>] [-o <output_file>]
 
-    Dependency: gzip, awk, cool, BEDOPS
+    Dependency: gzip, pairtools, lz4 pbgzip
 
     This script can annotate both RNA and DNA ends with gene annotations in GTF/GFF format or any other genomic
     features in a simple BED file (each line is a named genomic feature). Multiple overlapped annotation features are

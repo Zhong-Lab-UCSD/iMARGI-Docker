@@ -17,33 +17,35 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="Technical Notes" href="technical_note.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -186,8 +188,10 @@
     -O : Max offset bases for filtering pairs based on R2 5&#39; end positions to restriction sites. Default 3.
     -M : Max size of ligation fragment for sequencing. It&#39;s used for filtering unligated DNA sequence.
     -t : Max CPU threads for parallelized processing, at least 4. (Default 8)
-    -1 : R1 fastq.gz file, if there are multiple files, just separated with space, such as -1 lane1_R1.fq lane2_R1.fq
-    -2 : R2 fastq.gz file, if there are multiple files, just separated with space, such as -1 lane1_R2.fq lane2_R2.fq
+    -1 : R1 fastq.gz file, if there are multiple files, just separated with space or use wildcard,
+         such as &#39;-1 lane1_R1.fq.gz lane2_R1.fq.gz&#39;, or &#39;-1  lane*_R1.fq.gz&#39;.
+    -2 : R2 fastq.gz file, if there are multiple files, just separated with space or use wildcard,
+         such as &#39;-2 lane1_R2.fq.gz lane2_R2.fq.gz&#39;, or &#39;-2  lane*_R2.fq.gz&#39;.
     -o : Output directoy
     -h : Show usage help
 </pre></div>
@@ -196,45 +200,36 @@
 <div class="section" id="imargi-clean-sh">
 <h2>imargi_clean.sh<a class="headerlink" href="#imargi-clean-sh" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_clean.sh"><em>Source Code</em></a></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    Usage: imargi_clean.sh [-1 &lt;fastq.gz_R1&gt;] [-2 &lt;fastq.gz_R2&gt;] [-o &lt;output_dir&gt;] [-f &lt;filter_CT&gt;] [-d &lt;drop&gt;] 
-                [-t &lt;threads&gt;] [-b &lt;block_size&gt;]
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    Usage: <span class="nv">$PROGNAME</span> <span class="o">[</span>-1 &lt;fastq.gz_R1&gt;<span class="o">]</span> <span class="o">[</span>-2 &lt;fastq.gz_R2&gt;<span class="o">]</span> <span class="o">[</span>-N &lt;base_name&gt;<span class="o">]</span> <span class="o">[</span>-o &lt;output_dir&gt;<span class="o">]</span> <span class="o">[</span>-t &lt;threads&gt;<span class="o">]</span>
     
     Dependencies: seqtk, gzip, zcat, awk, parallel
 
-    This script will clean the paired reads (R1 and R2) of iMARGI sequencing Fastq data. According to the iMARGI design,
-    RNA end reads (R1) start with 2 random based, and DNA end reads (R2) of successful ligation fragments start
-    with &quot;CT&quot;. We need to remove the first 2 bases of R1 for better mapping. For R2, We can strictly clean the data by
-    filtering out those R2 reads not starting with &quot;CT&quot; in this step by setting &quot;-f CT&quot;. Alternatively, 
-    you can skip the &quot;CT&quot; filtering without &quot;-f&quot; parameter. You can apply the &quot;CT&quot; filtering in interaction pairs
-    filtering step.
-    If you choose to do &quot;CT&quot; filtering, the script also fixes the paired reads in R1. If &quot;-d&quot; was set as &quot;true&quot;,
-    it will drop all the non &quot;CT&quot; started R2 reads and paired R1 reads, which outputs two fastq files with prefix
-    &quot;clean_&quot;. If &quot;-d&quot; was &quot;false&quot;, the filtered read pairs would also be outputed in a pair of fastq files with prefix
-    &quot;drop_&quot;. &quot;-d&quot; only works when &quot;-f&quot; is set, and the default setting of &quot;-d&quot; is &quot;false&quot;.
+    This script will clean the paired reads <span class="o">(</span>R1 and R2<span class="o">)</span> of iMARGI sequencing Fastq data. According to the iMARGI design,
+    RNA end reads <span class="o">(</span>R1<span class="o">)</span> start with <span class="m">2</span> random based. We need to remove the first <span class="m">2</span> bases of R1 <span class="k">for</span> better mapping. 
+    If you provided multiple input files <span class="o">(</span>different lanes<span class="o">)</span> in <span class="s1">&#39;-1&#39;</span> and <span class="s1">&#39;-2&#39;</span> with <span class="s1">&#39;,&#39;</span> separator or contains wildcard,
+    <span class="k">then</span> the output will merge multi-lanes fastq files to one clean fastq file.
+
     The input fastq files must be gzip files, i.e., fastq.gz or fq.gz. The output files are also gzipped files fastq.gz.
 
-    -1 : R1 fastq.gz file, if there are multiple files, just separated with space, such as -1 lane1_R1.fq lane2_R1.fq
-    -2 : R2 fastq.gz file, if there are multiple files, just separated with space, such as -1 lane1_R2.fq lane2_R2.fq
+    -1 : R1 fastq.gz file, <span class="k">if</span> there are multiple files, just separated with space or use wildcard,
+         such as <span class="s1">&#39;-1 lane1_R1.fq.gz lane2_R1.fq.gz&#39;</span>, or <span class="s1">&#39;-1  lane*_R1.fq.gz&#39;</span>.
+    -2 : R2 fastq.gz file, <span class="k">if</span> there are multiple files, just separated with space or use wildcard,
+         such as <span class="s1">&#39;-2 lane1_R2.fq.gz lane2_R2.fq.gz&#39;</span>, or <span class="s1">&#39;-2  lane*_R2.fq.gz&#39;</span>.
+    -N : Base name <span class="k">for</span> ouput result. Such as -N HEK_iMARGI, <span class="k">then</span> output cleaned and merged fastq.gz file will be
+         renamed using the base name.
     -o : Output directoy
-    -f : Filtering sequence by 5&#39; start of R2. If not set, no filtering applied. &quot;CT&quot; filtering can be set as &quot;-f CT&quot;
-    -d : Flag of dropping, working with &quot;-f&quot;. Default is false, i.e., output drop_*fastq.gz files of dropped read pairs.
-    -t : Max CPU threads for parallelized processing, at least 4. (Default 8)
-    -b : Fastq data block size (number of reads) for each thread. Default 2000000.
-    -h : Show usage help
+    -t : Max CPU threads <span class="k">for</span> parallelized processing, at least <span class="m">4</span>. <span class="o">(</span>Default <span class="m">8</span><span class="o">)</span>
+    -h : Show usage <span class="nb">help</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="imargi-rsfrags-sh">
 <h2>imargi_rsfrags.sh<a class="headerlink" href="#imargi-rsfrags-sh" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_rsfrags.sh"><em>Source Code</em></a></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    Usage: imargi_rsfrags.sh [-r &lt;ref_fasta&gt;] [-c &lt;chromSize_file&gt;] [-e &lt;enzyme_name&gt;] [-C &lt;cut_position&gt;] [-o &lt;output_dir&gt;] 
-                    [-g &lt;max_inter_align_gap&gt;] [-O offset_restriction_site] [-d &lt;drop&gt;] [-D &lt;intermediate_dir&gt;] 
-                    [-s &lt;stats_flag&gt;] [-t &lt;threads&gt;] 
-    
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    Usage: $PROGNAME [-r &lt;ref_fasta&gt;] [-c &lt;chromSize_file&gt;] [-e &lt;enzyme_name&gt;] [-C &lt;cut_position&gt;] [-o &lt;output_dir&gt;] 
+
     Dependency: cooler
-
     This script use cooler digest to generate the restriction Enzyme digested fragments bed file for iMARGI
-
     -r : Reference genome fasta file
     -c : Chromosome size file.
     -e : Enzyme name, we use AluI in iMARGI.
@@ -248,9 +243,9 @@
 <div class="section" id="imargi-parse-sh">
 <h2>imargi_parse.sh<a class="headerlink" href="#imargi-parse-sh" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_parse.sh"><em>Source Code</em></a></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    Usage: imargi_parse.sh [-r &lt;ref_name&gt;] [-c &lt;chromSize_file&gt;] [-R &lt;restrict_sites&gt;] [-b &lt;bam_file&gt;] [-o &lt;output_dir&gt;] 
-                    [-Q &lt;min_mapq&gt;] [-G &lt;max_inter_align_gap&gt;] [-O &lt;offset_restriction_site&gt;] [-M &lt;max_ligation_size&gt;]
-                    [-d &lt;drop&gt;] [-D &lt;intermediate_dir&gt;] [-t &lt;threads&gt;] 
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>   Usage: $PROGNAME [-r &lt;ref_name&gt;] [-c &lt;chromSize_file&gt;] [-R &lt;restrict_sites&gt;] [-b &lt;bam_file&gt;] [-o &lt;output_dir&gt;] 
+                     [-Q &lt;min_mapq&gt;] [-G &lt;max_inter_align_gap&gt;] [-O &lt;offset_restriction_site&gt;] [-M &lt;max_ligation_size&gt;]
+                     [-d &lt;drop&gt;] [-D &lt;intermediate_dir&gt;] [-t &lt;threads&gt;] 
     
     Dependency: pairtools pbgzip
 
@@ -277,10 +272,9 @@
 <div class="section" id="imargi-stats-sh">
 <h2>imargi_stats.sh<a class="headerlink" href="#imargi-stats-sh" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_stats.sh"><em>Source Code</em></a></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    Usage: imargi_stats.sh <span class="o">[</span>-D &lt;distance_type&gt;<span class="o">]</span> <span class="o">[</span>-d &lt;distance_threshold&gt;<span class="o">]</span> <span class="o">[</span>-i &lt;input_file&gt;<span class="o">]</span> <span class="o">[</span>-o &lt;output_file&gt;<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    Usage: <span class="nv">$PROGNAME</span> <span class="o">[</span>-D &lt;distance_type&gt;<span class="o">]</span> <span class="o">[</span>-d &lt;distance_threshold&gt;<span class="o">]</span> <span class="o">[</span>-i &lt;input_file&gt;<span class="o">]</span> <span class="o">[</span>-o &lt;output_file&gt;<span class="o">]</span>
 
     Dependency: gzip, awk
-
     This script can be used to filter out short-range intra-chromosomal interactions with a threshold genomic distance.
 
     -D : Distance type. The default genomic position in .pairs file is the <span class="m">5</span><span class="s1">&#39; end position, so the default distance</span>
@@ -292,7 +286,7 @@
          comma <span class="s1">&#39;,&#39;</span>, such as <span class="s1">&#39;-d 1000,2000,10000,20000,100000,1000000&#39;</span>, <span class="k">then</span> the report will include the statistics
          number with different thresholds <span class="o">(</span>space is not allowed<span class="o">)</span>.
     -i : Input .pairs.gz file.
-    -o : Output .pairs.gz file.
+    -o : Output stats text file.
     -h : Show usage <span class="nb">help</span>
 </pre></div>
 </div>
@@ -300,11 +294,10 @@
 <div class="section" id="imargi-distfilter-sh">
 <h2>imargi_distfilter.sh<a class="headerlink" href="#imargi-distfilter-sh" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_distfilter.sh"><em>Source Code</em></a></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    Usage: imargi_distfilter.sh <span class="o">[</span>-D &lt;distance_type&gt;<span class="o">]</span> <span class="o">[</span>-d &lt;distance_threshold&gt;<span class="o">]</span> <span class="o">[</span>-F &lt;deal_with_filter&gt;<span class="o">]</span>
-                <span class="o">[</span>-i &lt;input_file&gt;<span class="o">]</span> <span class="o">[</span>-o &lt;output_file&gt;<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    Usage: <span class="nv">$PROGNAME</span> <span class="o">[</span>-D &lt;distance_type&gt;<span class="o">]</span> <span class="o">[</span>-d &lt;distance_threshold&gt;<span class="o">]</span> <span class="o">[</span>-F &lt;deal_with_filter&gt;<span class="o">]</span> <span class="o">[</span>-i &lt;input_file&gt;<span class="o">]</span> 
+                     <span class="o">[</span>-o &lt;output_file&gt;<span class="o">]</span>
 
     Dependency: gzip, awk
-
     This script can be used to filter out short-range intra-chromosomal interactions with a threshold genomic distance.
 
     -D : Distance type. The default genomic position in .pairs file is the <span class="m">5</span><span class="s1">&#39; end position, so the default distance</span>
@@ -314,7 +307,7 @@
     -d : The distance threshold <span class="k">for</span> filtering. Default is <span class="m">200000</span> <span class="o">(</span>distance &lt;<span class="m">200000</span> will be filtered out<span class="o">)</span>.
     -F : How to deal with the interactions need to be filtered out? <span class="s1">&#39;-F&#39;</span> accepts <span class="s1">&#39;drop&#39;</span> and <span class="s1">&#39;output&#39;</span>. <span class="s1">&#39;drop&#39;</span> means
          drop those interactions. <span class="s1">&#39;output&#39;</span> means output an new file of all the filtered out interactions with prefix
-         <span class="s1">&#39;filterOut_&#39;</span>. Default is <span class="s1">&#39;drop&#39;</span>.
+         <span class="s1">&#39;filterOut_&#39;</span>. Default is <span class="s1">&#39;output&#39;</span>.
     -i : Input .pairs.gz file.
     -o : Output .pairs.gz file.
     -h : Show usage <span class="nb">help</span>
@@ -324,20 +317,19 @@
 <div class="section" id="imargi-convert-sh">
 <h2>imargi_convert.sh<a class="headerlink" href="#imargi-convert-sh" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_convert.sh"><em>Source Code</em></a></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    Usage: imargi_convert.sh <span class="o">[</span>-f &lt;file_format&gt;<span class="o">]</span> <span class="o">[</span>-k &lt;keep_cols&gt;<span class="o">]</span> <span class="o">[</span>-b &lt;bin_size&gt;<span class="o">]</span> <span class="o">[</span>-i &lt;input_file&gt;<span class="o">]</span> <span class="o">[</span>-o &lt;output_file&gt;<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    Usage: <span class="nv">$PROGNAME</span> <span class="o">[</span>-f &lt;file_format&gt;<span class="o">]</span> <span class="o">[</span>-k &lt;keep_cols&gt;<span class="o">]</span> <span class="o">[</span>-b &lt;bin_size&gt;<span class="o">]</span> <span class="o">[</span>-i &lt;input_file&gt;<span class="o">]</span> <span class="o">[</span>-o &lt;output_file&gt;<span class="o">]</span> 
 
     Dependency: gzip, awk, cool
-
     This script can convert .pairs format to BEDPE, .cool, and GIVE interaction format.
-
     -f : The target format, only accept <span class="s1">&#39;cool&#39;</span>, <span class="s1">&#39;bedpe&#39;</span> and <span class="s1">&#39;give&#39;</span>. For <span class="s1">&#39;cool&#39;</span>, it will generate
          a <span class="s2">&quot;.cool&quot;</span> file with defined resolution of -b option and a multi-resolution <span class="s2">&quot;.mcool&quot;</span> file
-         based on the <span class="s2">&quot;.cool&quot;</span> file.
+         based on the <span class="s2">&quot;.cool&quot;</span> file. For <span class="s1">&#39;bedpe&#39;</span>, the output will be pbgzip compressed file. So
+         keep in mind to name the output_file <span class="s1">&#39;-o&#39;</span> with <span class="s1">&#39;.gz&#39;</span> extesion.
     -k : Keep extra information column in BEDPE. Columns ids in .pairs file you want to keep.
          For example, <span class="s1">&#39;cigar1,cigar2&#39;</span>. Default value is <span class="s2">&quot;&quot;</span>, i.e., drop all extra cols.
     -b : bin size <span class="k">for</span> cool format. Default is <span class="m">5000</span>.
     -i : Input file.
-    -o : Output file.
+    -o : Output file. BEDPE output is gzip compressed file. cool output are .cool and .mcool files.
     -h : Show usage <span class="nb">help</span>
 </pre></div>
 </div>
@@ -351,7 +343,7 @@
                 [-m &lt;min_overlap&gt;] [-G &lt;cigar&gt;]
                 [-t &lt;threads&gt;] [-i &lt;input_file&gt;] [-o &lt;output_file&gt;]
 
-    Dependency: gzip, awk, cool, BEDOPS
+    Dependency: gzip, pairtools, lz4 pbgzip
 
     This script can annotate both RNA and DNA ends with gene annotations in GTF/GFF format or any other genomic
     features in a simple BED file (each line is a named genomic feature). Multiple overlapped annotation features are
@@ -396,7 +388,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="technical_note.html" class="btn btn-neutral" title="Technical Notes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="technical_note.html" class="btn btn-neutral float-left" title="Technical Notes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -422,36 +414,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'1.0',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -56,7 +56,7 @@ downloaded and prepared by fastq-dump tool. Then we can get the iMARGI sequencin
 format files, `SRR8206679_1.fastq.gz` and `SRR8206679_2.fastq.gz`.
 
 ``` bash
-docker run -v ~/imargi_example:/imargi imargi fastq-dump --gzip --split-3 SRR8206679
+docker run -v ~/imargi_example:/imargi zhonglab/imargi fastq-dump --gzip --split-3 SRR8206679
 
 cd ~/imargi_example
 mv ./SRR8206679_*.fastq.gz ./data
@@ -106,7 +106,7 @@ We used ‘-N HEK_iMARGI’ argument to set base name for all the result files.
 ``` bash
 cd ~/imargi_example
 mkdir ./output
-docker run -v ~/imargi_example:/imargi imargi imargi_wrapper.sh \
+docker run -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh \
     -r hg38 \
     -N HEK_iMARGI \
     -t 16 \
@@ -117,6 +117,17 @@ docker run -v ~/imargi_example:/imargi imargi imargi_wrapper.sh \
 ```
 
 As the size of sequencing data is very large (more than 350 million read pairs), it will cost about 12 hours to process.
+
+*Tips*:
+
+- The command will automatically generate bwa index files based on the ref genome supplied by `-g` argument, which needs
+  more than 1 hour. If you have pre-built bwa index files, you can supply it with `-i` argument.
+
+- If you are using Windows or MacOS, you need to use pre-built bwa index files with `-i` argument. otherwise, it will
+  fail in the `bwa index` process. We provide Human hg38 bwa index files on our server
+  ([link to download](https://sysbio.ucsd.edu/imargi_pipeline/bwa_index.tar.gz)). In fact, if you are familiar with
+  Docker volume usage, you can find a solution in the [technical note document](./technical_note.md)
+
 
 ## Output of iMARGI Pipeline
 
@@ -167,4 +178,4 @@ detail, please check the [Step-by-step Illustration](./step_by_step_illustration
 
 **Reference:**
 
-<small>[[1]](#a1) <span id="f1"></span> Yan, Z. et al. Genome-wide co-localization of RNA-DNA interactions and fusion RNA pairs. bioRxiv 472019 (2018). doi:10.1101/472019</small>
+<small>[[1]](#a1) <span id="f1"></span> Yan, Z. et al. Genome-wide co-localization of RNA-DNA interactions and fusion RNA pairs. PNAS February 19, 2019, 116 (8) 3328-3337. https://doi.org/10.1073/pnas.1819788116</small>

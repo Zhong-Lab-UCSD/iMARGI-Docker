@@ -92,7 +92,8 @@ htslib | 1.9 | [Following instruction](http://www.htslib.org/download/)| Manipul
 pairtools | 0.2.2 | [Following instruction](https://pairtools.readthedocs.io/en/latest/installation.html)| Utilities for processing interaction pairs
 lz4 | 1.8.3 | [Following instruction](https://github.com/lz4/lz4) | Extremely fast compression
 pbgzip | - | [Following instruction](https://github.com/nh13/pbgzip)| Compression for Genomics Data
-cooler | 0.8.2 | [Following instruction](https://github.com/mirnylab/cooler)| Utilities for genomic interaction data
+cooler | 0.8.3 | [Following instruction](https://github.com/mirnylab/cooler)| Utilities for genomic interaction data
+HTSeq | 0.11.2 | [Following instruction](https://htseq.readthedocs.io/en/master/install.html)| Utilities for annotating interactions
 SRA Toolkit | 2.9.4  | [Following instruction](https://github.com/ncbi/sra-tools) | NCBI SRA tools
 GNU parallel | - | Linux package "parallel" | Executing jobs in parallel
 [GNU awk](https://www.gnu.org/software/gawk/manual/html_node/Quick-Installation.html)| - | Linux package "gawk", set alias awk | Text file processing tool

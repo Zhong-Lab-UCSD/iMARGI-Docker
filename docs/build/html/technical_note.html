@@ -17,34 +17,36 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Command-line API" href="commandline_api.html" />
     <link rel="prev" title="Further Analysis and Visualization Guides" href="further_analysis.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -89,6 +91,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Technical Notes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#dockerfile">Dockerfile</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#run-imargi-docker-with-non-root-user">Run iMARGI-Docker with Non-root User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#solve-bwa-index-failure-problem">Solve <code class="docutils literal notranslate"><span class="pre">bwa</span> <span class="pre">index</span></code> Failure Problem</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="commandline_api.html">Command-line API</a></li>
@@ -168,7 +171,7 @@ imargi_convert.sh, imargi_distfilter.sh, imargi_annotate.sh.</li>
 </ul>
 <p>The source code of Dockerfile is shown below:</p>
 <div class="highlight-Docker notranslate"><div class="highlight"><pre><span></span><span class="k">FROM</span><span class="s"> ubuntu:18.04</span>
-<span class="k">ENV</span><span class="s"> TIMEZONE America/Los_Angeles</span>
+<span class="k">ENV</span> TIMEZONE America/Los_Angeles
 
 <span class="k">RUN</span> apt-get update <span class="o">&amp;&amp;</span> <span class="se">\</span>
     apt-get install -y <span class="se">\</span>
@@ -200,11 +203,11 @@ imargi_convert.sh, imargi_distfilter.sh, imargi_annotate.sh.</li>
 
 <span class="k">RUN</span> apt-get -y install locales <span class="o">&amp;&amp;</span> <span class="se">\</span>
     sed -i -e <span class="s1">&#39;s/# \(en_US\.UTF-8 .*\)/\1/&#39;</span> /etc/locale.gen <span class="o">&amp;&amp;</span> locale-gen
-<span class="k">ENV</span><span class="s"> LANG en_US.UTF-8</span>
-<span class="k">ENV</span><span class="s"> LANGUAGE en_US:en</span>
-<span class="k">ENV</span><span class="s"> LC_ALL en_US.UTF-8</span>
+<span class="k">ENV</span> LANG en_US.UTF-8
+<span class="k">ENV</span> LANGUAGE en_US:en
+<span class="k">ENV</span> LC_ALL en_US.UTF-8
 
-COPY ./imargi_* /usr/local/bin/
+<span class="k">COPY</span> ./imargi_* /usr/local/bin/
 <span class="k">RUN</span> chmod +x /usr/local/bin/imargi_* <span class="o">&amp;&amp;</span> mkdir /imargi
 
 <span class="k">WORKDIR</span><span class="s"> /imargi</span>
@@ -219,8 +222,8 @@ default root user with your own user id (UID).</p>
 <p>You can use command <code class="docutils literal notranslate"><span class="pre">id</span></code> in your linux system to get your own UID. For example, my UID is 1043, so I can run iMARGI-Docker
 with <code class="docutils literal notranslate"><span class="pre">-u</span> <span class="pre">1043</span></code>, then all the output files and directories are all belong to my user ID.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>id
-<span class="nv">uid</span><span class="o">=</span><span class="m">1043</span><span class="o">(</span>frankyan<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span><span class="m">1048</span><span class="o">(</span>frankyan<span class="o">)</span>
-docker run -u <span class="m">1043</span> -v ~/imargi_example:/imargi imargi imargi_wrapper.sh <span class="se">\</span>
+<span class="c1"># uid=1043(frankyan) gid=1048(frankyan)</span>
+docker run -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh <span class="se">\</span>
     -r hg38 <span class="se">\</span>
     -N HEK_iMARGI <span class="se">\</span>
     -t <span class="m">16</span> <span class="se">\</span>
@@ -230,6 +233,51 @@ docker run -u <span class="m">1043</span> -v ~/imargi_example:/imargi imargi ima
     -o ./output
 </pre></div>
 </div>
+</div>
+<div class="section" id="solve-bwa-index-failure-problem">
+<h2>Solve <code class="docutils literal notranslate"><span class="pre">bwa</span> <span class="pre">index</span></code> Failure Problem<a class="headerlink" href="#solve-bwa-index-failure-problem" title="Permalink to this headline">¶</a></h2>
+<p>As we created iMARGI-Docker on Linux system, so it works perfectly on Linux system. Generally, it should also work
+perfectly on Windows and MacOS. However, in our test, we found one critical problem which will cause <code class="docutils literal notranslate"><span class="pre">baw</span> <span class="pre">index</span></code>
+failure. Here we explain the problem and give a solution to this problem.</p>
+<ul>
+<li><p class="first"><strong>Description</strong>:  When you use <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> without <code class="docutils literal notranslate"><span class="pre">-i</span></code> option, the script will generate bwa index files
+automatically. But it will fail when you run it on Windows or MacOS.</p>
+</li>
+<li><p class="first"><strong>Cause</strong>: Different operating systems have different file system formats, such as NTFS in Windows, APFS in MacOS and
+ext4 in Linux. When we use <code class="docutils literal notranslate"><span class="pre">-v</span></code> option to mount host directory to Docker container, it’s a kind of map between
+different file system. Most of time, there isn’t any problem. However, some tools cannot handle this kind of hybrid
+situation, such as <code class="docutils literal notranslate"><span class="pre">fsync</span></code>, which is utilized by <code class="docutils literal notranslate"><span class="pre">bwa</span> <span class="pre">index</span></code> when building large genome index. So <code class="docutils literal notranslate"><span class="pre">bwa</span> <span class="pre">index</span></code> fails on
+Windows and MacOS.</p>
+</li>
+<li><p class="first"><strong>Solution</strong>: Only Windows and MacOS users need the solution. The simplest way is use pre-built bwa index files or
+build without Docker. We provide human hg38 bwa index files on our server
+(<a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/bwa_index.tar.gz">link to download</a>).
+A technical solution to the problem is to build bwa index files in a Docker volume instead of
+a mounted host directory. This solution requires some knowledge of Docker volume. Here we only show demo command
+lines. You need to read Docker documentation if you want to learn more.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># create Docker volume ref_vol</span>
+docker volume create --name ref_vol
+<span class="c1"># start a temporary container to cp ref genome FASTA to Docker volume ref_vol</span>
+docker run -v ref_vol:/data --name helper busybox <span class="nb">true</span>
+docker cp ./ref/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta helper:/data
+docker rm helper
+<span class="c1"># run imargi pipeline with two &#39;-v&#39; arguments</span>
+docker run <span class="se">\</span>
+  -v /d/imargi_example:/imargi <span class="se">\</span>
+  -v ref_vol:/imargi/ref_data <span class="se">\</span>
+  zhonglab/imargi <span class="se">\</span>
+  imargi_wrapper.sh <span class="se">\</span>
+  -r hg38 <span class="se">\</span>
+  -N test_sample <span class="se">\</span>
+  -t <span class="m">4</span> <span class="se">\</span>
+  -g ./ref_data/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta <span class="se">\</span>
+  -1 ./data/sample_R1.fastq.gz <span class="se">\</span>
+  -2 ./data/sample_R2.fastq.gz <span class="se">\</span>
+  -o ./output
+</pre></div>
+</div>
+</li>
+</ul>
 </div>
 </div>
 
@@ -244,7 +292,7 @@ docker run -u <span class="m">1043</span> -v ~/imargi_example:/imargi imargi ima
         <a href="commandline_api.html" class="btn btn-neutral float-right" title="Command-line API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="further_analysis.html" class="btn btn-neutral" title="Further Analysis and Visualization Guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="further_analysis.html" class="btn btn-neutral float-left" title="Further Analysis and Visualization Guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -270,36 +318,16 @@ docker run -u <span class="m">1043</span> -v ~/imargi_example:/imargi imargi ima
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'1.0',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -67,8 +67,8 @@ with `-u 1043`, then all the output files and directories are all belong to my u
 
 ``` bash
 id
-uid=1043(frankyan) gid=1048(frankyan)
-docker run -u 1043 -v ~/imargi_example:/imargi imargi imargi_wrapper.sh \
+# uid=1043(frankyan) gid=1048(frankyan)
+docker run -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh \
     -r hg38 \
     -N HEK_iMARGI \
     -t 16 \
@@ -77,3 +77,48 @@ docker run -u 1043 -v ~/imargi_example:/imargi imargi imargi_wrapper.sh \
     -2 ./data/SRR8206679_1.fastq.gz \
     -o ./output
 ```
+
+## Solve `bwa index` Failure Problem
+
+As we created iMARGI-Docker on Linux system, so it works perfectly on Linux system. Generally, it should also work
+perfectly on Windows and MacOS. However, in our test, we found one critical problem which will cause `baw index`
+failure. Here we explain the problem and give a solution to this problem.
+
+- **Description**:  When you use `imargi_wrapper.sh` without `-i` option, the script will generate bwa index files
+  automatically. But it will fail when you run it on Windows or MacOS.
+
+- **Cause**: Different operating systems have different file system formats, such as NTFS in Windows, APFS in MacOS and
+  ext4 in Linux. When we use `-v` option to mount host directory to Docker container, it's a kind of map between
+  different file system. Most of time, there isn't any problem. However, some tools cannot handle this kind of hybrid
+  situation, such as `fsync`, which is utilized by `bwa index` when building large genome index. So `bwa index` fails on
+  Windows and MacOS.
+
+- **Solution**: Only Windows and MacOS users need the solution. The simplest way is use pre-built bwa index files or
+  build without Docker. We provide human hg38 bwa index files on our server
+  ([link to download](https://sysbio.ucsd.edu/imargi_pipeline/bwa_index.tar.gz)).
+  A technical solution to the problem is to build bwa index files in a Docker volume instead of
+  a mounted host directory. This solution requires some knowledge of Docker volume. Here we only show demo command
+  lines. You need to read Docker documentation if you want to learn more.
+  
+  ``` bash
+  # create Docker volume ref_vol
+  docker volume create --name ref_vol
+  # start a temporary container to cp ref genome FASTA to Docker volume ref_vol
+  docker run -v ref_vol:/data --name helper busybox true
+  docker cp ./ref/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta helper:/data
+  docker rm helper
+  # run imargi pipeline with two '-v' arguments
+  docker run \
+    -v /d/imargi_example:/imargi \
+    -v ref_vol:/imargi/ref_data \
+    zhonglab/imargi \
+    imargi_wrapper.sh \
+    -r hg38 \
+    -N test_sample \
+    -t 4 \
+    -g ./ref_data/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta \
+    -1 ./data/sample_R1.fastq.gz \
+    -2 ./data/sample_R2.fastq.gz \
+    -o ./output
+  ```
+  

@@ -25,7 +25,7 @@ RUN apt-get update && \
 
 RUN apt-get install -y python3-dev libopenblas-dev python3-pip && \
     pip3 install numpy cython scipy pandas click && \
-    pip3 install pairtools cooler
+    pip3 install pairtools cooler HTSeq
 
 RUN apt-get --purge remove -y build-essential git autoconf automake wget
 

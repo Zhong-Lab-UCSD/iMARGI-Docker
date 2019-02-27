@@ -15,7 +15,7 @@ usage() {
          For example, 'cigar1,cigar2'. Default value is "", i.e., drop all extra cols.
     -b : bin size for cool format. Default is 5000.
     -i : Input file.
-    -o : Output file.
+    -o : Output file. BEDPE output is gzip compressed file. cool output are .cool and .mcool files.
     -h : Show usage help
 EOF
     exit 1
@@ -194,7 +194,7 @@ if [ "$format" == "cool" ]; then
 
     zcat $input_file | awk 'BEGIN{OFS="\t"}{if($0 !~ /^#/){exit;}; if($0 ~/^#chromsize/){print $2, $3};}' > $chrom_size
 
-    cooler cload pairs --asymmetric --chrom1 2 --pos1 3 --chrom2 4 --pos2 5 \
+    cooler cload pairs --no-symmetric-upper --chrom1 2 --pos1 3 --chrom2 4 --pos2 5 \
         $chrom_size:$bin_size $input_file $output_file
     cooler zoomify $output_file
     rm $chrom_size

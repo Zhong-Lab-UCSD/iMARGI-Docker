@@ -78,7 +78,7 @@ The [Technical Notes](./technical_note.md) section shows more technical informat
 
 <small>[[1]](#a1) <span id="f1"></span> Sridhar, B. et al. Systematic Mapping of RNA-Chromatin Interactions In Vivo. Current Biology 27, 602–609 (2017).</small>
 
-<small>[[2]](#a2) <span id="f2"></span> Yan, Z. et al. Genome-wide co-localization of RNA-DNA interactions and fusion RNA pairs. bioRxiv 472019 (2018). doi:10.1101/472019</small>
+<small>[[2]](#a2) <span id="f2"></span> Yan, Z. et al. Genome-wide co-localization of RNA-DNA interactions and fusion RNA pairs. PNAS February 19, 2019, 116 (8) 3328-3337. https://doi.org/10.1073/pnas.1819788116 </small>
 
 <small>[[3]](#a3) <span id="f3"></span> Wu, W., Yan, Z., Wen X. & Zhong, S. iMARGI: Mapping RNA-DNA interactome by sequencing.</small>
 

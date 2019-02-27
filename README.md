@@ -15,6 +15,9 @@ iMARGI-Docker distributes the iMARGI sequencing data processing pipeline
       - [Build with Dockerfile](#build-with-dockerfile)
   - [Software Testing Demo](#software-testing-demo)
     - [Testing Data](#testing-data)
+      - [iMARGI sequencing data (paired FASTQ)](#imargi-sequencing-data-paired-fastq)
+      - [Reference genome data (FASTA)](#reference-genome-data-fasta)
+      - [bwa index data](#bwa-index-data)
     - [Testing Command](#testing-command)
     - [Testing Results](#testing-results)
       - [Running Time Profile](#running-time-profile)
@@ -106,19 +109,37 @@ To test whether you have successfully installed iMARGI-Docker, you can follow in
 
 ### Testing Data
 
+#### iMARGI sequencing data (paired FASTQ)
+
 As real iMARGI sequencing data are always very big, so we randomly extracted a small chunk of real data for software
 testing. The data can be found in [`data`](./data/) folder. Please download them to your computer.
 
-Besides, you need to download a human genome reference FASTA file. 
+- [R1 reads](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/raw/master/data/sample_R1.fastq.gz)
+- [R2 reads](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/raw/master/data/sample_R2.fastq.gz)
+
+#### Reference genome data (FASTA)
+
+Besides, you need to download a human genome reference FASTA file.
 We use the reference genome used by
 [4D Nucleome](https://www.4dnucleome.org/) and
-[ENCODE project](https://www.encodeproject.org/data-standards/reference-sequences/). The FASTA file of the reference
+[ENCODE project](https://www.encodeproject.org/data-standards/reference-sequences/).
+
+The FASTA file of the reference
 genome is too large for us to host it in GitHub repo. You can be download it use the link:
-[GRCh38_no_alt_analysis_set_GCA_000001405.15](https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/@@download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz).
+
+- [GRCh38_no_alt_analysis_set_GCA_000001405.15](https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/@@download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz)
+
 It needs to be decompressed using `gunzip -d` command on Linux/MacOS. If your system is Windows, you can use 7Zip
 software to decompress the `.gz` file. Besides, you can also use the `gunzip` tool delivered in iMARGI-Docker.
 
-We assume that you put the data and reference files in the following directory structure.
+#### bwa index data
+
+As `bwa index` process will cost a lot of time (more than 1 hour), we suggest to download our pre-built index files for the reference
+genome. Please download the following gzip compressed `bwa_index` folder and decompress it (`tar zxvf`) on your machine.
+
+- [bwa index files](https://sysbio.ucsd.edu/imargi_pipeline/bwa_index.tar.gz)
+
+*We assume that you put the data and reference files in the following directory structure.*
 
 ``` bash
 ~/imargi_example
@@ -127,7 +148,13 @@ We assume that you put the data and reference files in the following directory s
     │   └── sample_R2.fastq.gz
     ├── output
     └── ref
-        └── GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta
+        ├── GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta
+        └── bwa_index
+            ├── bwa_index_hg38.amb
+            ├── bwa_index_hg38.ann
+            ├── bwa_index_hg38.bwt
+            ├── sample_R1.fastq.pac
+            └── sample_R2.fastq.sa
 ```
 
 ### Testing Command
@@ -141,6 +168,7 @@ docker run -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
     -N test_sample \
     -t 4 \
     -g ./ref/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta \
+    -i ./ref/bwa_index/bwa_index_hg38 \
     -1 ./data/sample_R1.fastq.gz \
     -2 ./data/sample_R2.fastq.gz \
     -o ./output
@@ -160,23 +188,30 @@ docker run -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
 - The command line is long, so `\` was used for splitting it into multiple lines in the example. It's a Linux or MacOS
   style. However, in Windows, you need to replace `\` with `^`.
 
-- Building bwa index costs the most running time. If you have human genome bwa index built before, you can supply it
-  with `-i` argument. See more details in the
+- `-i`: Building bwa index will cost a lot time, so we used the pre-built index files with `-i` argument. There
+  are some other arguments can be used for pre-generated files, such as `-R` for restriction fragment BED file and
+  `-c` for chromsize file.See more details in the
   [documentation of command line API section](https://sysbio.ucsd.edu/imargi_pipeline/commandline_api.html#imargi-wrapper-sh)
-`
+
+- `-i`: If you don't supply bwa index files, the `imargi_wrapper.sh` will generated     it automatically. It works
+  perfectly on Linux system. However, it doesn't work on Windows and MacOS because `bwa index` use `fsync` when build
+  large genome index, which cannot handle different driver formats (`-v` mount Windows/MacOS driver to Linux container).
+  So it's better to build it in advance. In fact, there's a solution to the problem if you are familiar with Docker
+  volume. Please read the
+  [technical note of iMARGI pipeline documentation](https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#solve-bwa-index-failure-problem) for
+  detail.
 
 ### Testing Results
 
 #### Running Time Profile
 
-It took about 85 minutes to perform the pipeline. The most of time (75 min) was consumed by building bwa index files.
-So once you built the bwa index, supply it to the command with `-i` next time.
+It took about 15 minutes to perform the pipeline (with `-i` bwa index argument).
 
 Step | Time | Speed up suggestion
 ---------|----------|----------
-Generating chromosome size file | 10 sec | It's fast, but you can supply with `-c` once you've generated it.
-Generating bwa index | 75 min | Supply with `-i` once you've built it.
-Generating restriction fragment file | 4 min | Supply with `-R` once you've created it.
+Generating chromosome size file | 10 sec | It's fast, but you can also supply with `-c` once you've generated it before.
+Generating bwa index (skipped) | 75 min | Supply with `-i` if you've pre-built index files.
+Generating restriction fragment file | 4 min | Supply with `-R` when you've already created it before.
 cleaning | 10 sec | It's fast and not parallelization.
 bwa mapping | 2 min | More CPU cores with `-t`.
 interaction pair parsing | 1 min | More CPU cores with `-t`.

@@ -17,7 +17,7 @@ usage() {
          comma ',', such as '-d 1000,2000,10000,20000,100000,1000000', then the report will include the statistics
          number with different thresholds (space is not allowed).
     -i : Input .pairs.gz file.
-    -o : Output .pairs.gz file.
+    -o : Output stats text file.
     -h : Show usage help
 EOF
     exit 1

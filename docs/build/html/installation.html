@@ -17,34 +17,36 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Quick Start Example" href="quick_example.html" />
     <link rel="prev" title="Overview" href="index.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -168,10 +170,10 @@ configured tools.</p>
 </ul>
 <div class="section" id="docker-container-usage-instructions">
 <h2>Docker Container Usage Instructions<a class="headerlink" href="#docker-container-usage-instructions" title="Permalink to this headline">¶</a></h2>
-<p>An iMARGI Docker image is available in <a class="reference external" href="https://hub.docker.com/r/zhonglab/imargi">Docker-Hub</a>. It’s
-much easier to apply the iMARGI pipeline using the docker container than installing and configuring all the required
-tools.</p>
-<p>Docker Community Edition or Enterprise Edition is required to be installed and configured on the Linux server (root
+<p>An iMARGI Docker image is available in <a class="reference external" href="https://hub.docker.com/r/zhonglab/imargi">Docker-Hub</a>, and its source files are
+hosted in <a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker">iMARGI-Docker GitHub repo</a>. It’s much easier to apply the
+iMARGI pipeline using the docker container than installing and configuring all the required tools.</p>
+<p>Docker Community Edition or Enterprise Edition is required to be installed and configured on the machine (root
 authority is required for installing Docker CE).
 <a class="reference external" href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">Here is the guides of installing Docker CE on Ubuntu</a>.</p>
 <p>After Docker CE was installed, you can pull the latest iMARGI Docker image to your sever.</p>
@@ -180,7 +182,7 @@ authority is required for installing Docker CE).
 </div>
 <p>To use the tools in the iMARGI Docker image, you need to run a Docker container. Here is an example of creating a
 new directory with <code class="docutils literal notranslate"><span class="pre">mkdir</span></code> command through a Docker container.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/test:/imargi imargi mkdir new_dir
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/test:/imargi zhonglab/imargi mkdir new_dir
 </pre></div>
 </div>
 <p><img alt="_images/docker_command_example.png" src="_images/docker_command_example.png" /></p>
@@ -191,10 +193,44 @@ any tool in the iMARGI Docker container.</p>
 </div>
 <div class="section" id="dependencies-instruction">
 <h2>Dependencies Instruction<a class="headerlink" href="#dependencies-instruction" title="Permalink to this headline">¶</a></h2>
-<p>All the dependencies are listed here. However, we strongly recommend using iMARGI-Docker instead of configuring these
-dependencies on your Linux server. The following table shows all those required tools with simple descriptions. Some
-of these tools, such as <code class="docutils literal notranslate"><span class="pre">bash</span></code>, <code class="docutils literal notranslate"><span class="pre">sort</span></code> and <code class="docutils literal notranslate"><span class="pre">zcat</span></code> are usually default installed in most of Linux distributions. Besides,
-you might need root access or compiling tools on Linux system to install some of these tools.</p>
+<p>We strongly recommend using iMARGI-Docker instead of configuring all the dependencies of iMARGI pipeline on your Linux
+server. However, if you really cannot run Docker on your machine, you might want to try to configure these tools. It
+requires root access to your machine and some administration experiences of Linux server.</p>
+<p>We cannot guarantee success of local configuration. If you encounter some problems or have suggestions, please create
+issues in the <a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker">iMARGI-Docker GitHub repo</a>. If you are using Ubuntu
+18.04, the following command lines we used to configure iMARGI-Docker might help you.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># run with root account</span>
+apt-get update
+apt-get install git build-essential libz-dev libbz2-dev liblzma-dev libssl-dev libcurl4-gnutls-dev <span class="se">\</span>
+    autoconf automake libncurses5-dev wget gawk parallel
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/lh3/seqtk.git <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> seqtk <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make install
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/samtools/htslib <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> htslib <span class="o">&amp;&amp;</span> autoheader <span class="o">&amp;&amp;</span> autoconf <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    ./configure --prefix<span class="o">=</span>/usr/local <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make install
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/samtools/samtools <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> samtools <span class="o">&amp;&amp;</span> autoheader <span class="o">&amp;&amp;</span> autoconf <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    ./configure --prefix<span class="o">=</span>/usr/local <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make install
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/lh3/bwa.git <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> bwa <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> cp bwa /usr/local/bin
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/nh13/pbgzip <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> pbgzip <span class="o">&amp;&amp;</span> sh autogen.sh <span class="o">&amp;&amp;</span> ./configure <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make install
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/lz4/lz4 <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> lz4 <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make install
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> wget http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.9.4/sratoolkit.2.9.4-ubuntu64.tar.gz <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    tar zxvf sratoolkit.2.9.4-ubuntu64.tar.gz <span class="o">&amp;&amp;</span> cp -R sratoolkit.2.9.4-ubuntu64/bin/* /usr/local/bin
+
+apt-get install -y python3-dev libopenblas-dev python3-pip
+pip3 install numpy cython scipy pandas click
+pip3 install pairtools cooler
+
+cp ./src/imargi_* /usr/local/bin/
+chmod +x /usr/local/bin/imargi_*
+</pre></div>
+</div>
+<p>The following table shows all the required tools with simple descriptions. Some of these tools, such as <code class="docutils literal notranslate"><span class="pre">bash</span></code>, <code class="docutils literal notranslate"><span class="pre">sort</span></code>
+and <code class="docutils literal notranslate"><span class="pre">zcat</span></code> are usually default installed in most of Linux distributions. Besides, you might need root access or
+compiling tools on Linux system to install some of these tools.</p>
 <table border="1" class="docutils">
 <thead>
 <tr>
@@ -255,9 +291,15 @@ you might need root access or compiling tools on Linux system to install some of
 </tr>
 <tr>
 <td>cooler</td>
-<td>0.8.2</td>
+<td>0.8.3</td>
 <td><a href="https://github.com/mirnylab/cooler">Following instruction</a></td>
 <td>Utilities for genomic interaction data</td>
+</tr>
+<tr>
+<td>HTSeq</td>
+<td>0.11.2</td>
+<td><a href="https://htseq.readthedocs.io/en/master/install.html">Following instruction</a></td>
+<td>Utilities for annotating interactions</td>
 </tr>
 <tr>
 <td>SRA Toolkit</td>
@@ -274,7 +316,7 @@ you might need root access or compiling tools on Linux system to install some of
 <tr>
 <td><a href="https://www.gnu.org/software/gawk/manual/html_node/Quick-Installation.html">GNU awk</a></td>
 <td>-</td>
-<td>Linux package "gawk"</td>
+<td>Linux package "gawk", set alias awk</td>
 <td>Text file processing tool</td>
 </tr>
 <tr>
@@ -353,7 +395,13 @@ you might need root access or compiling tools on Linux system to install some of
 <td>imargi_annotate.sh</td>
 <td>0.1</td>
 <td>Download and <code>chmod +x</code></td>
-<td>Annotate RNA/DNA-ends with gene annotations</td>
+<td>Annotate RNA/DNA-ends with genomic annotations</td>
+</tr>
+<tr>
+<td>imargi_ant.py</td>
+<td>0.1</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Annotate RNA/DNA-ends with genomic annotations, used by imargi_annotate.sh</td>
 </tr>
 </tbody>
 </table></div>
@@ -370,7 +418,7 @@ you might need root access or compiling tools on Linux system to install some of
         <a href="quick_example.html" class="btn btn-neutral float-right" title="Quick Start Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -396,36 +444,16 @@ you might need root access or compiling tools on Linux system to install some of
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'1.0',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

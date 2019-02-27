@@ -18,7 +18,7 @@ statistics, such as number of intra- and inter-chromosomal interactions. We prov
 simple text data statistics report. The example command is:
 
 ``` bash
-docker run -v ~/imargi_example:/imargi imargi imargi_stats.sh \
+docker run -v ~/imargi_example:/imargi zhonglab/imargi imargi_stats.sh \
     -D 5end \
     -d 200000 \
     -i ./output/final_HEK_iMARGI.pairs.gz \
@@ -48,7 +48,7 @@ interactions with a distance threshold, which depends on the requirements of fur
 `imargi_distfilter.sh` tool for filtering interaction based on interaction genomic distance. The example command is:
 
 ``` bash
-docker run -v ~/imargi_example:/imargi imargi imargi_distfilter.sh \
+docker run -v ~/imargi_example:/imargi zhonglab/imargi imargi_distfilter.sh \
     -D 5end \
     -d 20000 \
     -i ./output/final_HEK_iMARGI.pairs.gz \
@@ -68,7 +68,7 @@ GTF/GFF format or any other genomic features in a simple BED file (each line is 
 command below will generate two new gene annotation columns named as gene1 and gene2 in the output .pairs format file.
 
 ``` bash
-docker run -v ~/imargi_example:/imargi imargi imargi_annotate.sh \
+docker run -v ~/imargi_example:/imargi zhonglab/imargi imargi_annotate.sh \
     -A gtf \
     -a ./ref/gencode.v24.annotation.gtf \
     -l gene \
@@ -111,7 +111,7 @@ For further analysis and visualization, other formats instead of .pairs format m
 with different `-f` argument options. The example command is below:
 
 ``` bash
-docker run -v ~/imargi_example:/imargi imargi imargi_convert.sh \
+docker run -v ~/imargi_example:/imargi zhonglab/imargi imargi_convert.sh \
     -f bedpe \
     -i ./output/final_HEK_iMARGI.pairs.gz \
     -o ./output/final_HEK_iMARGI.bedpe.gz

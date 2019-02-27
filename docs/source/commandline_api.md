@@ -28,8 +28,10 @@ We created several script tools. Here we show the usage and source code of all t
     -O : Max offset bases for filtering pairs based on R2 5' end positions to restriction sites. Default 3.
     -M : Max size of ligation fragment for sequencing. It's used for filtering unligated DNA sequence.
     -t : Max CPU threads for parallelized processing, at least 4. (Default 8)
-    -1 : R1 fastq.gz file, if there are multiple files, just separated with space, such as -1 lane1_R1.fq lane2_R1.fq
-    -2 : R2 fastq.gz file, if there are multiple files, just separated with space, such as -1 lane1_R2.fq lane2_R2.fq
+    -1 : R1 fastq.gz file, if there are multiple files, just separated with space or use wildcard,
+         such as '-1 lane1_R1.fq.gz lane2_R1.fq.gz', or '-1  lane*_R1.fq.gz'.
+    -2 : R2 fastq.gz file, if there are multiple files, just separated with space or use wildcard,
+         such as '-2 lane1_R2.fq.gz lane2_R2.fq.gz', or '-2  lane*_R2.fq.gz'.
     -o : Output directoy
     -h : Show usage help
 ```
@@ -39,30 +41,25 @@ We created several script tools. Here we show the usage and source code of all t
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_clean.sh)
 
 ``` bash
-    Usage: imargi_clean.sh [-1 <fastq.gz_R1>] [-2 <fastq.gz_R2>] [-o <output_dir>] [-f <filter_CT>] [-d <drop>] 
-                [-t <threads>] [-b <block_size>]
+    Usage: $PROGNAME [-1 <fastq.gz_R1>] [-2 <fastq.gz_R2>] [-N <base_name>] [-o <output_dir>] [-t <threads>]
     
     Dependencies: seqtk, gzip, zcat, awk, parallel
 
     This script will clean the paired reads (R1 and R2) of iMARGI sequencing Fastq data. According to the iMARGI design,
-    RNA end reads (R1) start with 2 random based, and DNA end reads (R2) of successful ligation fragments start
-    with "CT". We need to remove the first 2 bases of R1 for better mapping. For R2, We can strictly clean the data by
-    filtering out those R2 reads not starting with "CT" in this step by setting "-f CT". Alternatively, 
-    you can skip the "CT" filtering without "-f" parameter. You can apply the "CT" filtering in interaction pairs
-    filtering step.
-    If you choose to do "CT" filtering, the script also fixes the paired reads in R1. If "-d" was set as "true",
-    it will drop all the non "CT" started R2 reads and paired R1 reads, which outputs two fastq files with prefix
-    "clean_". If "-d" was "false", the filtered read pairs would also be outputed in a pair of fastq files with prefix
-    "drop_". "-d" only works when "-f" is set, and the default setting of "-d" is "false".
+    RNA end reads (R1) start with 2 random based. We need to remove the first 2 bases of R1 for better mapping. 
+    If you provided multiple input files (different lanes) in '-1' and '-2' with ',' separator or contains wildcard,
+    then the output will merge multi-lanes fastq files to one clean fastq file.
+
     The input fastq files must be gzip files, i.e., fastq.gz or fq.gz. The output files are also gzipped files fastq.gz.
 
-    -1 : R1 fastq.gz file, if there are multiple files, just separated with space, such as -1 lane1_R1.fq lane2_R1.fq
-    -2 : R2 fastq.gz file, if there are multiple files, just separated with space, such as -1 lane1_R2.fq lane2_R2.fq
+    -1 : R1 fastq.gz file, if there are multiple files, just separated with space or use wildcard,
+         such as '-1 lane1_R1.fq.gz lane2_R1.fq.gz', or '-1  lane*_R1.fq.gz'.
+    -2 : R2 fastq.gz file, if there are multiple files, just separated with space or use wildcard,
+         such as '-2 lane1_R2.fq.gz lane2_R2.fq.gz', or '-2  lane*_R2.fq.gz'.
+    -N : Base name for ouput result. Such as -N HEK_iMARGI, then output cleaned and merged fastq.gz file will be
+         renamed using the base name.
     -o : Output directoy
-    -f : Filtering sequence by 5' start of R2. If not set, no filtering applied. "CT" filtering can be set as "-f CT"
-    -d : Flag of dropping, working with "-f". Default is false, i.e., output drop_*fastq.gz files of dropped read pairs.
     -t : Max CPU threads for parallelized processing, at least 4. (Default 8)
-    -b : Fastq data block size (number of reads) for each thread. Default 2000000.
     -h : Show usage help
 ```
 
@@ -71,14 +68,10 @@ We created several script tools. Here we show the usage and source code of all t
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_rsfrags.sh)
 
 ``` bash
-    Usage: imargi_rsfrags.sh [-r <ref_fasta>] [-c <chromSize_file>] [-e <enzyme_name>] [-C <cut_position>] [-o <output_dir>] 
-                    [-g <max_inter_align_gap>] [-O offset_restriction_site] [-d <drop>] [-D <intermediate_dir>] 
-                    [-s <stats_flag>] [-t <threads>] 
-    
+    Usage: $PROGNAME [-r <ref_fasta>] [-c <chromSize_file>] [-e <enzyme_name>] [-C <cut_position>] [-o <output_dir>] 
+
     Dependency: cooler
-
     This script use cooler digest to generate the restriction Enzyme digested fragments bed file for iMARGI
-
     -r : Reference genome fasta file
     -c : Chromosome size file.
     -e : Enzyme name, we use AluI in iMARGI.
@@ -93,9 +86,9 @@ We created several script tools. Here we show the usage and source code of all t
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_parse.sh)
 
 ``` bash
-    Usage: imargi_parse.sh [-r <ref_name>] [-c <chromSize_file>] [-R <restrict_sites>] [-b <bam_file>] [-o <output_dir>] 
-                    [-Q <min_mapq>] [-G <max_inter_align_gap>] [-O <offset_restriction_site>] [-M <max_ligation_size>]
-                    [-d <drop>] [-D <intermediate_dir>] [-t <threads>] 
+   Usage: $PROGNAME [-r <ref_name>] [-c <chromSize_file>] [-R <restrict_sites>] [-b <bam_file>] [-o <output_dir>] 
+                     [-Q <min_mapq>] [-G <max_inter_align_gap>] [-O <offset_restriction_site>] [-M <max_ligation_size>]
+                     [-d <drop>] [-D <intermediate_dir>] [-t <threads>] 
     
     Dependency: pairtools pbgzip
 
@@ -123,10 +116,9 @@ We created several script tools. Here we show the usage and source code of all t
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_stats.sh)
 
 ``` bash
-    Usage: imargi_stats.sh [-D <distance_type>] [-d <distance_threshold>] [-i <input_file>] [-o <output_file>]
+    Usage: $PROGNAME [-D <distance_type>] [-d <distance_threshold>] [-i <input_file>] [-o <output_file>]
 
     Dependency: gzip, awk
-
     This script can be used to filter out short-range intra-chromosomal interactions with a threshold genomic distance.
 
     -D : Distance type. The default genomic position in .pairs file is the 5' end position, so the default distance
@@ -138,7 +130,7 @@ We created several script tools. Here we show the usage and source code of all t
          comma ',', such as '-d 1000,2000,10000,20000,100000,1000000', then the report will include the statistics
          number with different thresholds (space is not allowed).
     -i : Input .pairs.gz file.
-    -o : Output .pairs.gz file.
+    -o : Output stats text file.
     -h : Show usage help
 ```
 
@@ -147,11 +139,10 @@ We created several script tools. Here we show the usage and source code of all t
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_distfilter.sh)
 
 ``` bash
-    Usage: imargi_distfilter.sh [-D <distance_type>] [-d <distance_threshold>] [-F <deal_with_filter>]
-                [-i <input_file>] [-o <output_file>]
+    Usage: $PROGNAME [-D <distance_type>] [-d <distance_threshold>] [-F <deal_with_filter>] [-i <input_file>] 
+                     [-o <output_file>]
 
     Dependency: gzip, awk
-
     This script can be used to filter out short-range intra-chromosomal interactions with a threshold genomic distance.
 
     -D : Distance type. The default genomic position in .pairs file is the 5' end position, so the default distance
@@ -161,7 +152,7 @@ We created several script tools. Here we show the usage and source code of all t
     -d : The distance threshold for filtering. Default is 200000 (distance <200000 will be filtered out).
     -F : How to deal with the interactions need to be filtered out? '-F' accepts 'drop' and 'output'. 'drop' means
          drop those interactions. 'output' means output an new file of all the filtered out interactions with prefix
-         'filterOut_'. Default is 'drop'.
+         'filterOut_'. Default is 'output'.
     -i : Input .pairs.gz file.
     -o : Output .pairs.gz file.
     -h : Show usage help
@@ -172,20 +163,19 @@ We created several script tools. Here we show the usage and source code of all t
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_convert.sh)
 
 ``` bash
-    Usage: imargi_convert.sh [-f <file_format>] [-k <keep_cols>] [-b <bin_size>] [-i <input_file>] [-o <output_file>]
+    Usage: $PROGNAME [-f <file_format>] [-k <keep_cols>] [-b <bin_size>] [-i <input_file>] [-o <output_file>] 
 
     Dependency: gzip, awk, cool
-
     This script can convert .pairs format to BEDPE, .cool, and GIVE interaction format.
-
     -f : The target format, only accept 'cool', 'bedpe' and 'give'. For 'cool', it will generate
          a ".cool" file with defined resolution of -b option and a multi-resolution ".mcool" file
-         based on the ".cool" file.
+         based on the ".cool" file. For 'bedpe', the output will be pbgzip compressed file. So
+         keep in mind to name the output_file '-o' with '.gz' extesion.
     -k : Keep extra information column in BEDPE. Columns ids in .pairs file you want to keep.
          For example, 'cigar1,cigar2'. Default value is "", i.e., drop all extra cols.
     -b : bin size for cool format. Default is 5000.
     -i : Input file.
-    -o : Output file.
+    -o : Output file. BEDPE output is gzip compressed file. cool output are .cool and .mcool files.
     -h : Show usage help
 ```
 
@@ -200,7 +190,7 @@ We created several script tools. Here we show the usage and source code of all t
                 [-m <min_overlap>] [-G <cigar>]
                 [-t <threads>] [-i <input_file>] [-o <output_file>]
 
-    Dependency: gzip, awk, cool, BEDOPS
+    Dependency: gzip, pairtools, lz4 pbgzip
 
     This script can annotate both RNA and DNA ends with gene annotations in GTF/GFF format or any other genomic
     features in a simple BED file (each line is a named genomic feature). Multiple overlapped annotation features are
