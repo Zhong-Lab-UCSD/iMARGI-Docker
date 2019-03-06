@@ -126,7 +126,7 @@ if [ ! -z "$ref_fa" ]; then
         bwa_index=$ref_dir"/bwa_index/bwa_index_"$ref_name
     else
         date
-        echo ">>>>>>>>>>>>>>>> Ref: bwa index argument exist. Directly use the bwa index "$chromsize      
+        echo ">>>>>>>>>>>>>>>> Ref: bwa index argument exist. Directly use the bwa index "$bwa_index      
     fi
 
     if [ -z "$rsites" ]; then
