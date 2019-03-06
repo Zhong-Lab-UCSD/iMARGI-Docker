@@ -205,7 +205,7 @@ docker run -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
 
 #### Running Time Profile
 
-It took about 15 minutes to perform the pipeline (with `-i` bwa index argument).
+It took about 10 minutes to perform the pipeline (with `-i` bwa index argument).
 
 Step | Time | Speed up suggestion
 ---------|----------|----------
