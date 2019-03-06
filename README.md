@@ -234,6 +234,7 @@ reference genome FASTA file is. Here is the final directory structure after comp
     │   ├── GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.fai
     │   ├── chromsize.hg38.txt
     │   ├── AluI_frags.bed.gz
+    │   ├── AluI_frags.bed.gz.tbi
     │   └── bwa_index
     │       ├── bwa_index_hg38.amb
     │       ├── bwa_index_hg38.ann
@@ -245,8 +246,8 @@ reference genome FASTA file is. Here is the final directory structure after comp
         │   ├── bwa_log_test_sample.txt
         │   └── test_sample.bam
         ├── clean_fastq
-        │   ├── clean_sample_R1.fastq.gz
-        │   └── clean_sample_R2.fastq.gz
+        │   ├── clean_test_sample_R1.fastq.gz
+        │   └── clean_test_sample_R2.fastq.gz
         ├── parse_temp
         │   ├── dedup_test_sample.pairs.gz
         │   ├── drop_test_sample.pairs.gz
