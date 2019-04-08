@@ -162,7 +162,7 @@ genome. Please download the following gzip compressed `bwa_index` folder and dec
 We can use one command line to perform the whole pipeline to the testing data.
 
 ``` bash
-docker run -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
+docker run --rm -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
     imargi_wrapper.sh \
     -r hg38 \
     -N test_sample \
@@ -176,8 +176,8 @@ docker run -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
 
 *Tips:*
 
-- `-u 1043`: Run docker with your own UID of your Linux system (use `id` command to check your UID) to avoid file/dir
-  permission problem.
+- `-u 1043`: Run docker with your own UID of your Linux system (use `id` command to check your own UID and replace
+  `1043` with it) to avoid file/dir permission problem.
 
 - `-v ~/imargi_example:/imargi`: It mounts the `~/imargi_example` directory in your host machine to workspace of the
   running docker container. The path must be a full path. The example was ran on a Linux computer. If you ran it on a
@@ -205,7 +205,7 @@ docker run -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
 
 #### Running Time Profile
 
-It took about 15 minutes to perform the pipeline (with `-i` bwa index argument).
+It took about 10 minutes to perform the pipeline (with `-i` bwa index argument).
 
 Step | Time | Speed up suggestion
 ---------|----------|----------
@@ -234,6 +234,7 @@ reference genome FASTA file is. Here is the final directory structure after comp
     │   ├── GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.fai
     │   ├── chromsize.hg38.txt
     │   ├── AluI_frags.bed.gz
+    │   ├── AluI_frags.bed.gz.tbi
     │   └── bwa_index
     │       ├── bwa_index_hg38.amb
     │       ├── bwa_index_hg38.ann
@@ -245,8 +246,8 @@ reference genome FASTA file is. Here is the final directory structure after comp
         │   ├── bwa_log_test_sample.txt
         │   └── test_sample.bam
         ├── clean_fastq
-        │   ├── clean_sample_R1.fastq.gz
-        │   └── clean_sample_R2.fastq.gz
+        │   ├── clean_test_sample_R1.fastq.gz
+        │   └── clean_test_sample_R2.fastq.gz
         ├── parse_temp
         │   ├── dedup_test_sample.pairs.gz
         │   ├── drop_test_sample.pairs.gz
