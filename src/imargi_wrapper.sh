@@ -154,7 +154,7 @@ R2_str=''
 for i in ${R2[@]};do
     R2_str=$R2_str' '$i
 done
-echo ">>>>>>>>>>>>>>>> Start bwa mem mapping ..."
+
 imargi_clean.sh -1 $R1_str -2 $R2_str -N $base_name -o $output_dir/clean_fastq -t $threads
 
 date

@@ -162,7 +162,7 @@ genome. Please download the following gzip compressed `bwa_index` folder and dec
 We can use one command line to perform the whole pipeline to the testing data.
 
 ``` bash
-docker run -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
+docker run --rm -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
     imargi_wrapper.sh \
     -r hg38 \
     -N test_sample \

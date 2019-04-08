@@ -17,36 +17,34 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
 
+  
+  
     
 
   
+
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Quick Start Example" href="quick_example.html" />
     <link rel="prev" title="Overview" href="index.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
+
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search">
           
 
           
@@ -158,9 +156,9 @@
             
   <div class="section" id="tools-and-installation">
 <h1>Tools and Installation<a class="headerlink" href="#tools-and-installation" title="Permalink to this headline">¶</a></h1>
-<p>In the iMARGI pipeline, a bundle of tools and several bash scripts created by us are required. For convenience,
-we built <a class="reference external" href="https://hub.docker.com/r/zhonglab/imargi">iMARGI-Docker</a> to distribute the pipeline. It delivers all the
-configured tools.</p>
+<p>In the iMARGI pipeline, a bundle of tools and several bash scripts created by us are required. For convenience and
+reproducibility, we built <a class="reference external" href="https://hub.docker.com/r/zhonglab/imargi">iMARGI-Docker</a> to distribute the pipeline.
+It delivers all the well configured tools.</p>
 <ul class="simple">
 <li><a class="reference external" href="#tools-and-installation">Tools and Installation</a><ul>
 <li><a class="reference external" href="#docker-container-usage-instructions">Docker Container Usage Instructions</a></li>
@@ -189,16 +187,18 @@ new directory with <code class="docutils literal notranslate"><span class="pre">
 <p>You should know the <code class="docutils literal notranslate"><span class="pre">-v</span></code> or <code class="docutils literal notranslate"><span class="pre">--volume</span></code> option, which assigns the <code class="docutils literal notranslate"><span class="pre">~/test</span></code> directory on your host machine to the
 working directory <code class="docutils literal notranslate"><span class="pre">/imargi</span></code> of the iMARGI container. The container can only operate the files in <code class="docutils literal notranslate"><span class="pre">~/test</span></code> directory.
 In the example, a folder <code class="docutils literal notranslate"><span class="pre">new_dir</span></code> will be created in the folder <code class="docutils literal notranslate"><span class="pre">~/test/</span></code>. You can just replace the command to use
-any tool in the iMARGI Docker container.</p>
+any tool in the iMARGI Docker container. Besides, there are many other options are useful. For example, you can use
+<code class="docutils literal notranslate"><span class="pre">--rm</span></code> to automatically clean up the container after finished its job. For more usage information of Docker, please
+refer to <a class="reference external" href="https://docs.docker.com/engine/reference/commandline/cli/">Docker documentation</a>.</p>
 </div>
 <div class="section" id="dependencies-instruction">
 <h2>Dependencies Instruction<a class="headerlink" href="#dependencies-instruction" title="Permalink to this headline">¶</a></h2>
 <p>We strongly recommend using iMARGI-Docker instead of configuring all the dependencies of iMARGI pipeline on your Linux
 server. However, if you really cannot run Docker on your machine, you might want to try to configure these tools. It
-requires root access to your machine and some administration experiences of Linux server.</p>
+requires root access to your machine and solid experience of Linux server administration.</p>
 <p>We cannot guarantee success of local configuration. If you encounter some problems or have suggestions, please create
 issues in the <a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker">iMARGI-Docker GitHub repo</a>. If you are using Ubuntu
-18.04, the following command lines we used to configure iMARGI-Docker might help you.</p>
+(18.04), the following command lines we used to configure iMARGI-Docker might help you.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># run with root account</span>
 apt-get update
 apt-get install git build-essential libz-dev libbz2-dev liblzma-dev libssl-dev libcurl4-gnutls-dev <span class="se">\</span>
@@ -222,9 +222,11 @@ apt-get install git build-essential libz-dev libbz2-dev liblzma-dev libssl-dev l
 
 apt-get install -y python3-dev libopenblas-dev python3-pip
 pip3 install numpy cython scipy pandas click
-pip3 install pairtools cooler
+pip3 install pairtools cooler HTSeq
 
-cp ./src/imargi_* /usr/local/bin/
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/Zhong-Lab-UCSD/iMARGI-Docker.git <span class="o">&amp;&amp;</span><span class="se">\</span>
+    cp iMARGI-Docker/src/imargi_* /usr/local/bin/
+
 chmod +x /usr/local/bin/imargi_*
 </pre></div>
 </div>
@@ -418,7 +420,7 @@ compiling tools on Linux system to install some of these tools.</p>
         <a href="quick_example.html" class="btn btn-neutral float-right" title="Quick Start Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -444,16 +446,36 @@ compiling tools on Linux system to install some of these tools.</p>
   
 
 
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

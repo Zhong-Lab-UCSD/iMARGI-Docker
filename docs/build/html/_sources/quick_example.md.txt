@@ -5,6 +5,12 @@ all-in-one wrapper script `imargi_wrapper.sh` is used here to automate the whole
 Please go to the [Step-by-step Illustration](./step_by_step_illustration.md) section to learn the details of
 the pipeline.
 
+Although it's easy to process the real example dataset in several commands, it's very computation consuming, which takes
+more than 10 hours to complete the whole processing. **If you just want to test your iMARGI-Docker
+installation with a small chunk of data, please follow the
+[Software Testing Demo](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker#software-testing-demo)** in the iMARGI-Docker
+GitHub repo.
+
 - [Quick Start Example](#quick-start-example)
   - [Pull the iMARGI Docker Image](#pull-the-imargi-docker-image)
   - [Example Data Preparation](#example-data-preparation)
@@ -56,11 +62,21 @@ downloaded and prepared by fastq-dump tool. Then we can get the iMARGI sequencin
 format files, `SRR8206679_1.fastq.gz` and `SRR8206679_2.fastq.gz`.
 
 ``` bash
-docker run -v ~/imargi_example:/imargi zhonglab/imargi fastq-dump --gzip --split-3 SRR8206679
+docker run --rm -v ~/imargi_example:/imargi zhonglab/imargi fastq-dump --gzip --split-3 SRR8206679
 
 cd ~/imargi_example
 mv ./SRR8206679_*.fastq.gz ./data
 ```
+
+**The real iMARGI dataset are always very large. The HEK iMARGI dataset is more than 40 GB.** If you want to use a
+small chunk of data, you can use the testing demo dataset provided by the
+[Software Testing Demo](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker#software-testing-demo)** in the iMARGI-Docker
+GitHub repo. Just remember to rename the files or change the file names in the following commands.
+Here are the download links:
+
+- [R1 reads fastq.gz](https://sysbio.ucsd.edu/imargi_pipeline/sample_R1.fastq.gz)
+
+- [R2 reads fastq.gz](https://sysbio.ucsd.edu/imargi_pipeline/sample_R2.fastq.gz)
 
 ### Download Reference Genome
 
@@ -106,7 +122,7 @@ We used ‘-N HEK_iMARGI’ argument to set base name for all the result files.
 ``` bash
 cd ~/imargi_example
 mkdir ./output
-docker run -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh \
+docker run --rm -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh \
     -r hg38 \
     -N HEK_iMARGI \
     -t 16 \

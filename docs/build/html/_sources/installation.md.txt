@@ -1,8 +1,8 @@
 # Tools and Installation
 
-In the iMARGI pipeline, a bundle of tools and several bash scripts created by us are required. For convenience,
-we built [iMARGI-Docker](https://hub.docker.com/r/zhonglab/imargi) to distribute the pipeline. It delivers all the
-configured tools.
+In the iMARGI pipeline, a bundle of tools and several bash scripts created by us are required. For convenience and
+reproducibility, we built [iMARGI-Docker](https://hub.docker.com/r/zhonglab/imargi) to distribute the pipeline.
+It delivers all the well configured tools.
 
 - [Tools and Installation](#tools-and-installation)
   - [Docker Container Usage Instructions](#docker-container-usage-instructions)
@@ -36,17 +36,19 @@ docker run -v ~/test:/imargi zhonglab/imargi mkdir new_dir
 You should know the `-v` or `--volume` option, which assigns the `~/test` directory on your host machine to the
 working directory `/imargi` of the iMARGI container. The container can only operate the files in `~/test` directory.
 In the example, a folder `new_dir` will be created in the folder `~/test/`. You can just replace the command to use
-any tool in the iMARGI Docker container.
+any tool in the iMARGI Docker container. Besides, there are many other options are useful. For example, you can use
+`--rm` to automatically clean up the container after finished its job. For more usage information of Docker, please
+refer to [Docker documentation](https://docs.docker.com/engine/reference/commandline/cli/).
 
 ## Dependencies Instruction
 
 We strongly recommend using iMARGI-Docker instead of configuring all the dependencies of iMARGI pipeline on your Linux
 server. However, if you really cannot run Docker on your machine, you might want to try to configure these tools. It
-requires root access to your machine and some administration experiences of Linux server.
+requires root access to your machine and solid experience of Linux server administration.
 
 We cannot guarantee success of local configuration. If you encounter some problems or have suggestions, please create
 issues in the [iMARGI-Docker GitHub repo](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker). If you are using Ubuntu
-18.04, the following command lines we used to configure iMARGI-Docker might help you.
+(18.04), the following command lines we used to configure iMARGI-Docker might help you.
 
 ``` bash
 # run with root account
@@ -72,9 +74,11 @@ cd /tmp && wget http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.9.4/sratoolkit.2.9.4
 
 apt-get install -y python3-dev libopenblas-dev python3-pip
 pip3 install numpy cython scipy pandas click
-pip3 install pairtools cooler
+pip3 install pairtools cooler HTSeq
 
-cp ./src/imargi_* /usr/local/bin/
+cd /tmp && git clone https://github.com/Zhong-Lab-UCSD/iMARGI-Docker.git &&\
+    cp iMARGI-Docker/src/imargi_* /usr/local/bin/
+
 chmod +x /usr/local/bin/imargi_*
 ```
 

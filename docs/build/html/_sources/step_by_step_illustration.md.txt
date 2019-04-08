@@ -27,7 +27,7 @@ In the [quick example](./quick_example.md) section, we use the following command
 are only sequencing read pairs FASTQ files and reference genome sequence FASTA file.
 
 ``` bash
-docker run -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh \
+docker run --rm -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh \
     -r hg38 \
     -N HEK_iMARGI \
     -t 16 \

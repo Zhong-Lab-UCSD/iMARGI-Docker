@@ -17,36 +17,34 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
 
+  
+  
     
 
   
+
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Step-by-step Illustration" href="step_by_step_illustration.html" />
     <link rel="prev" title="Tools and Installation" href="installation.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
+
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search">
           
 
           
@@ -89,7 +87,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#pull-the-imargi-docker-image">Pull the iMARGI Docker Image</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#example-data-preparation">Example Data Preparation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#set-working-directory">Set Working Directory</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#prepare-fastq-files-of-paired-end-sequencing">Prepare FASTQ Files of Paired-end Sequencing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prepare-fastq-files-of-paired-end-sequencing">Prepare FASTQ Files of Paired-end Sequencing</a><ul>
+<li class="toctree-l4"><a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/sample_R1.fastq.gz">R1 reads fastq.gz</a></li>
+<li class="toctree-l4"><a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/sample_R2.fastq.gz">R2 reads fastq.gz</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#download-reference-genome">Download Reference Genome</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#checklist-of-preparation">Checklist of Preparation</a></li>
 </ul>
@@ -170,6 +172,11 @@
 all-in-one wrapper script <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> is used here to automate the whole pipeline in one command line.
 Please go to the <a class="reference internal" href="step_by_step_illustration.html"><span class="doc">Step-by-step Illustration</span></a> section to learn the details of
 the pipeline.</p>
+<p>Although it’s easy to process the real example dataset in several commands, it’s very computation consuming, which takes
+more than 10 hours to complete the whole processing. <strong>If you just want to test your iMARGI-Docker
+installation with a small chunk of data, please follow the
+<a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker#software-testing-demo">Software Testing Demo</a></strong> in the iMARGI-Docker
+GitHub repo.</p>
 <ul class="simple">
 <li><a class="reference external" href="#quick-start-example">Quick Start Example</a><ul>
 <li><a class="reference external" href="#pull-the-imargi-docker-image">Pull the iMARGI Docker Image</a></li>
@@ -221,11 +228,22 @@ example. The relatd data can be accessed in GEO database by
 in NCBI SRA database with accession number <a class="reference external" href="https://www.ncbi.nlm.nih.gov/sra?term=SRX5026004">SRR8206679</a>. So it can be
 downloaded and prepared by fastq-dump tool. Then we can get the iMARGI sequencing data in a pair of compressed FASTQ
 format files, <code class="docutils literal notranslate"><span class="pre">SRR8206679_1.fastq.gz</span></code> and <code class="docutils literal notranslate"><span class="pre">SRR8206679_2.fastq.gz</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/imargi_example:/imargi zhonglab/imargi fastq-dump --gzip --split-3 SRR8206679
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run --rm -v ~/imargi_example:/imargi zhonglab/imargi fastq-dump --gzip --split-3 SRR8206679
 
 <span class="nb">cd</span> ~/imargi_example
 mv ./SRR8206679_*.fastq.gz ./data
 </pre></div>
+</div>
+<p><strong>The real iMARGI dataset are always very large. The HEK iMARGI dataset is more than 40 GB.</strong> If you want to use a
+small chunk of data, you can use the testing demo dataset provided by the
+<a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker#software-testing-demo">Software Testing Demo</a>** in the iMARGI-Docker
+GitHub repo. Just remember to rename the files or change the file names in the following commands.
+Here are the download links:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/sample_R1.fastq.gz">R1 reads fastq.gz</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/sample_R2.fastq.gz">R2 reads fastq.gz</a></li>
+</ul>
 </div>
 </div>
 <div class="section" id="download-reference-genome">
@@ -267,7 +285,7 @@ requirements, which are sequencing reads data in FASTQ format and reference geno
 We used ‘-N HEK_iMARGI’ argument to set base name for all the result files.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~/imargi_example
 mkdir ./output
-docker run -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh <span class="se">\</span>
+docker run --rm -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh <span class="se">\</span>
     -r hg38 <span class="se">\</span>
     -N HEK_iMARGI <span class="se">\</span>
     -t <span class="m">16</span> <span class="se">\</span>
@@ -349,7 +367,7 @@ detail, please check the <a class="reference internal" href="step_by_step_illust
         <a href="step_by_step_illustration.html" class="btn btn-neutral float-right" title="Step-by-step Illustration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="installation.html" class="btn btn-neutral float-left" title="Tools and Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral" title="Tools and Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -375,16 +393,36 @@ detail, please check the <a class="reference internal" href="step_by_step_illust
   
 
 
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
