@@ -88,11 +88,15 @@
 <li class="toctree-l2"><a class="reference internal" href="#example-data-preparation">Example Data Preparation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#set-working-directory">Set Working Directory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#prepare-fastq-files-of-paired-end-sequencing">Prepare FASTQ Files of Paired-end Sequencing</a><ul>
-<li class="toctree-l4"><a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/sample_R1.fastq.gz">R1 reads fastq.gz</a></li>
-<li class="toctree-l4"><a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/sample_R2.fastq.gz">R2 reads fastq.gz</a></li>
+<li class="toctree-l4"><a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/sample_R1.fastq.gz">Click Here to Download: R1 reads fastq.gz</a></li>
+<li class="toctree-l4"><a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/sample_R2.fastq.gz">Click Here to Download: R2 reads fastq.gz</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#download-reference-genome">Download Reference Genome</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#download-bwa-index-files">Download BWA Index Files</a><ul>
+<li class="toctree-l4"><a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/bwa_index.tar.gz">Click Here to Download: bwa index files</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#checklist-of-preparation">Checklist of Preparation</a></li>
 </ul>
 </li>
@@ -168,15 +172,10 @@
             
   <div class="section" id="quick-start-example">
 <h1>Quick Start Example<a class="headerlink" href="#quick-start-example" title="Permalink to this headline">¶</a></h1>
-<p>This quick start example shows how to apply the iMARGI Pipeline to a real iMARGI sequencing dataset. The
-all-in-one wrapper script <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> is used here to automate the whole pipeline in one command line.
+<p>This quick start example shows how to apply the iMARGI Pipeline using iMARGI-Docker. The all-in-one wrapper script
+<code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> is used here to automate the whole pipeline in one command line.
 Please go to the <a class="reference internal" href="step_by_step_illustration.html"><span class="doc">Step-by-step Illustration</span></a> section to learn the details of
 the pipeline.</p>
-<p>Although it’s easy to process the real example dataset in several commands, it’s very computation consuming, which takes
-more than 10 hours to complete the whole processing. <strong>If you just want to test your iMARGI-Docker
-installation with a small chunk of data, please follow the
-<a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker#software-testing-demo">Software Testing Demo</a></strong> in the iMARGI-Docker
-GitHub repo.</p>
 <ul class="simple">
 <li><a class="reference external" href="#quick-start-example">Quick Start Example</a><ul>
 <li><a class="reference external" href="#pull-the-imargi-docker-image">Pull the iMARGI Docker Image</a></li>
@@ -184,6 +183,7 @@ GitHub repo.</p>
 <li><a class="reference external" href="#set-working-directory">Set Working Directory</a></li>
 <li><a class="reference external" href="#prepare-fastq-files-of-paired-end-sequencing">Prepare FASTQ Files of Paired-end Sequencing</a></li>
 <li><a class="reference external" href="#download-reference-genome">Download Reference Genome</a></li>
+<li><a class="reference external" href="#download-bwa-index-files">Download BWA Index Files</a></li>
 <li><a class="reference external" href="#checklist-of-preparation">Checklist of Preparation</a></li>
 </ul>
 </li>
@@ -204,7 +204,7 @@ GitHub repo.</p>
 <h3>Set Working Directory<a class="headerlink" href="#set-working-directory" title="Permalink to this headline">¶</a></h3>
 <p>We need to mount a directory on host machine to Docker container as working directory. Here we set the
 <code class="docutils literal notranslate"><span class="pre">~/imargi_example</span></code> directory as the mounted working directory, which means we need to use <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">~/imargi_example:/imargi</span></code>
-option when we run docker container. We created some sub-directories for organizing data and results.</p>
+option when we run iMARGI-Docker. We created some sub-directories for organizing data and results.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~/imargi_example
 mkdir ref data output
 </pre></div>
@@ -222,38 +222,27 @@ mkdir ref data output
 </div>
 <div class="section" id="prepare-fastq-files-of-paired-end-sequencing">
 <h3>Prepare FASTQ Files of Paired-end Sequencing<a class="headerlink" href="#prepare-fastq-files-of-paired-end-sequencing" title="Permalink to this headline">¶</a></h3>
-<p>Here we take the HEK (HEK293T) iMARGI data set generated in our previous published paper <a id="a1"><a class="reference external" href="#f1">[1]</a></a> as the
-example. The relatd data can be accessed in GEO database by
-<a class="reference external" href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM3478205">GSM3478205</a>. The raw sequencing reads data is released
-in NCBI SRA database with accession number <a class="reference external" href="https://www.ncbi.nlm.nih.gov/sra?term=SRX5026004">SRR8206679</a>. So it can be
-downloaded and prepared by fastq-dump tool. Then we can get the iMARGI sequencing data in a pair of compressed FASTQ
-format files, <code class="docutils literal notranslate"><span class="pre">SRR8206679_1.fastq.gz</span></code> and <code class="docutils literal notranslate"><span class="pre">SRR8206679_2.fastq.gz</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run --rm -v ~/imargi_example:/imargi zhonglab/imargi fastq-dump --gzip --split-3 SRR8206679
-
-<span class="nb">cd</span> ~/imargi_example
-mv ./SRR8206679_*.fastq.gz ./data
-</pre></div>
-</div>
-<p><strong>The real iMARGI dataset are always very large. The HEK iMARGI dataset is more than 40 GB.</strong> If you want to use a
-small chunk of data, you can use the testing demo dataset provided by the
-<a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker#software-testing-demo">Software Testing Demo</a>** in the iMARGI-Docker
-GitHub repo. Just remember to rename the files or change the file names in the following commands.
+<p>Here we take a small demo dataset as the example. The demo dataset can be processed in about 15 mins.
 Here are the download links:</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/sample_R1.fastq.gz">R1 reads fastq.gz</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/sample_R2.fastq.gz">R2 reads fastq.gz</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/sample_R1.fastq.gz">Click Here to Download: R1 reads fastq.gz</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/sample_R2.fastq.gz">Click Here to Download: R2 reads fastq.gz</a></li>
 </ul>
 </div>
+<p>The demo dataset is randomly sampled from a real HiSeq iMARGI data in HEK cells generated in our previous published
+paper <a id="a1"><a class="reference external" href="#f1">[1]</a></a>. If you are interested in the real dataset, you can get it in NCBI SRA database with
+accession number <a class="reference external" href="https://www.ncbi.nlm.nih.gov/sra?term=SRX5026004">SRR8206679</a>. It’s a very large dataset
+(more than 40 GB) and processing it will take a lot of time (more than 10 hours).</p>
 </div>
 <div class="section" id="download-reference-genome">
 <h3>Download Reference Genome<a class="headerlink" href="#download-reference-genome" title="Permalink to this headline">¶</a></h3>
-<p>The required reference files include a reference genome sequence FASTA file and a chromosome size text file.</p>
+<p>The minimum required reference file is only a reference genome sequence FASTA file.</p>
 <p>We use the same reference genome used by
 <a class="reference external" href="https://www.4dnucleome.org/">4D Nucleome</a> and
 <a class="reference external" href="https://www.encodeproject.org/data-standards/reference-sequences/">ENCODE project</a>. The FASTA file of the reference
 genome can be downloaded use the link:
-<a class="reference external" href="https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/&#64;&#64;download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz">GRCh38_no_alt_analysis_set_GCA_000001405.15</a>.
+<a class="reference external" href="https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/&#64;&#64;download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz">Click Here to Download: GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz</a>.
 It needs to be decompressed using <code class="docutils literal notranslate"><span class="pre">gunzip</span> <span class="pre">-d</span></code> command.</p>
 <p>The command lines for preparing the reference genome files:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~/imargi_example
@@ -264,17 +253,40 @@ mv GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta ./ref
 </pre></div>
 </div>
 </div>
+<div class="section" id="download-bwa-index-files">
+<h3>Download BWA Index Files<a class="headerlink" href="#download-bwa-index-files" title="Permalink to this headline">¶</a></h3>
+<p>Although <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> can automatically build bwa index files, it will cost a lot of time (more than 1 hour
+for human genome). Hence, we suggest to download our pre-built BWA index files for the human hg38 reference
+genome and supply it to <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> with <code class="docutils literal notranslate"><span class="pre">-i</span></code> option. Please download the following gzip compressed <code class="docutils literal notranslate"><span class="pre">bwa_index</span></code>
+folder and decompress it (<code class="docutils literal notranslate"><span class="pre">tar</span> <span class="pre">zxvf</span></code>) in your machine.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/bwa_index.tar.gz">Click Here to Download: bwa index files</a></li>
+</ul>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~/imargi_example/ref
+wget  https://sysbio.ucsd.edu/imargi_pipeline/bwa_index.tar.gz
+tar zxvf bwa_index.tar.gz
+</pre></div>
+</div>
+</div>
 <div class="section" id="checklist-of-preparation">
 <h3>Checklist of Preparation<a class="headerlink" href="#checklist-of-preparation" title="Permalink to this headline">¶</a></h3>
 <p>After preparation, you will get all the required data and reference files in the working directory. It’s the minimum
 requirements, which are sequencing reads data in FASTQ format and reference genome sequence in FASTA format.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~/imargi_example
     ├── data
-    │   ├── SRR8206679_1.fastq.gz
-    │   └── SRR8206679_2.fastq.gz
+    │   ├── sample_R1.fastq.gz
+    │   └── sample_R2.fastq.gz
     ├── output
     └── ref
-        └── GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta
+        ├── GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta
+        └── bwa_index
+            ├── bwa_index_hg38.amb
+            ├── bwa_index_hg38.ann
+            ├── bwa_index_hg38.bwt
+            ├── sample_R1.fastq.pac
+            └── sample_R2.fastq.sa
 </pre></div>
 </div>
 </div>
@@ -282,34 +294,93 @@ requirements, which are sequencing reads data in FASTQ format and reference geno
 <div class="section" id="perform-imargi-pipeline-in-one-command">
 <h2>Perform iMARGI Pipeline in One Command<a class="headerlink" href="#perform-imargi-pipeline-in-one-command" title="Permalink to this headline">¶</a></h2>
 <p>The easiest way of is using the all-in-one wrapper script <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> with default parameters.
-We used ‘-N HEK_iMARGI’ argument to set base name for all the result files.</p>
+We used <code class="docutils literal notranslate"><span class="pre">-N</span> <span class="pre">test_sample</span></code> argument to set base identifier for all the result files.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~/imargi_example
-mkdir ./output
-docker run --rm -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh <span class="se">\</span>
+docker run --rm -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhonglab/imargi <span class="se">\</span>
+    imargi_wrapper.sh <span class="se">\</span>
     -r hg38 <span class="se">\</span>
-    -N HEK_iMARGI <span class="se">\</span>
-    -t <span class="m">16</span> <span class="se">\</span>
+    -N test_sample <span class="se">\</span>
+    -t <span class="m">4</span> <span class="se">\</span>
     -g ./ref/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta <span class="se">\</span>
-    -1 ./data/SRR8206679_1.fastq.gz <span class="se">\</span>
-    -2 ./data/SRR8206679_1.fastq.gz <span class="se">\</span>
+    -i ./ref/bwa_index/bwa_index_hg38 <span class="se">\</span>
+    -1 ./data/sample_R1.fastq.gz <span class="se">\</span>
+    -2 ./data/sample_R2.fastq.gz <span class="se">\</span>
     -o ./output
 </pre></div>
 </div>
-<p>As the size of sequencing data is very large (more than 350 million read pairs), it will cost about 12 hours to process.</p>
-<p><em>Tips</em>:</p>
+<p>It will take about 10 minutes to complete the whole processing pipeline to the demo dataset (with <code class="docutils literal notranslate"><span class="pre">-i</span></code> bwa index argument).</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Step</th>
+<th>Time</th>
+<th>Speed up suggestion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Generating chromosome size file</td>
+<td>10 sec</td>
+<td>It's fast, but you can also supply with <code>-c</code> once you've generated it before.</td>
+</tr>
+<tr>
+<td>Generating bwa index (skipped)</td>
+<td>75 min</td>
+<td>Supply with <code>-i</code> if you've pre-built index files.</td>
+</tr>
+<tr>
+<td>Generating restriction fragment file</td>
+<td>4 min</td>
+<td>Supply with <code>-R</code> when you've already created it before.</td>
+</tr>
+<tr>
+<td>cleaning</td>
+<td>10 sec</td>
+<td>It's fast and not parallelization.</td>
+</tr>
+<tr>
+<td>bwa mapping</td>
+<td>2 min</td>
+<td>More CPU cores with <code>-t</code>.</td>
+</tr>
+<tr>
+<td>interaction pair parsing</td>
+<td>1 min</td>
+<td>More CPU cores with <code>-t</code>.</td>
+</tr>
+</tbody>
+</table><blockquote>
+<div><p><em>Tips:</em></p>
 <ul class="simple">
-<li>The command will automatically generate bwa index files based on the ref genome supplied by <code class="docutils literal notranslate"><span class="pre">-g</span></code> argument, which needs
-more than 1 hour. If you have pre-built bwa index files, you can supply it with <code class="docutils literal notranslate"><span class="pre">-i</span></code> argument.</li>
-<li>If you are using Windows or MacOS, you need to use pre-built bwa index files with <code class="docutils literal notranslate"><span class="pre">-i</span></code> argument. otherwise, it will
-fail in the <code class="docutils literal notranslate"><span class="pre">bwa</span> <span class="pre">index</span></code> process. We provide Human hg38 bwa index files on our server
-(<a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/bwa_index.tar.gz">link to download</a>). In fact, if you are familiar with
-Docker volume usage, you can find a solution in the <a class="reference internal" href="technical_note.html"><span class="doc">technical note document</span></a></li>
+<li><code class="docutils literal notranslate"><span class="pre">--rm</span></code>: By default a container’s file system persists even after the container exits. Hence, the container file
+systems can really pile up. <code class="docutils literal notranslate"><span class="pre">--rm</span></code> option will automatically clean up the container after the container exits.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-u</span> <span class="pre">1043</span></code>: Run docker with your own UID of your Linux system (use <code class="docutils literal notranslate"><span class="pre">id</span></code> command to check your own UID and replace
+<code class="docutils literal notranslate"><span class="pre">1043</span></code> with it) to avoid file/dir permission problem.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">~/imargi_example:/imargi</span></code>: It mounts the <code class="docutils literal notranslate"><span class="pre">~/imargi_example</span></code> directory in your host machine to workspace of the
+running docker container. The path must be a full path. The example was ran on a Linux computer. If you ran it on a
+Windows  computer, the path is a little different. For example, Windows path <code class="docutils literal notranslate"><span class="pre">D:\test\imargi_example</span></code> needs to be
+rewritten as <code class="docutils literal notranslate"><span class="pre">/d/test/imargi_example</span></code>, so the <code class="docutils literal notranslate"><span class="pre">-v</span></code> argument needs to be <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">/d/test/imargi_example:/imargi</span></code>. When you
+executed it on Windows, a window might pop up to verify that you want to share the folder.</li>
+<li>The command line is long, so <code class="docutils literal notranslate"><span class="pre">\</span></code> was used for splitting it into multiple lines in the example. It’s a Linux or MacOS
+style. However, in Windows, you might need to replace <code class="docutils literal notranslate"><span class="pre">\</span></code> with <code class="docutils literal notranslate"><span class="pre">^</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-i</span></code>: Building bwa index will cost a lot time, so we used the pre-built index files with <code class="docutils literal notranslate"><span class="pre">-i</span></code> argument. There
+are also some other arguments can be used for pre-generated files, such as <code class="docutils literal notranslate"><span class="pre">-R</span></code> for restriction fragment BED file and
+<code class="docutils literal notranslate"><span class="pre">-c</span></code> for chromsize file.See more details in the
+<a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/commandline_api.html#imargi-wrapper-sh">documentation of command line API section</a></li>
+<li><code class="docutils literal notranslate"><span class="pre">-i</span></code>: If you don’t supply bwa index files, the <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> will generated     it automatically. It works
+perfectly on Linux system. However, it doesn’t work on Windows and MacOS because <code class="docutils literal notranslate"><span class="pre">bwa</span> <span class="pre">index</span></code> use <code class="docutils literal notranslate"><span class="pre">fsync</span></code> when build
+large genome index, which cannot handle different driver formats (<code class="docutils literal notranslate"><span class="pre">-v</span></code> mount Windows/MacOS driver to Linux container).
+So it’s better to build it in advance. In fact, there’s a solution to the problem if you are familiar with Docker
+volume. Please read the
+<a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#solve-bwa-index-failure-problem">technical note of iMARGI pipeline documentation</a> for
+detail.</li>
 </ul>
+</div></blockquote>
 </div>
 <div class="section" id="output-of-imargi-pipeline">
 <h2>Output of iMARGI Pipeline<a class="headerlink" href="#output-of-imargi-pipeline" title="Permalink to this headline">¶</a></h2>
 <p>Once the iMARGI Pipeline has completed, all the result files are in the output directory. The tree structure of the
-whole working directory is shown below. The final RNA-DNA interaction map is in the <code class="docutils literal notranslate"><span class="pre">final_HEK_iMARGI.pairs</span></code> file,
+whole working directory is shown below. The final RNA-DNA interaction map is in the <code class="docutils literal notranslate"><span class="pre">final_test_sample.pairs.gz</span></code> file,
 which is a compressed .pairs format file and can be used for further analysis. All the intermediate result files are
 also kept in several sub-directories. As we used the minimum input requirements, so the pipeline automatically
 generated several new reference files in the same directory of reference genome, including chromosome sizes, bwa index
@@ -319,13 +390,14 @@ detail, please check the <a class="reference internal" href="step_by_step_illust
 <a class="reference internal" href="commandline_api.html"><span class="doc">Command-line API</span></a> sections.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~/imargi_example/
     ├── data
-    │   ├── SRR8206679_1.fastq.gz
-    │   └── SRR8206679_1.fastq.gz
+    │   ├── sample_R1.fastq.gz
+    │   └── sample_R2.fastq.gz
     ├── ref
     │   ├── GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta
     │   ├── GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.fai
-    │   ├── chrom.sizes.hg38.txt
+    │   ├── chromsize.hg38.txt
     │   ├── AluI_frags.bed.gz
+    │   ├── AluI_frags.bed.gz.tbi
     │   └── bwa_index
     │       ├── bwa_index_hg38.amb
     │       ├── bwa_index_hg38.ann
@@ -334,21 +406,21 @@ detail, please check the <a class="reference internal" href="step_by_step_illust
     │       └── bwa_index_hg38.sa
     └── output
         ├── bwa_output
-        │   ├── bwa_log_HEK_iMARGI.txt
-        │   └── HEK_iMARGI.bam
+        │   ├── bwa_log_test_sample.txt
+        │   └── test_sample.bam
         ├── clean_fastq
-        │   ├── clean_SRR8206679_1.fastq.gz
-        │   └── clean_SRR8206679_2.fastq.gz
+        │   ├── clean_test_sample_R1.fastq.gz
+        │   └── clean_test_sample_R2.fastq.gz
         ├── parse_temp
-        │   ├── dedup_HEK_iMARGI.pairs.gz
-        │   ├── drop_HEK_iMARGI.pairs.gz
-        │   ├── duplication_HEK_iMARGI.pairs.gz
-        │   ├── sorted_all_HEK_iMARGI.pairs.gz
-        │   ├── stats_dedup_HEK_iMARGI.txt
-        <span class="p">|</span>   ├── stats_final_HEK_iMARGI.txt
-        │   └── unmapped_HEK_iMARGI.pairs.gz
-        ├── final_HEK_iMARGI.pairs.gz
-        └── pipelineStats_HEK_iMARGI.log
+        │   ├── dedup_test_sample.pairs.gz
+        │   ├── drop_test_sample.pairs.gz
+        │   ├── duplication_test_sample.pairs.gz
+        │   ├── sorted_all_test_sample.pairs.gz
+        │   ├── stats_dedup_test_sample.txt
+        │   ├── stats_final_test_sample.txt
+        │   └── unmapped_test_sample.pairs.gz
+        ├── final_test_sample.pairs.gz
+        └── pipelineStats_test_sample.log
 </pre></div>
 </div>
 <p><strong>Reference:</strong></p>

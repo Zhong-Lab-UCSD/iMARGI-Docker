@@ -27,13 +27,15 @@ In the [quick example](./quick_example.md) section, we use the following command
 are only sequencing read pairs FASTQ files and reference genome sequence FASTA file.
 
 ``` bash
-docker run --rm -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh \
+docker run --rm -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
+    imargi_wrapper.sh \
     -r hg38 \
-    -N HEK_iMARGI \
-    -t 16 \
+    -N test_sample \
+    -t 4 \
     -g ./ref/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta \
-    -1 ./data/SRR8206679_1.fastq.gz \
-    -2 ./data/SRR8206679_1.fastq.gz \
+    -i ./ref/bwa_index/bwa_index_hg38 \
+    -1 ./data/sample_R1.fastq.gz \
+    -2 ./data/sample_R2.fastq.gz \
     -o ./output
 ```
 
@@ -42,9 +44,10 @@ We only set a few arguments in the command which are described below, and use de
 - `-r`: Name of reference genome. It will be used in header of .pairs format file and names of new generated
     reference files.
 - `-N`: Name of sample. It will be used in names of final output files.
-- `-g`: Reference genome sequence FASTA file.
-- `-1` and `-2`: Sequencing read pairs FASTQ files.
 - `-t`: Maximum CPU cores.
+- `-g`: Reference genome sequence FASTA file.
+- `-i`: BWA index files.
+- `-1` and `-2`: Sequencing read pairs FASTQ files.
 - `-o`: Output directory
 
 In fact, there are more arguments of `imargi_wrapper.sh` can be set, you can check the full arguments in the
@@ -52,10 +55,10 @@ In fact, there are more arguments of `imargi_wrapper.sh` can be set, you can che
 reference files, including chromosome sizes file, bwa index and restriction fragments bed format file. Because we didn't
 set these arguments in the command line, `imargi_wrapper.sh` automatically generated them. If you have already got these
 files, you can use these arguments and it will save you some time and disk space. When the three arguments are all set
-correctly, the `-g` argument is not needed.
+correctly, the `-g` argument can be ignored.
 
+- `-i`: BWA index files.
 - `-c`: Chromosome sizes file
-- `-i`: bwa index
 - `-R`: Restriction fragments bed format file
 
 The following sections are detail illustrations of how `imargi_wrapper.sh` works inside of the iMARGI Docker
@@ -109,7 +112,7 @@ bwa index -p ./ref/bwa_index/bwa_index_hg38 ./ref/GRCh38_no_alt_analysis_set_GCA
 
 AluI enzyme is used to digest genome in iMARGI, whose cutting site is AG^CT. The restriction fragments are used for
 filtering out read pairs sequenced from non-RNA-DNA-ligation fragments. The `imargi_wrapper.sh` uses `imargi_rsfrags.sh`
-tool to generate the restriction fragment bed format file.
+tool to generate the restriction fragment bed (gzip compressed) format file.
 
 ``` bash
 imargi_rsfrags.sh \
@@ -125,8 +128,8 @@ imargi_rsfrags.sh \
 | Type | Description/Tool | Files/Key Parameters |
 ---------|----------|---------
 **Tool** | `imargi_clean.sh` | `-1 <fastq.gz_R1>` <br> `-2 <fastq.gz_R2>` <br> `-o <output_dir>` <br> `-t <threads>`
-**Input**  | raw paired FASTQ files | `./data/SRR8206679_1.fastq.gz` <br> `./data/SRR8206679_2.fastq.gz`
-**Output** | clean paired FASTQ files | `./output/clean_fastq/clean_SRR8206679_1.fastq.gz` <br> `./output/clean_fastq/clean_SRR8206679_2.fastq.gz`
+**Input**  | raw paired FASTQ files | `./data/sample_R1.fastq.gz` <br> `./data/sample_R2.fastq.gz`
+**Output** | clean paired FASTQ files | `./output/clean_fastq/clean_test_sample_R1.fastq.gz` <br> `./output/clean_fastq/clean_test_sample_R2.fastq.gz`
 
 According to the design of iMARGI sequencing library construction, there are two random nucleotides `NN` at the 5' end
 of R1 read. It will affect mapping, so we remove those two random bases before mapping.
@@ -142,8 +145,8 @@ The command of cleaning used in the `imargi_wrapper.sh` is:
 
 ``` bash
 bash imargi_clean.sh \
-    -1 ./data/SRR8206679_1.fastq.gz \
-    -2 ./data/SRR8206679_2.fastq.gz \
+    -1 ./data/sample_R1.fastq.gz \
+    -2 ./data/sample_R2.fastq.gz \
     -o ./output/clean_fastq/ \
     -t 16
 ```
@@ -153,8 +156,8 @@ bash imargi_clean.sh \
 | Type | Description/Tool | Files/Key Parameters |
 ---------|----------|---------
 **Tool** | `bwa mem` | `-SP5M` <br> `-t <threads>` <br> `<idxbase>` <br> `<in1.fq>` <br> `<in2.fq>`
-**Input**  | clean paired FASTQ files | `./output/clean_fastq/clean_SRR8206679_1.fastq.gz` <br> `./output/clean_fastq/clean_SRR8206679_2.fastq.gz`
-**Output** | BAM file | `./output/bwa_output/HEK_iMARGI.bam`
+**Input**  | clean paired FASTQ files | `./output/clean_fastq/clean_test_sample_R1.fastq.gz` <br> `./output/clean_fastq/clean_test_sample_R2.fastq.gz`
+**Output** | BAM file | `./output/bwa_output/test_sample.bam`
 
 We use bwa mem with `-SP5M` parameters to map cleaned read pairs to reference genome. The `-SP5M` options are very
 important, which allows split alignments. The output BAM file name is based on the `-N` argument of `imargi_wrapper.sh`,
@@ -163,9 +166,9 @@ and the name will be kept in next step.
 ``` bash
 # bwa mem mapping
 bwa mem -t 16 -SP5M ./ref/bwa_index/bwa_index_GRCh38 \
-    ./clean_fastq/clean_HEK_iMARGI_R1.fastq.gz \
-    ./clean_fastq/clean_HEK_iMARGI_R2.fastq.gz |\
-    samtools view -Shb -@ 7 - >./bwa_output/HEK_iMARGI.bam
+    ./clean_fastq/clean_test_sample_R1.fastq.gz \
+    ./clean_fastq/clean_test_sample_R2.fastq.gz |\
+    samtools view -Shb -@ 7 - >./bwa_output/test_sample.bam
 ```
 
 ## Parsing: parse mapped read pairs to valid RNA-DNA interactions
@@ -173,8 +176,8 @@ bwa mem -t 16 -SP5M ./ref/bwa_index/bwa_index_GRCh38 \
 | Type | Description/Tool | Files/Key Parameters |
 ---------|----------|---------
 **Tool** | `imargi_parse.sh` | `-r <ref_name>` <br> `-c <chromSize_file>` <br> `-R <restrict_frags_file>` <br> `-b <bam_file>` <br> `-o <output_dir>` <br> `-t <threads>`
-**Input**  | BAM file | `.output/bwa_output/HEK_iMARGI.bam`
-**Output** | .pairs file | `./output/final_HEK_iMARGI.pairs.gz`
+**Input**  | BAM file | `.output/bwa_output/test_sample.bam`
+**Output** | .pairs file | `./output/final_test_sample.pairs.gz`
 
 The `imargi_parse.sh` is a wrapper script to parse interaction pairs from BAM file, and do de-duplication and filtering,
 then output the final .paris file of valid RNA-DNA interaction map, and by default the intermediate files are also kept
@@ -194,7 +197,7 @@ imargi_parse.sh \
     -r hg38 \
     -c ./ref/hg38.chrom.sizes \
     -R ./ref/AluI_frags.bed.gz \
-    -b ./output/bwa_output/HEK_iMARGI.bam \
+    -b ./output/bwa_output/test_sample.bam \
     -o ./output \
     -t 16 \
     -Q 1 \
@@ -261,43 +264,44 @@ tool `imargi_distfilter.sh` to do genomic distance filter. Please read more in t
 The output files are all in the output directory `~/imargi_example/output`.
 
 ```
-└── output
+    └── output
         ├── bwa_output
-        │   └── HEK_iMARGI.bam
+        │   ├── bwa_log_test_sample.txt
+        │   └── test_sample.bam
         ├── clean_fastq
-        │   ├── clean_SRR8206679_1.fastq.gz
-        │   └── clean_SRR8206679_2.fastq.gz
+        │   ├── clean_test_sample_R1.fastq.gz
+        │   └── clean_test_sample_R2.fastq.gz
         ├── parse_temp
-        │   ├── dedup_HEK_iMARGI.pairs.gz
-        │   ├── drop_HEK_iMARGI.pairs.gz
-        │   ├── duplication_HEK_iMARGI.pairs.gz
-        │   ├── sorted_all_HEK_iMARGI.pairs.gz
-        │   ├── stats_dedup_HEK_iMARGI.txt
-        │   ├── stats_final_HEK_iMARGI.txt
-        │   └── unmapped_HEK_iMARGI.pairs.gz
-        ├── final_HEK_iMARGI.pairs.gz
-        └── pipelineStats_HEK_iMARGI.log
+        │   ├── dedup_test_sample.pairs.gz
+        │   ├── drop_test_sample.pairs.gz
+        │   ├── duplication_test_sample.pairs.gz
+        │   ├── sorted_all_test_sample.pairs.gz
+        │   ├── stats_dedup_test_sample.txt
+        │   ├── stats_final_test_sample.txt
+        │   └── unmapped_test_sample.pairs.gz
+        ├── final_test_sample.pairs.gz
+        └── pipelineStats_test_sample.log
 ```
 
 The table below briefly described all the output files.
 
-| Type                                              | Example Items                   | Directory (relative to output directory)  | Format | Description                                | File size |
-|---------------------------------------------------|---------------------------------|-------------------------------------------|--------|--------------------------------------------|-----------|
-| Cleaned FASTQ | `clean_SRR8206679_1.fastq.gz` <br> `clean_SRR8206679_2.fastq.gz` | `./clean_fastq` | paired clean FASTQ | Output of cleaning step, the two random bases at 5' end of R1 were removed | 2 x 20 GB  |
-| Sequencing reads alignments  | `HEK_iMARGI.bam` | `./bwa_output`  | BAM    | Output of bwa mapping step  | 64 GB  |
-|Intermediate parsing results| `sorted_all_HEK_iMARGI.pairs.gz`  | `./parse_temp` | .pairs | Sorted all the parsed read pairs           | 5.2 GB |
-|Intermediate parsing results| `dedup_HEK_iMARGI.pairs.gz`       |`./parse_temp` | .pairs | Parsed read pairs after deduplication      | 2.1 GB |
-|Intermediate parsing results| `duplication_HEK_iMARGI.pairs.gz` | `./parse_temp` | .pairs | Duplicated pairs                           | 506 MB |
-|Intermediate parsing results| `unmapped_HEK_iMARGI.pairs.gz`    | `./parse_temp` | .pairs | Unmapped pairs                             | 3.0 GB |
-|Intermediate parsing results| `drop_HEK_iMARGI.pairs.gz`        | `./parse_temp` | .pairs | Filtered out in-valid RNA-DNA interactions | 891 MB |
-|Intermediate parsing results| `stats_dedup_HEK_iMARGI.txt` <br>  `stats_final_HEK_iMARGI.txt` | `./parse_temp` | text | Stats report generated by pairtools | 1 KB |
-|Final output| `final_HEK_iMARGI.pairs.gz`  | `./`    | .pairs | Final output of valid RNA-DNA interactions | 1.3 GB |
-|Pipeline stats log| `pipelineStats_HEK_iMARGI.log`  | `./`    | Simple number report of processed number of reads| 1 KB |
+| Type                                              | Example Items                   | Directory (relative to output directory)  | Format | Description                                |
+|---------------------------------------------------|---------------------------------|-------------------------------------------|--------|--------------------------------------------|
+| Cleaned FASTQ | `clean_test_sample_R1.fastq.gz` <br> `clean_test_sample_R2.fastq.gz` | `./clean_fastq` | paired clean FASTQ | Output of cleaning step, the two random bases at 5' end of R1 were removed |
+| Sequencing reads alignments  | `test_sample.bam` | `./bwa_output`  | BAM    | Output of bwa mapping step  |
+|Intermediate parsing results| `sorted_all_test_sample.pairs.gz`  | `./parse_temp` | .pairs | Sorted all the parsed read pairs           |
+|Intermediate parsing results| `dedup_test_sample.pairs.gz`       |`./parse_temp` | .pairs | Parsed read pairs after deduplication      |
+|Intermediate parsing results| `duplication_test_sample.pairs.gz` | `./parse_temp` | .pairs | Duplicated pairs                           |
+|Intermediate parsing results| `unmapped_test_sample.pairs.gz`    | `./parse_temp` | .pairs | Unmapped pairs                             |
+|Intermediate parsing results| `drop_test_sample.pairs.gz`        | `./parse_temp` | .pairs | Filtered out in-valid RNA-DNA interactions |
+|Intermediate parsing results| `stats_dedup_test_sample.txt` <br>  `stats_final_test_sample.txt` | `./parse_temp` | text | Stats report generated by pairtools |
+|Final output| `final_test_sample.pairs.gz`  | `./`    | .pairs | Final output of valid RNA-DNA interactions |
+|Pipeline stats log| `pipelineStats_test_sample.log`  | `./`    | Simple number report of processed number of reads|
 
 
 ### The iMARGI Pipeline Output .pairs Format
 
-The default final output file is `final_HEK_iMARGI.pairs.gz` which is in .pairs format. .pairs file format is designed
+The default final output file is `final_test_sample.pairs.gz` which is in .pairs format. .pairs file format is designed
 by 4DN DCIC. You can read its
 [specification document](https://github.com/4dn-dcic/pairix/blob/master/pairs_format_specification.md).
 

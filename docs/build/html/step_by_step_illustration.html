@@ -199,13 +199,15 @@ corresponding tools.</p>
 <h2>The <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> Running Command<a class="headerlink" href="#the-imargi-wrapper-sh-running-command" title="Permalink to this headline">¶</a></h2>
 <p>In the <a class="reference internal" href="quick_example.html"><span class="doc">quick example</span></a> section, we use the following command of <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code>, whose input
 are only sequencing read pairs FASTQ files and reference genome sequence FASTA file.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run --rm -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh <span class="se">\</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run --rm -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhonglab/imargi <span class="se">\</span>
+    imargi_wrapper.sh <span class="se">\</span>
     -r hg38 <span class="se">\</span>
-    -N HEK_iMARGI <span class="se">\</span>
-    -t <span class="m">16</span> <span class="se">\</span>
+    -N test_sample <span class="se">\</span>
+    -t <span class="m">4</span> <span class="se">\</span>
     -g ./ref/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta <span class="se">\</span>
-    -1 ./data/SRR8206679_1.fastq.gz <span class="se">\</span>
-    -2 ./data/SRR8206679_1.fastq.gz <span class="se">\</span>
+    -i ./ref/bwa_index/bwa_index_hg38 <span class="se">\</span>
+    -1 ./data/sample_R1.fastq.gz <span class="se">\</span>
+    -2 ./data/sample_R2.fastq.gz <span class="se">\</span>
     -o ./output
 </pre></div>
 </div>
@@ -214,9 +216,10 @@ are only sequencing read pairs FASTQ files and reference genome sequence FASTA f
 <li><code class="docutils literal notranslate"><span class="pre">-r</span></code>: Name of reference genome. It will be used in header of .pairs format file and names of new generated
 reference files.</li>
 <li><code class="docutils literal notranslate"><span class="pre">-N</span></code>: Name of sample. It will be used in names of final output files.</li>
-<li><code class="docutils literal notranslate"><span class="pre">-g</span></code>: Reference genome sequence FASTA file.</li>
-<li><code class="docutils literal notranslate"><span class="pre">-1</span></code> and <code class="docutils literal notranslate"><span class="pre">-2</span></code>: Sequencing read pairs FASTQ files.</li>
 <li><code class="docutils literal notranslate"><span class="pre">-t</span></code>: Maximum CPU cores.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-g</span></code>: Reference genome sequence FASTA file.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-i</span></code>: BWA index files.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-1</span></code> and <code class="docutils literal notranslate"><span class="pre">-2</span></code>: Sequencing read pairs FASTQ files.</li>
 <li><code class="docutils literal notranslate"><span class="pre">-o</span></code>: Output directory</li>
 </ul>
 <p>In fact, there are more arguments of <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> can be set, you can check the full arguments in the
@@ -224,10 +227,10 @@ reference files.</li>
 reference files, including chromosome sizes file, bwa index and restriction fragments bed format file. Because we didn’t
 set these arguments in the command line, <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> automatically generated them. If you have already got these
 files, you can use these arguments and it will save you some time and disk space. When the three arguments are all set
-correctly, the <code class="docutils literal notranslate"><span class="pre">-g</span></code> argument is not needed.</p>
+correctly, the <code class="docutils literal notranslate"><span class="pre">-g</span></code> argument can be ignored.</p>
 <ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">-i</span></code>: BWA index files.</li>
 <li><code class="docutils literal notranslate"><span class="pre">-c</span></code>: Chromosome sizes file</li>
-<li><code class="docutils literal notranslate"><span class="pre">-i</span></code>: bwa index</li>
 <li><code class="docutils literal notranslate"><span class="pre">-R</span></code>: Restriction fragments bed format file</li>
 </ul>
 <p>The following sections are detail illustrations of how <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> works inside of the iMARGI Docker
@@ -335,7 +338,7 @@ bwa index -p ./ref/bwa_index/bwa_index_hg38 ./ref/GRCh38_no_alt_analysis_set_GCA
 </tbody>
 </table><p>AluI enzyme is used to digest genome in iMARGI, whose cutting site is AG^CT. The restriction fragments are used for
 filtering out read pairs sequenced from non-RNA-DNA-ligation fragments. The <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> uses <code class="docutils literal notranslate"><span class="pre">imargi_rsfrags.sh</span></code>
-tool to generate the restriction fragment bed format file.</p>
+tool to generate the restriction fragment bed (gzip compressed) format file.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>imargi_rsfrags.sh <span class="se">\</span>
     -r ./ref/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta <span class="se">\</span>
     -c ./ref/hg38.chrom.sizes <span class="se">\</span>
@@ -365,12 +368,12 @@ tool to generate the restriction fragment bed format file.</p>
 <tr>
 <td><strong>Input</strong></td>
 <td>raw paired FASTQ files</td>
-<td><code>./data/SRR8206679_1.fastq.gz</code> <br> <code>./data/SRR8206679_2.fastq.gz</code></td>
+<td><code>./data/sample_R1.fastq.gz</code> <br> <code>./data/sample_R2.fastq.gz</code></td>
 </tr>
 <tr>
 <td><strong>Output</strong></td>
 <td>clean paired FASTQ files</td>
-<td><code>./output/clean_fastq/clean_SRR8206679_1.fastq.gz</code> <br> <code>./output/clean_fastq/clean_SRR8206679_2.fastq.gz</code></td>
+<td><code>./output/clean_fastq/clean_test_sample_R1.fastq.gz</code> <br> <code>./output/clean_fastq/clean_test_sample_R2.fastq.gz</code></td>
 </tr>
 </tbody>
 </table><p>According to the design of iMARGI sequencing library construction, there are two random nucleotides <code class="docutils literal notranslate"><span class="pre">NN</span></code> at the 5’ end
@@ -383,8 +386,8 @@ But the disadvantage is that it’s not flexible and causes false negative. So w
 based on restriction fragments is applied in parsing step within the <code class="docutils literal notranslate"><span class="pre">imargi_parse.sh</span></code> tool.</p>
 <p>The command of cleaning used in the <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> is:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash imargi_clean.sh <span class="se">\</span>
-    -1 ./data/SRR8206679_1.fastq.gz <span class="se">\</span>
-    -2 ./data/SRR8206679_2.fastq.gz <span class="se">\</span>
+    -1 ./data/sample_R1.fastq.gz <span class="se">\</span>
+    -2 ./data/sample_R2.fastq.gz <span class="se">\</span>
     -o ./output/clean_fastq/ <span class="se">\</span>
     -t <span class="m">16</span>
 </pre></div>
@@ -409,12 +412,12 @@ based on restriction fragments is applied in parsing step within the <code class
 <tr>
 <td><strong>Input</strong></td>
 <td>clean paired FASTQ files</td>
-<td><code>./output/clean_fastq/clean_SRR8206679_1.fastq.gz</code> <br> <code>./output/clean_fastq/clean_SRR8206679_2.fastq.gz</code></td>
+<td><code>./output/clean_fastq/clean_test_sample_R1.fastq.gz</code> <br> <code>./output/clean_fastq/clean_test_sample_R2.fastq.gz</code></td>
 </tr>
 <tr>
 <td><strong>Output</strong></td>
 <td>BAM file</td>
-<td><code>./output/bwa_output/HEK_iMARGI.bam</code></td>
+<td><code>./output/bwa_output/test_sample.bam</code></td>
 </tr>
 </tbody>
 </table><p>We use bwa mem with <code class="docutils literal notranslate"><span class="pre">-SP5M</span></code> parameters to map cleaned read pairs to reference genome. The <code class="docutils literal notranslate"><span class="pre">-SP5M</span></code> options are very
@@ -422,9 +425,9 @@ important, which allows split alignments. The output BAM file name is based on t
 and the name will be kept in next step.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># bwa mem mapping</span>
 bwa mem -t <span class="m">16</span> -SP5M ./ref/bwa_index/bwa_index_GRCh38 <span class="se">\</span>
-    ./clean_fastq/clean_HEK_iMARGI_R1.fastq.gz <span class="se">\</span>
-    ./clean_fastq/clean_HEK_iMARGI_R2.fastq.gz <span class="p">|</span><span class="se">\</span>
-    samtools view -Shb -@ <span class="m">7</span> - &gt;./bwa_output/HEK_iMARGI.bam
+    ./clean_fastq/clean_test_sample_R1.fastq.gz <span class="se">\</span>
+    ./clean_fastq/clean_test_sample_R2.fastq.gz <span class="p">|</span><span class="se">\</span>
+    samtools view -Shb -@ <span class="m">7</span> - &gt;./bwa_output/test_sample.bam
 </pre></div>
 </div>
 </div>
@@ -447,12 +450,12 @@ bwa mem -t <span class="m">16</span> -SP5M ./ref/bwa_index/bwa_index_GRCh38 <spa
 <tr>
 <td><strong>Input</strong></td>
 <td>BAM file</td>
-<td><code>.output/bwa_output/HEK_iMARGI.bam</code></td>
+<td><code>.output/bwa_output/test_sample.bam</code></td>
 </tr>
 <tr>
 <td><strong>Output</strong></td>
 <td>.pairs file</td>
-<td><code>./output/final_HEK_iMARGI.pairs.gz</code></td>
+<td><code>./output/final_test_sample.pairs.gz</code></td>
 </tr>
 </tbody>
 </table><p>The <code class="docutils literal notranslate"><span class="pre">imargi_parse.sh</span></code> is a wrapper script to parse interaction pairs from BAM file, and do de-duplication and filtering,
@@ -471,7 +474,7 @@ are treated as “null” alignments. [default: 20]</li>
     -r hg38 <span class="se">\</span>
     -c ./ref/hg38.chrom.sizes <span class="se">\</span>
     -R ./ref/AluI_frags.bed.gz <span class="se">\</span>
-    -b ./output/bwa_output/HEK_iMARGI.bam <span class="se">\</span>
+    -b ./output/bwa_output/test_sample.bam <span class="se">\</span>
     -o ./output <span class="se">\</span>
     -t <span class="m">16</span> <span class="se">\</span>
     -Q <span class="m">1</span> <span class="se">\</span>
@@ -533,22 +536,23 @@ tool <code class="docutils literal notranslate"><span class="pre">imargi_distfil
 <div class="section" id="all-the-output-file-list">
 <h3>All The Output File List<a class="headerlink" href="#all-the-output-file-list" title="Permalink to this headline">¶</a></h3>
 <p>The output files are all in the output directory <code class="docutils literal notranslate"><span class="pre">~/imargi_example/output</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└── output
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    └── output
         ├── bwa_output
-        │   └── HEK_iMARGI.bam
+        │   ├── bwa_log_test_sample.txt
+        │   └── test_sample.bam
         ├── clean_fastq
-        │   ├── clean_SRR8206679_1.fastq.gz
-        │   └── clean_SRR8206679_2.fastq.gz
+        │   ├── clean_test_sample_R1.fastq.gz
+        │   └── clean_test_sample_R2.fastq.gz
         ├── parse_temp
-        │   ├── dedup_HEK_iMARGI.pairs.gz
-        │   ├── drop_HEK_iMARGI.pairs.gz
-        │   ├── duplication_HEK_iMARGI.pairs.gz
-        │   ├── sorted_all_HEK_iMARGI.pairs.gz
-        │   ├── stats_dedup_HEK_iMARGI.txt
-        │   ├── stats_final_HEK_iMARGI.txt
-        │   └── unmapped_HEK_iMARGI.pairs.gz
-        ├── final_HEK_iMARGI.pairs.gz
-        └── pipelineStats_HEK_iMARGI.log
+        │   ├── dedup_test_sample.pairs.gz
+        │   ├── drop_test_sample.pairs.gz
+        │   ├── duplication_test_sample.pairs.gz
+        │   ├── sorted_all_test_sample.pairs.gz
+        │   ├── stats_dedup_test_sample.txt
+        │   ├── stats_final_test_sample.txt
+        │   └── unmapped_test_sample.pairs.gz
+        ├── final_test_sample.pairs.gz
+        └── pipelineStats_test_sample.log
 </pre></div>
 </div>
 <p>The table below briefly described all the output files.</p>
@@ -560,95 +564,84 @@ tool <code class="docutils literal notranslate"><span class="pre">imargi_distfil
 <th>Directory (relative to output directory)</th>
 <th>Format</th>
 <th>Description</th>
-<th>File size</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Cleaned FASTQ</td>
-<td><code>clean_SRR8206679_1.fastq.gz</code> <br> <code>clean_SRR8206679_2.fastq.gz</code></td>
+<td><code>clean_test_sample_R1.fastq.gz</code> <br> <code>clean_test_sample_R2.fastq.gz</code></td>
 <td><code>./clean_fastq</code></td>
 <td>paired clean FASTQ</td>
 <td>Output of cleaning step, the two random bases at 5' end of R1 were removed</td>
-<td>2 x 20 GB</td>
 </tr>
 <tr>
 <td>Sequencing reads alignments</td>
-<td><code>HEK_iMARGI.bam</code></td>
+<td><code>test_sample.bam</code></td>
 <td><code>./bwa_output</code></td>
 <td>BAM</td>
 <td>Output of bwa mapping step</td>
-<td>64 GB</td>
 </tr>
 <tr>
 <td>Intermediate parsing results</td>
-<td><code>sorted_all_HEK_iMARGI.pairs.gz</code></td>
+<td><code>sorted_all_test_sample.pairs.gz</code></td>
 <td><code>./parse_temp</code></td>
 <td>.pairs</td>
 <td>Sorted all the parsed read pairs</td>
-<td>5.2 GB</td>
 </tr>
 <tr>
 <td>Intermediate parsing results</td>
-<td><code>dedup_HEK_iMARGI.pairs.gz</code></td>
+<td><code>dedup_test_sample.pairs.gz</code></td>
 <td><code>./parse_temp</code></td>
 <td>.pairs</td>
 <td>Parsed read pairs after deduplication</td>
-<td>2.1 GB</td>
 </tr>
 <tr>
 <td>Intermediate parsing results</td>
-<td><code>duplication_HEK_iMARGI.pairs.gz</code></td>
+<td><code>duplication_test_sample.pairs.gz</code></td>
 <td><code>./parse_temp</code></td>
 <td>.pairs</td>
 <td>Duplicated pairs</td>
-<td>506 MB</td>
 </tr>
 <tr>
 <td>Intermediate parsing results</td>
-<td><code>unmapped_HEK_iMARGI.pairs.gz</code></td>
+<td><code>unmapped_test_sample.pairs.gz</code></td>
 <td><code>./parse_temp</code></td>
 <td>.pairs</td>
 <td>Unmapped pairs</td>
-<td>3.0 GB</td>
 </tr>
 <tr>
 <td>Intermediate parsing results</td>
-<td><code>drop_HEK_iMARGI.pairs.gz</code></td>
+<td><code>drop_test_sample.pairs.gz</code></td>
 <td><code>./parse_temp</code></td>
 <td>.pairs</td>
 <td>Filtered out in-valid RNA-DNA interactions</td>
-<td>891 MB</td>
 </tr>
 <tr>
 <td>Intermediate parsing results</td>
-<td><code>stats_dedup_HEK_iMARGI.txt</code> <br>  <code>stats_final_HEK_iMARGI.txt</code></td>
+<td><code>stats_dedup_test_sample.txt</code> <br>  <code>stats_final_test_sample.txt</code></td>
 <td><code>./parse_temp</code></td>
 <td>text</td>
 <td>Stats report generated by pairtools</td>
-<td>1 KB</td>
 </tr>
 <tr>
 <td>Final output</td>
-<td><code>final_HEK_iMARGI.pairs.gz</code></td>
+<td><code>final_test_sample.pairs.gz</code></td>
 <td><code>./</code></td>
 <td>.pairs</td>
 <td>Final output of valid RNA-DNA interactions</td>
-<td>1.3 GB</td>
 </tr>
 <tr>
 <td>Pipeline stats log</td>
-<td><code>pipelineStats_HEK_iMARGI.log</code></td>
+<td><code>pipelineStats_test_sample.log</code></td>
 <td><code>./</code></td>
 <td>Simple number report of processed number of reads</td>
-<td>1 KB</td>
 <td></td>
 </tr>
 </tbody>
 </table></div>
 <div class="section" id="the-imargi-pipeline-output-pairs-format">
 <h3>The iMARGI Pipeline Output .pairs Format<a class="headerlink" href="#the-imargi-pipeline-output-pairs-format" title="Permalink to this headline">¶</a></h3>
-<p>The default final output file is <code class="docutils literal notranslate"><span class="pre">final_HEK_iMARGI.pairs.gz</span></code> which is in .pairs format. .pairs file format is designed
+<p>The default final output file is <code class="docutils literal notranslate"><span class="pre">final_test_sample.pairs.gz</span></code> which is in .pairs format. .pairs file format is designed
 by 4DN DCIC. You can read its
 <a class="reference external" href="https://github.com/4dn-dcic/pairix/blob/master/pairs_format_specification">specification document</a>.</p>
 <p>In iMARGI Pipeline, we add some more data columns to the default .pairs format files.</p>

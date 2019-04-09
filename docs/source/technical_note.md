@@ -62,19 +62,20 @@ root (id = 0) is the default user within a container. It will cause some permiss
 created by Docker container. So it's better to run iMARGI-Docker container using `-u (--user)`  option to override the
 default root user with your own user id (UID).
 
-You can use command `id` in your linux system to get your own UID. For example, my UID is 1043, so I can run iMARGI-Docker
-with `-u 1043`, then all the output files and directories are all belong to my user ID.
+You can use command `id` in your linux system to get your own UID. For example, my UID is `1043`, so I can run iMARGI-Docker
+with `-u 1043`, then all the output files and directories are all belong to my user ID. You need to replace the `1043`
+with your own UID.
 
 ``` bash
 id
 # uid=1043(frankyan) gid=1048(frankyan)
-docker run -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh \
+docker run --rm -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh \
     -r hg38 \
     -N HEK_iMARGI \
     -t 16 \
     -g ./ref/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta \
-    -1 ./data/SRR8206679_1.fastq.gz \
-    -2 ./data/SRR8206679_1.fastq.gz \
+    -1 ./data/sample_R1.fastq.gz\
+    -2 ./data/sample_R2.fastq.gz \
     -o ./output
 ```
 

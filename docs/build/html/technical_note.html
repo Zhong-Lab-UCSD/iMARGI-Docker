@@ -217,17 +217,18 @@ COPY ./imargi_* /usr/local/bin/
 <p>root (id = 0) is the default user within a container. It will cause some permission problem of some files or directories
 created by Docker container. So it’s better to run iMARGI-Docker container using <code class="docutils literal notranslate"><span class="pre">-u</span> <span class="pre">(--user)</span></code>  option to override the
 default root user with your own user id (UID).</p>
-<p>You can use command <code class="docutils literal notranslate"><span class="pre">id</span></code> in your linux system to get your own UID. For example, my UID is 1043, so I can run iMARGI-Docker
-with <code class="docutils literal notranslate"><span class="pre">-u</span> <span class="pre">1043</span></code>, then all the output files and directories are all belong to my user ID.</p>
+<p>You can use command <code class="docutils literal notranslate"><span class="pre">id</span></code> in your linux system to get your own UID. For example, my UID is <code class="docutils literal notranslate"><span class="pre">1043</span></code>, so I can run iMARGI-Docker
+with <code class="docutils literal notranslate"><span class="pre">-u</span> <span class="pre">1043</span></code>, then all the output files and directories are all belong to my user ID. You need to replace the <code class="docutils literal notranslate"><span class="pre">1043</span></code>
+with your own UID.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>id
 <span class="c1"># uid=1043(frankyan) gid=1048(frankyan)</span>
-docker run -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh <span class="se">\</span>
+docker run --rm -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh <span class="se">\</span>
     -r hg38 <span class="se">\</span>
     -N HEK_iMARGI <span class="se">\</span>
     -t <span class="m">16</span> <span class="se">\</span>
     -g ./ref/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta <span class="se">\</span>
-    -1 ./data/SRR8206679_1.fastq.gz <span class="se">\</span>
-    -2 ./data/SRR8206679_1.fastq.gz <span class="se">\</span>
+    -1 ./data/sample_R1.fastq.gz<span class="se">\</span>
+    -2 ./data/sample_R2.fastq.gz <span class="se">\</span>
     -o ./output
 </pre></div>
 </div>
