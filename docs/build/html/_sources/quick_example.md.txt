@@ -69,10 +69,10 @@ We use the same reference genome used by
 [4D Nucleome](https://www.4dnucleome.org/) and
 [ENCODE project](https://www.encodeproject.org/data-standards/reference-sequences/). The FASTA file of the reference
 genome can be downloaded use the link:
-[Click Here to Download: GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz](https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/@@download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz).
-It needs to be decompressed using `gunzip -d` command.
 
-The command lines for preparing the reference genome files:
+[Click Here to Download: GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz](https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/@@download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz).
+
+It needs to be decompressed using `gunzip -d` command. The command lines for preparing the reference genome files:
 
 ``` bash
 cd ~/imargi_example
