@@ -214,7 +214,7 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
         if i not in ['s', 'r', 'n']:
             sys.stderr.write('Invalid strand specific type for annotation!\n')
             raise SystemExit(1)
-    if ant_mode.lower == 'both':
+    if ant_mode.lower() == 'both':
         header[-1] = header[-1] + ' ' + ' '.join(ant_col)
     else:
         header[-1] = header[-1] + ' ' + ant_col[0]
