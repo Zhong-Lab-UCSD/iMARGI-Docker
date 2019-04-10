@@ -1,5 +1,12 @@
 # Technical Notes
 
+- [Technical Notes](#technical-notes)
+  - [Dockerfile](#dockerfile)
+  - [Install Docker on Different systems](#install-docker-on-different-systems)
+  - [Change Docker Memory Settings on Windows and macOS](#change-docker-memory-settings-on-windows-and-macos)
+  - [Run iMARGI-Docker with Non-root User](#run-imargi-docker-with-non-root-user)
+  - [Solve `bwa index` Failure Problem](#solve-bwa-index-failure-problem)
+
 ## Dockerfile
 
 Here we describe the Dockerfile for building iMARGI-Docker. 
@@ -56,6 +63,68 @@ RUN chmod +x /usr/local/bin/imargi_* && mkdir /imargi
 WORKDIR /imargi
 ```
 
+## Install Docker on Different systems
+
+There are official docs of Docker installation guides for different OS, which can be found in
+[Docker official webpage](https://docs.docker.com/install/).
+
+Here are only some essential instructions. Install Docker on Linux is the easiest.
+
+- **Linux**: Support the most recent 64 bit stable releases of Ubuntu, Debian, Fedora and CentOS. You need `root` or `sudo`
+  privileges. Generally, the following script will automatically install Docker in your system.
+  
+  ``` Bash
+  sudo curl -fsSL https://get.docker.com |sh -
+  
+  # replace frank with you user name
+  sudo usermod -aG docker frank
+  ```
+
+- **macOS (modern)**: Docker Desktop for macOS. Support macOS Sierra 10.12 and newer on a Apple computer after 2010.
+  
+  Download Docker Desktop software for macOS and install.
+  [Click here to check instructions](https://docs.docker.com/docker-for-mac/install/)
+
+- **Windows 10 (modern)**: Docker Desktop for Windows. Support the latest Windows 10 (64 bit) Pro, Enterprise or
+  Education version.
+  
+  First, enable virtualization of your CPU (most of modern Intel CPUs support virtualization).
+  [Check here to see how to enable it in BIOS.](https://www.isumsoft.com/computer/enable-virtualization-technology-vt-x-in-bios-or-uefi.html)
+  Then, turn on Hyper-V. [[Check here to see how to turn on Hyper-V.](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v)
+  Finally, download Docker Desktop software for Windows and install,
+  [Click here to check instructions](https://docs.docker.com/docker-for-windows/install/)
+
+- **Legacy solution**: For older Mac and Windows systems that do not meet the requirements of Docker Desktop for Mac and
+  Docker Desktop for Windows, you can install Docker Toolbox to use Docker.
+
+  Download Docker Toolbox for macOS or Windows and install.
+  [Click here to check instructions](https://docs.docker.com/toolbox/overview/)
+
+## Change Docker Memory Settings on Windows and macOS
+
+Enough memory is important to the iMARGI data processing pipeline. The required amount of memory depends on the size
+of reference genome. For human genome, at least 8GB free memory are required by BWA. Hence,** the memory on the machine
+needs to be more than 8 GB, which usually is 16 GB**. If the memory is not enough, BWA will generate an empty BAM file,
+then it will throw out some strange error information in following steps, such as `"KeyError: 'chr1'"`.
+
+**System memory requirement: 16 GB.**
+
+In addition, if you are using Windows or macOS, there is a memory limit to Docker, which is 2 GB as default. Hence,
+you need to increase it to more than 8 GB.
+
+Here are simple instructions of how to change the settings.
+
+- If you are using Docker Desktop for Windows or macOS, you can easily change the settings by right click the
+  Docker icon (Whale) in the task bar, then go to Settings -> Advanced to change memory and CPU limits.
+  More detail can be found in the Docker official docs of
+  [Get started with Docker for Windows](https://docs.docker.com/docker-for-windows/), and
+  [Get started with Docker Desktop for Mac](https://docs.docker.com/docker-for-mac/#memory).
+
+- If you are using Docker Toolbox for Windows or macOS, which uses VirtualBox as backend, so you need to open VirtualBox,
+  then stop default VM, Select it and click on settings, then make changes as you want.
+
+There isn't any limitation to Docker on Linux system, so don't worry about it.
+
 ## Run iMARGI-Docker with Non-root User
 
 root (id = 0) is the default user within a container. It will cause some permission problem of some files or directories
@@ -82,19 +151,23 @@ docker run --rm -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapp
 ## Solve `bwa index` Failure Problem
 
 As we created iMARGI-Docker on Linux system, so it works perfectly on Linux system. Generally, it should also work
-perfectly on Windows and MacOS. However, in our test, we found one critical problem which will cause `baw index`
+perfectly on Windows and macOS. However, in our test, we found one critical problem which will cause `baw index`
 failure. Here we explain the problem and give a solution to this problem.
 
-- **Description**:  When you use `imargi_wrapper.sh` without `-i` option, the script will generate bwa index files
-  automatically. But it will fail when you run it on Windows or MacOS.
+_First of all, you need to check you memory. Your computer needs 16 GB memory. If you are using Docker on Windows or
+macOS, you also need to set the Docker memory limit to more than 8 GB. If you are sure that the memory is enough, then
+try the following solution._
 
-- **Cause**: Different operating systems have different file system formats, such as NTFS in Windows, APFS in MacOS and
+- **Description**: When you use `imargi_wrapper.sh` without `-i` option, the script will generate bwa index files
+  automatically. But it might fail when you run it on Windows or macOS.
+
+- **Cause**: Different operating systems have different file system formats, such as NTFS in Windows, APFS in macOS and
   ext4 in Linux. When we use `-v` option to mount host directory to Docker container, it's a kind of map between
   different file system. Most of time, there isn't any problem. However, some tools cannot handle this kind of hybrid
   situation, such as `fsync`, which is utilized by `bwa index` when building large genome index. So `bwa index` fails on
-  Windows and MacOS.
+  Windows and macOS.
 
-- **Solution**: Only Windows and MacOS users need the solution. The simplest way is use pre-built bwa index files or
+- **Solution**: Only Windows and macOS users need the solution. The simplest way is use pre-built bwa index files or
   build without Docker. We provide human hg38 bwa index files on our server
   ([link to download](https://sysbio.ucsd.edu/imargi_pipeline/bwa_index.tar.gz)).
   A technical solution to the problem is to build bwa index files in a Docker volume instead of

@@ -5,8 +5,45 @@ reproducibility, we built [iMARGI-Docker](https://hub.docker.com/r/zhonglab/imar
 It delivers all the well configured tools.
 
 - [Tools and Installation](#tools-and-installation)
+  - [System Requirements](#system-requirements)
+    - [Hardware Requirements](#hardware-requirements)
+    - [Software Requirements](#software-requirements)
   - [Docker Container Usage Instructions](#docker-container-usage-instructions)
   - [Dependencies Instruction](#dependencies-instruction)
+
+## System Requirements
+
+### Hardware Requirements
+
+There isn't specific high performance hardware requirements of running iMARGI-Docker. However, as iMARGI generates hugh
+amount of sequencing data, usually more than 300 million read pairs, so a high performance computer will save you a lot
+of time. Generally, a faster multi-core CPU, larger memory and hard drive storage will benefits you a lot. We suggest
+the following specs:
+
+- CPU: At least dual core CPU. More CPU cores will speed up the processing.
+  
+- RAM: 16 GB. Depends on the size of reference genome. For human genome, at least 8GB free memory are required by BWA,
+  so the memory on the machine needs to be more than 8 GB, which usually is 16 GB. **Out of memory will cause ERROR.**
+
+- Hard drive storage: Depends on your data, typically at least 160 GB free space is required for 300M 2x100 read pairs.
+  Besides, fast IO storage is better, such as SSD.
+
+### Software Requirements
+
+iMARGI-Docker only requires Docker. You can use [Docker Community Edition (CE)](https://docs.docker.com/install/).
+Docker supports all the mainstream OS, such as Linux, Windows and macOS. You can check the
+[Technical Notes of installing Docker on different systems]('./technical_note.md#install-docker-on-different-systems)
+to learn how to do it.
+
+We recommend using Linux system, because it's much easier to setup and its filesystem is better for large file
+processing. All the example command lines here and in the documentation are ran on a Linux system. Most of time, the
+operations in macOS is the same as in Linux system, as it's also a Unix system. However, if you are using Windows
+system, some command lines need to be modified.
+
+If you are using Windows or macOS, you need to configure the CPU and memory settings of Docker. There is default 2 GB
+limit of memory to Docker on Windows or macOS (no limit on Linux). You must increase it to more than 8 GB.
+You can check the [Technical Notes of change Docker settings]('./technical_note.md#install-docker-on-different-systems)
+to learn how to do it.
 
 ## Docker Container Usage Instructions
 
@@ -14,11 +51,7 @@ An iMARGI Docker image is available in [Docker-Hub](https://hub.docker.com/r/zho
 hosted in [iMARGI-Docker GitHub repo](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker). It's much easier to apply the
 iMARGI pipeline using the docker container than installing and configuring all the required tools.
 
-Docker Community Edition or Enterprise Edition is required to be installed and configured on the machine (root
-authority is required for installing Docker CE).
-[Here is the guides of installing Docker CE on Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/).
-
-After Docker CE was installed, you can pull the latest iMARGI Docker image to your sever.
+First of all, you need to start your Docker daemon. Then you can pull the latest iMARGI Docker image to your sever.
 
 ```bash
 docker pull zhonglab/imargi
@@ -35,8 +68,12 @@ docker run -v ~/test:/imargi zhonglab/imargi mkdir new_dir
 
 You should know the `-v` or `--volume` option, which assigns the `~/test` directory on your host machine to the
 working directory `/imargi` of the iMARGI container. The container can only operate the files in `~/test` directory.
-In the example, a folder `new_dir` will be created in the folder `~/test/`. You can just replace the command to use
-any tool in the iMARGI Docker container. Besides, there are many other options are useful. For example, you can use
+If you are using Docker on Windows, the path is a little different. For example, Windows path `D:\test\imargi_example`
+needs to be rewritten as `/d/test/imargi_example`, so the `-v` argument needs to be `-v /d/test/imargi_example:/imargi`.
+When you executed it on Windows, a window might pop up to verify that you want to share the folder.
+
+In the example, a folder `new_dir` will be created in the folder `~/test/`. You can just replace the command part to
+use any tool in the iMARGI Docker container. Besides, there are many other options are useful. For example, you can use
 `--rm` to automatically clean up the container after finished its job. For more usage information of Docker, please
 refer to [Docker documentation](https://docs.docker.com/engine/reference/commandline/cli/).
 
@@ -46,8 +83,8 @@ We strongly recommend using iMARGI-Docker instead of configuring all the depende
 server. However, if you really cannot run Docker on your machine, you might want to try to configure these tools. It
 requires root access to your machine and solid experience of Linux server administration.
 
-We cannot guarantee success of local configuration. If you encounter some problems or have suggestions, please create
-issues in the [iMARGI-Docker GitHub repo](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker). If you are using Ubuntu
+We cannot guarantee success of local configuration. If you encounter some problems or have suggestions, please view or
+create issues in the [iMARGI-Docker GitHub repo](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker). If you are using Ubuntu
 (18.04), the following command lines we used to configure iMARGI-Docker might help you.
 
 ``` bash

@@ -17,34 +17,36 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Quick Start Example" href="quick_example.html" />
     <link rel="prev" title="Overview" href="index.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -83,6 +85,11 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tools and Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#system-requirements">System Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hardware-requirements">Hardware Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#software-requirements">Software Requirements</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#docker-container-usage-instructions">Docker Container Usage Instructions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dependencies-instruction">Dependencies Instruction</a></li>
 </ul>
@@ -161,20 +168,54 @@ reproducibility, we built <a class="reference external" href="https://hub.docker
 It delivers all the well configured tools.</p>
 <ul class="simple">
 <li><a class="reference external" href="#tools-and-installation">Tools and Installation</a><ul>
+<li><a class="reference external" href="#system-requirements">System Requirements</a><ul>
+<li><a class="reference external" href="#hardware-requirements">Hardware Requirements</a></li>
+<li><a class="reference external" href="#software-requirements">Software Requirements</a></li>
+</ul>
+</li>
 <li><a class="reference external" href="#docker-container-usage-instructions">Docker Container Usage Instructions</a></li>
 <li><a class="reference external" href="#dependencies-instruction">Dependencies Instruction</a></li>
 </ul>
 </li>
 </ul>
+<div class="section" id="system-requirements">
+<h2>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="hardware-requirements">
+<h3>Hardware Requirements<a class="headerlink" href="#hardware-requirements" title="Permalink to this headline">¶</a></h3>
+<p>There isn’t specific high performance hardware requirements of running iMARGI-Docker. However, as iMARGI generates hugh
+amount of sequencing data, usually more than 300 million read pairs, so a high performance computer will save you a lot
+of time. Generally, a faster multi-core CPU, larger memory and hard drive storage will benefits you a lot. We suggest
+the following specs:</p>
+<ul class="simple">
+<li>CPU: At least dual core CPU. More CPU cores will speed up the processing.</li>
+<li>RAM: 16 GB. Depends on the size of reference genome. For human genome, at least 8GB free memory are required by BWA,
+so the memory on the machine needs to be more than 8 GB, which usually is 16 GB. <strong>Out of memory will cause ERROR.</strong></li>
+<li>Hard drive storage: Depends on your data, typically at least 160 GB free space is required for 300M 2x100 read pairs.
+Besides, fast IO storage is better, such as SSD.</li>
+</ul>
+</div>
+<div class="section" id="software-requirements">
+<h3>Software Requirements<a class="headerlink" href="#software-requirements" title="Permalink to this headline">¶</a></h3>
+<p>iMARGI-Docker only requires Docker. You can use <a class="reference external" href="https://docs.docker.com/install/">Docker Community Edition (CE)</a>.
+Docker supports all the mainstream OS, such as Linux, Windows and macOS. You can check the
+<a class="reference external" href="%27./technical_note.md#install-docker-on-different-systems">Technical Notes of installing Docker on different systems</a>
+to learn how to do it.</p>
+<p>We recommend using Linux system, because it’s much easier to setup and its filesystem is better for large file
+processing. All the example command lines here and in the documentation are ran on a Linux system. Most of time, the
+operations in macOS is the same as in Linux system, as it’s also a Unix system. However, if you are using Windows
+system, some command lines need to be modified.</p>
+<p>If you are using Windows or macOS, you need to configure the CPU and memory settings of Docker. There is default 2 GB
+limit of memory to Docker on Windows or macOS (no limit on Linux). You must increase it to more than 8 GB.
+You can check the <a class="reference external" href="%27./technical_note.md#install-docker-on-different-systems">Technical Notes of change Docker settings</a>
+to learn how to do it.</p>
+</div>
+</div>
 <div class="section" id="docker-container-usage-instructions">
 <h2>Docker Container Usage Instructions<a class="headerlink" href="#docker-container-usage-instructions" title="Permalink to this headline">¶</a></h2>
 <p>An iMARGI Docker image is available in <a class="reference external" href="https://hub.docker.com/r/zhonglab/imargi">Docker-Hub</a>, and its source files are
 hosted in <a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker">iMARGI-Docker GitHub repo</a>. It’s much easier to apply the
 iMARGI pipeline using the docker container than installing and configuring all the required tools.</p>
-<p>Docker Community Edition or Enterprise Edition is required to be installed and configured on the machine (root
-authority is required for installing Docker CE).
-<a class="reference external" href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">Here is the guides of installing Docker CE on Ubuntu</a>.</p>
-<p>After Docker CE was installed, you can pull the latest iMARGI Docker image to your sever.</p>
+<p>First of all, you need to start your Docker daemon. Then you can pull the latest iMARGI Docker image to your sever.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull zhonglab/imargi
 </pre></div>
 </div>
@@ -186,8 +227,11 @@ new directory with <code class="docutils literal notranslate"><span class="pre">
 <p><img alt="_images/docker_command_example.png" src="_images/docker_command_example.png" /></p>
 <p>You should know the <code class="docutils literal notranslate"><span class="pre">-v</span></code> or <code class="docutils literal notranslate"><span class="pre">--volume</span></code> option, which assigns the <code class="docutils literal notranslate"><span class="pre">~/test</span></code> directory on your host machine to the
 working directory <code class="docutils literal notranslate"><span class="pre">/imargi</span></code> of the iMARGI container. The container can only operate the files in <code class="docutils literal notranslate"><span class="pre">~/test</span></code> directory.
-In the example, a folder <code class="docutils literal notranslate"><span class="pre">new_dir</span></code> will be created in the folder <code class="docutils literal notranslate"><span class="pre">~/test/</span></code>. You can just replace the command to use
-any tool in the iMARGI Docker container. Besides, there are many other options are useful. For example, you can use
+If you are using Docker on Windows, the path is a little different. For example, Windows path <code class="docutils literal notranslate"><span class="pre">D:\test\imargi_example</span></code>
+needs to be rewritten as <code class="docutils literal notranslate"><span class="pre">/d/test/imargi_example</span></code>, so the <code class="docutils literal notranslate"><span class="pre">-v</span></code> argument needs to be <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">/d/test/imargi_example:/imargi</span></code>.
+When you executed it on Windows, a window might pop up to verify that you want to share the folder.</p>
+<p>In the example, a folder <code class="docutils literal notranslate"><span class="pre">new_dir</span></code> will be created in the folder <code class="docutils literal notranslate"><span class="pre">~/test/</span></code>. You can just replace the command part to
+use any tool in the iMARGI Docker container. Besides, there are many other options are useful. For example, you can use
 <code class="docutils literal notranslate"><span class="pre">--rm</span></code> to automatically clean up the container after finished its job. For more usage information of Docker, please
 refer to <a class="reference external" href="https://docs.docker.com/engine/reference/commandline/cli/">Docker documentation</a>.</p>
 </div>
@@ -196,8 +240,8 @@ refer to <a class="reference external" href="https://docs.docker.com/engine/refe
 <p>We strongly recommend using iMARGI-Docker instead of configuring all the dependencies of iMARGI pipeline on your Linux
 server. However, if you really cannot run Docker on your machine, you might want to try to configure these tools. It
 requires root access to your machine and solid experience of Linux server administration.</p>
-<p>We cannot guarantee success of local configuration. If you encounter some problems or have suggestions, please create
-issues in the <a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker">iMARGI-Docker GitHub repo</a>. If you are using Ubuntu
+<p>We cannot guarantee success of local configuration. If you encounter some problems or have suggestions, please view or
+create issues in the <a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker">iMARGI-Docker GitHub repo</a>. If you are using Ubuntu
 (18.04), the following command lines we used to configure iMARGI-Docker might help you.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># run with root account</span>
 apt-get update
@@ -420,7 +464,7 @@ compiling tools on Linux system to install some of these tools.</p>
         <a href="quick_example.html" class="btn btn-neutral float-right" title="Quick Start Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -446,36 +490,16 @@ compiling tools on Linux system to install some of these tools.</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'1.0',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

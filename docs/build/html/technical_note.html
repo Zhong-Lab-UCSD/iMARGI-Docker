@@ -17,34 +17,36 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Command-line API" href="commandline_api.html" />
     <link rel="prev" title="Further Analysis and Visualization Guides" href="further_analysis.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -88,6 +90,8 @@
 <li class="toctree-l1"><a class="reference internal" href="further_analysis.html">Further Analysis and Visualization Guides</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Technical Notes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#dockerfile">Dockerfile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-docker-on-different-systems">Install Docker on Different systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#change-docker-memory-settings-on-windows-and-macos">Change Docker Memory Settings on Windows and macOS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#run-imargi-docker-with-non-root-user">Run iMARGI-Docker with Non-root User</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#solve-bwa-index-failure-problem">Solve <code class="docutils literal notranslate"><span class="pre">bwa</span> <span class="pre">index</span></code> Failure Problem</a></li>
 </ul>
@@ -157,6 +161,16 @@
             
   <div class="section" id="technical-notes">
 <h1>Technical Notes<a class="headerlink" href="#technical-notes" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference external" href="#technical-notes">Technical Notes</a><ul>
+<li><a class="reference external" href="#dockerfile">Dockerfile</a></li>
+<li><a class="reference external" href="#install-docker-on-different-systems">Install Docker on Different systems</a></li>
+<li><a class="reference external" href="#change-docker-memory-settings-on-windows-and-macos">Change Docker Memory Settings on Windows and macOS</a></li>
+<li><a class="reference external" href="#run-imargi-docker-with-non-root-user">Run iMARGI-Docker with Non-root User</a></li>
+<li><a class="reference external" href="#solve-bwa-index-failure-problem">Solve <code class="docutils literal notranslate"><span class="pre">bwa</span> <span class="pre">index</span></code> Failure Problem</a></li>
+</ul>
+</li>
+</ul>
 <div class="section" id="dockerfile">
 <h2>Dockerfile<a class="headerlink" href="#dockerfile" title="Permalink to this headline">¶</a></h2>
 <p>Here we describe the Dockerfile for building iMARGI-Docker.</p>
@@ -169,7 +183,7 @@ imargi_convert.sh, imargi_distfilter.sh, imargi_annotate.sh.</li>
 </ul>
 <p>The source code of Dockerfile is shown below:</p>
 <div class="highlight-Docker notranslate"><div class="highlight"><pre><span></span><span class="k">FROM</span><span class="s"> ubuntu:18.04</span>
-<span class="k">ENV</span><span class="s"> TIMEZONE America/Los_Angeles</span>
+<span class="k">ENV</span> TIMEZONE America/Los_Angeles
 
 <span class="k">RUN</span> apt-get update <span class="o">&amp;&amp;</span> <span class="se">\</span>
     apt-get install -y <span class="se">\</span>
@@ -201,16 +215,71 @@ imargi_convert.sh, imargi_distfilter.sh, imargi_annotate.sh.</li>
 
 <span class="k">RUN</span> apt-get -y install locales <span class="o">&amp;&amp;</span> <span class="se">\</span>
     sed -i -e <span class="s1">&#39;s/# \(en_US\.UTF-8 .*\)/\1/&#39;</span> /etc/locale.gen <span class="o">&amp;&amp;</span> locale-gen
-<span class="k">ENV</span><span class="s"> LANG en_US.UTF-8</span>
-<span class="k">ENV</span><span class="s"> LANGUAGE en_US:en</span>
-<span class="k">ENV</span><span class="s"> LC_ALL en_US.UTF-8</span>
+<span class="k">ENV</span> LANG en_US.UTF-8
+<span class="k">ENV</span> LANGUAGE en_US:en
+<span class="k">ENV</span> LC_ALL en_US.UTF-8
 
-COPY ./imargi_* /usr/local/bin/
+<span class="k">COPY</span> ./imargi_* /usr/local/bin/
 <span class="k">RUN</span> chmod +x /usr/local/bin/imargi_* <span class="o">&amp;&amp;</span> mkdir /imargi
 
 <span class="k">WORKDIR</span><span class="s"> /imargi</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="install-docker-on-different-systems">
+<h2>Install Docker on Different systems<a class="headerlink" href="#install-docker-on-different-systems" title="Permalink to this headline">¶</a></h2>
+<p>There are official docs of Docker installation guides for different OS, which can be found in
+<a class="reference external" href="https://docs.docker.com/install/">Docker official webpage</a>.</p>
+<p>Here are only some essential instructions. Install Docker on Linux is the easiest.</p>
+<ul>
+<li><p class="first"><strong>Linux</strong>: Support the most recent 64 bit stable releases of Ubuntu, Debian, Fedora and CentOS. You need <code class="docutils literal notranslate"><span class="pre">root</span></code> or <code class="docutils literal notranslate"><span class="pre">sudo</span></code>
+privileges. Generally, the following script will automatically install Docker in your system.</p>
+<div class="highlight-Bash notranslate"><div class="highlight"><pre><span></span>sudo curl -fsSL https://get.docker.com <span class="p">|</span>sh -
+
+<span class="c1"># replace frank with you user name</span>
+sudo usermod -aG docker frank
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>macOS (modern)</strong>: Docker Desktop for macOS. Support macOS Sierra 10.12 and newer on a Apple computer after 2010.</p>
+<p>Download Docker Desktop software for macOS and install.
+<a class="reference external" href="https://docs.docker.com/docker-for-mac/install/">Click here to check instructions</a></p>
+</li>
+<li><p class="first"><strong>Windows 10 (modern)</strong>: Docker Desktop for Windows. Support the latest Windows 10 (64 bit) Pro, Enterprise or
+Education version.</p>
+<p>First, enable virtualization of your CPU (most of modern Intel CPUs support virtualization).
+<a class="reference external" href="https://www.isumsoft.com/computer/enable-virtualization-technology-vt-x-in-bios-or-uefi.html">Check here to see how to enable it in BIOS.</a>
+Then, turn on Hyper-V. [<a class="reference external" href="https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v">Check here to see how to turn on Hyper-V.</a>
+Finally, download Docker Desktop software for Windows and install,
+<a class="reference external" href="https://docs.docker.com/docker-for-windows/install/">Click here to check instructions</a></p>
+</li>
+<li><p class="first"><strong>Legacy solution</strong>: For older Mac and Windows systems that do not meet the requirements of Docker Desktop for Mac and
+Docker Desktop for Windows, you can install Docker Toolbox to use Docker.</p>
+<p>Download Docker Toolbox for macOS or Windows and install.
+<a class="reference external" href="https://docs.docker.com/toolbox/overview/">Click here to check instructions</a></p>
+</li>
+</ul>
+</div>
+<div class="section" id="change-docker-memory-settings-on-windows-and-macos">
+<h2>Change Docker Memory Settings on Windows and macOS<a class="headerlink" href="#change-docker-memory-settings-on-windows-and-macos" title="Permalink to this headline">¶</a></h2>
+<p>Enough memory is important to the iMARGI data processing pipeline. The required amount of memory depends on the size
+of reference genome. For human genome, at least 8GB free memory are required by BWA. Hence,** the memory on the machine
+needs to be more than 8 GB, which usually is 16 GB**. If the memory is not enough, BWA will generate an empty BAM file,
+then it will throw out some strange error information in following steps, such as <code class="docutils literal notranslate"><span class="pre">&quot;KeyError:</span> <span class="pre">'chr1'&quot;</span></code>.</p>
+<p><strong>System memory requirement: 16 GB.</strong></p>
+<p>In addition, if you are using Windows or macOS, there is a memory limit to Docker, which is 2 GB as default. Hence,
+you need to increase it to more than 8 GB.</p>
+<p>Here are simple instructions of how to change the settings.</p>
+<ul class="simple">
+<li>If you are using Docker Desktop for Windows or macOS, you can easily change the settings by right click the
+Docker icon (Whale) in the task bar, then go to Settings -&gt; Advanced to change memory and CPU limits.
+More detail can be found in the Docker official docs of
+<a class="reference external" href="https://docs.docker.com/docker-for-windows/">Get started with Docker for Windows</a>, and
+<a class="reference external" href="https://docs.docker.com/docker-for-mac/#memory">Get started with Docker Desktop for Mac</a>.</li>
+<li>If you are using Docker Toolbox for Windows or macOS, which uses VirtualBox as backend, so you need to open VirtualBox,
+then stop default VM, Select it and click on settings, then make changes as you want.</li>
+</ul>
+<p>There isn’t any limitation to Docker on Linux system, so don’t worry about it.</p>
 </div>
 <div class="section" id="run-imargi-docker-with-non-root-user">
 <h2>Run iMARGI-Docker with Non-root User<a class="headerlink" href="#run-imargi-docker-with-non-root-user" title="Permalink to this headline">¶</a></h2>
@@ -236,19 +305,22 @@ docker run --rm -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhong
 <div class="section" id="solve-bwa-index-failure-problem">
 <h2>Solve <code class="docutils literal notranslate"><span class="pre">bwa</span> <span class="pre">index</span></code> Failure Problem<a class="headerlink" href="#solve-bwa-index-failure-problem" title="Permalink to this headline">¶</a></h2>
 <p>As we created iMARGI-Docker on Linux system, so it works perfectly on Linux system. Generally, it should also work
-perfectly on Windows and MacOS. However, in our test, we found one critical problem which will cause <code class="docutils literal notranslate"><span class="pre">baw</span> <span class="pre">index</span></code>
+perfectly on Windows and macOS. However, in our test, we found one critical problem which will cause <code class="docutils literal notranslate"><span class="pre">baw</span> <span class="pre">index</span></code>
 failure. Here we explain the problem and give a solution to this problem.</p>
+<p><em>First of all, you need to check you memory. Your computer needs 16 GB memory. If you are using Docker on Windows or
+macOS, you also need to set the Docker memory limit to more than 8 GB. If you are sure that the memory is enough, then
+try the following solution.</em></p>
 <ul>
-<li><p class="first"><strong>Description</strong>:  When you use <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> without <code class="docutils literal notranslate"><span class="pre">-i</span></code> option, the script will generate bwa index files
-automatically. But it will fail when you run it on Windows or MacOS.</p>
+<li><p class="first"><strong>Description</strong>: When you use <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> without <code class="docutils literal notranslate"><span class="pre">-i</span></code> option, the script will generate bwa index files
+automatically. But it might fail when you run it on Windows or macOS.</p>
 </li>
-<li><p class="first"><strong>Cause</strong>: Different operating systems have different file system formats, such as NTFS in Windows, APFS in MacOS and
+<li><p class="first"><strong>Cause</strong>: Different operating systems have different file system formats, such as NTFS in Windows, APFS in macOS and
 ext4 in Linux. When we use <code class="docutils literal notranslate"><span class="pre">-v</span></code> option to mount host directory to Docker container, it’s a kind of map between
 different file system. Most of time, there isn’t any problem. However, some tools cannot handle this kind of hybrid
 situation, such as <code class="docutils literal notranslate"><span class="pre">fsync</span></code>, which is utilized by <code class="docutils literal notranslate"><span class="pre">bwa</span> <span class="pre">index</span></code> when building large genome index. So <code class="docutils literal notranslate"><span class="pre">bwa</span> <span class="pre">index</span></code> fails on
-Windows and MacOS.</p>
+Windows and macOS.</p>
 </li>
-<li><p class="first"><strong>Solution</strong>: Only Windows and MacOS users need the solution. The simplest way is use pre-built bwa index files or
+<li><p class="first"><strong>Solution</strong>: Only Windows and macOS users need the solution. The simplest way is use pre-built bwa index files or
 build without Docker. We provide human hg38 bwa index files on our server
 (<a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/bwa_index.tar.gz">link to download</a>).
 A technical solution to the problem is to build bwa index files in a Docker volume instead of
@@ -291,7 +363,7 @@ docker run <span class="se">\</span>
         <a href="commandline_api.html" class="btn btn-neutral float-right" title="Command-line API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="further_analysis.html" class="btn btn-neutral" title="Further Analysis and Visualization Guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="further_analysis.html" class="btn btn-neutral float-left" title="Further Analysis and Visualization Guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -317,36 +389,16 @@ docker run <span class="se">\</span>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'1.0',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>
