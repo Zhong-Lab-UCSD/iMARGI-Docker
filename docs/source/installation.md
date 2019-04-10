@@ -22,7 +22,7 @@ the following specs:
 
 - CPU: At least dual core CPU. More CPU cores will speed up the processing.
   
-- RAM: 16 GB. Depends on the size of reference genome. For human genome, at least 8GB free memory are required by BWA,
+- RAM: 16 GB or more. Depends on the size of reference genome. For human genome, at least 8GB free memory are required by BWA,
   so the memory on the machine needs to be more than 8 GB, which usually is 16 GB. **Out of memory will cause ERROR.**
 
 - Hard drive storage: Depends on your data, typically at least 160 GB free space is required for 300M 2x100 read pairs.
@@ -32,7 +32,7 @@ the following specs:
 
 iMARGI-Docker only requires Docker. You can use [Docker Community Edition (CE)](https://docs.docker.com/install/).
 Docker supports all the mainstream OS, such as Linux, Windows and macOS. You can check the
-[Technical Notes of installing Docker on different systems]('./technical_note.md#install-docker-on-different-systems)
+[Technical Notes of installing Docker on different systems](https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#install-docker-on-different-systems)
 to learn how to do it.
 
 We recommend using Linux system, because it's much easier to setup and its filesystem is better for large file
@@ -42,7 +42,7 @@ system, some command lines need to be modified.
 
 If you are using Windows or macOS, you need to configure the CPU and memory settings of Docker. There is default 2 GB
 limit of memory to Docker on Windows or macOS (no limit on Linux). You must increase it to more than 8 GB.
-You can check the [Technical Notes of change Docker settings]('./technical_note.md#install-docker-on-different-systems)
+You can check the [Technical Notes of change Docker settings](https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#change-docker-memory-settings-on-windows-and-macos)
 to learn how to do it.
 
 ## Docker Container Usage Instructions

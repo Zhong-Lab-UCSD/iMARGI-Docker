@@ -17,36 +17,34 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
 
+  
+  
     
 
   
+
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Quick Start Example" href="quick_example.html" />
     <link rel="prev" title="Overview" href="index.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
+
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search">
           
 
           
@@ -188,7 +186,7 @@ of time. Generally, a faster multi-core CPU, larger memory and hard drive storag
 the following specs:</p>
 <ul class="simple">
 <li>CPU: At least dual core CPU. More CPU cores will speed up the processing.</li>
-<li>RAM: 16 GB. Depends on the size of reference genome. For human genome, at least 8GB free memory are required by BWA,
+<li>RAM: 16 GB or more. Depends on the size of reference genome. For human genome, at least 8GB free memory are required by BWA,
 so the memory on the machine needs to be more than 8 GB, which usually is 16 GB. <strong>Out of memory will cause ERROR.</strong></li>
 <li>Hard drive storage: Depends on your data, typically at least 160 GB free space is required for 300M 2x100 read pairs.
 Besides, fast IO storage is better, such as SSD.</li>
@@ -198,7 +196,7 @@ Besides, fast IO storage is better, such as SSD.</li>
 <h3>Software Requirements<a class="headerlink" href="#software-requirements" title="Permalink to this headline">¶</a></h3>
 <p>iMARGI-Docker only requires Docker. You can use <a class="reference external" href="https://docs.docker.com/install/">Docker Community Edition (CE)</a>.
 Docker supports all the mainstream OS, such as Linux, Windows and macOS. You can check the
-<a class="reference external" href="%27./technical_note.md#install-docker-on-different-systems">Technical Notes of installing Docker on different systems</a>
+<a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#install-docker-on-different-systems">Technical Notes of installing Docker on different systems</a>
 to learn how to do it.</p>
 <p>We recommend using Linux system, because it’s much easier to setup and its filesystem is better for large file
 processing. All the example command lines here and in the documentation are ran on a Linux system. Most of time, the
@@ -206,7 +204,7 @@ operations in macOS is the same as in Linux system, as it’s also a Unix system
 system, some command lines need to be modified.</p>
 <p>If you are using Windows or macOS, you need to configure the CPU and memory settings of Docker. There is default 2 GB
 limit of memory to Docker on Windows or macOS (no limit on Linux). You must increase it to more than 8 GB.
-You can check the <a class="reference external" href="%27./technical_note.md#install-docker-on-different-systems">Technical Notes of change Docker settings</a>
+You can check the <a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#change-docker-memory-settings-on-windows-and-macos">Technical Notes of change Docker settings</a>
 to learn how to do it.</p>
 </div>
 </div>
@@ -464,7 +462,7 @@ compiling tools on Linux system to install some of these tools.</p>
         <a href="quick_example.html" class="btn btn-neutral float-right" title="Quick Start Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -490,16 +488,36 @@ compiling tools on Linux system to install some of these tools.</p>
   
 
 
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

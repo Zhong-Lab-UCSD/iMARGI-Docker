@@ -121,7 +121,7 @@ Here are simple instructions of how to change the settings.
   [Get started with Docker Desktop for Mac](https://docs.docker.com/docker-for-mac/#memory).
 
 - If you are using Docker Toolbox for Windows or macOS, which uses VirtualBox as backend, so you need to open VirtualBox,
-  then stop default VM, Select it and click on settings, then make changes as you want.
+  then stop default VM, select it and click on settings, then make changes as you want.
 
 There isn't any limitation to Docker on Linux system, so don't worry about it.
 
