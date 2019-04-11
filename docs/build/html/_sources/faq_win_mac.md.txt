@@ -23,9 +23,11 @@ potential issues you might encountered and guide you to solve them.
   Docker Desktop, which is much better than Docker Toolbox. The latest Docker Desktop can be downloaded from Docker
   official web page. However, the latest Docker Toolbox needs to be downloaded from its GitHub repository.
   
-  - [Download Docker Desktop for Windows](https://hub.docker.com/editions/community/docker-ce-desktop-windows?tab=description)
-  - [Download Docker Desktop for macOS](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
-  - [Download Docker Toolbox GitHub page](https://github.com/docker/toolbox/releases)
+  - Docker Desktop for Windows [Download Link](https://hub.docker.com/editions/community/docker-ce-desktop-windows?tab=description)
+  
+  - Docker Desktop for macOS [Download Link](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
+
+  - Docker Toolbox GitHub page [Download Link](https://github.com/docker/toolbox/releases)
 
 - Enable Virtualization
   
@@ -42,10 +44,13 @@ potential issues you might encountered and guide you to solve them.
   After installing Docker, you need to start it as a backend engine. You can find a Docker icon (whale) in the task bar.
   You can learn the basic usage of Docker Desktop and Docker Toolbox from official docs.
 
-  - [Instructions of Docker Desktop for Windows](https://docs.docker.com/docker-for-windows/)
-  - [Instructions of Docker Desktop for macOS](https://docs.docker.com/docker-for-mac/)
-  - [Instructions of Docker Toolbox for Windows](https://docs.docker.com/toolbox/toolbox_install_windows/)
-  - [Instructions of Docker Toolbox for macOS](https://docs.docker.com/toolbox/toolbox_install_mac/)
+  - Instructions of Docker Desktop for Windows [Instructions](https://docs.docker.com/docker-for-windows/)
+  
+  - Instructions of Docker Desktop for macOS [Instructions](https://docs.docker.com/docker-for-mac/)
+  
+  - Instructions of Docker Toolbox for Windows [Instructions](https://docs.docker.com/toolbox/toolbox_install_windows/)
+  
+  - Instructions of Docker Toolbox for macOS [Instructions](https://docs.docker.com/toolbox/toolbox_install_mac/)
 
 - Memory Limit Setting
   
