@@ -125,6 +125,10 @@ We used `-N test_sample` argument to set base identifier for all the result file
 
 ``` bash
 cd ~/imargi_example
+
+# replace "-u 1043" with your own UID, see the tips below
+# replace "-v ~/imargi_example:/imargi" with your working directory if not ~/imargi_example
+
 docker run --rm -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
     imargi_wrapper.sh \
     -r hg38 \
@@ -136,17 +140,6 @@ docker run --rm -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
     -2 ./data/sample_R2.fastq.gz \
     -o ./output
 ```
-
-It will take about 10 minutes to complete the whole processing pipeline to the demo dataset (with `-i` bwa index argument).
-
-Step | Time | Speed up suggestion
----------|----------|----------
-Generating chromosome size file | 10 sec | It's fast, but you can also supply with `-c` once you've generated it before.
-Generating bwa index (skipped) | 75 min | Supply with `-i` if you've pre-built index files.
-Generating restriction fragment file | 4 min | Supply with `-R` when you've already created it before.
-cleaning | 10 sec | It's fast and not parallelization.
-bwa mapping | 2 min | More CPU cores with `-t`.
-interaction pair parsing | 1 min | More CPU cores with `-t`.
 
 > *Tips:*
 > 
@@ -176,6 +169,17 @@ interaction pair parsing | 1 min | More CPU cores with `-t`.
 >   volume. Please read the
 >   [technical note of iMARGI pipeline documentation](https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#solve-bwa-index-failure-problem) for
 >   detail.
+
+It will take about 10 minutes to complete the whole processing pipeline to the demo dataset (with `-i` bwa index argument).
+
+Step | Time | Speed up suggestion
+---------|----------|----------
+Generating chromosome size file | 10 sec | It's fast, but you can also supply with `-c` once you've generated it before.
+Generating bwa index (skipped) | 75 min | Supply with `-i` if you've pre-built index files.
+Generating restriction fragment file | 4 min | Supply with `-R` when you've already created it before.
+cleaning | 10 sec | It's fast and not parallelization.
+bwa mapping | 2 min | More CPU cores with `-t`.
+interaction pair parsing | 1 min | More CPU cores with `-t`.
 
 ## Output of iMARGI Pipeline
 

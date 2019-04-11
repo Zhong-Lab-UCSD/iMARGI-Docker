@@ -90,15 +90,18 @@ Here are only some essential instructions. Install Docker on Linux is the easies
   
   First, enable virtualization of your CPU (most of modern Intel CPUs support virtualization).
   [Check here to see how to enable it in BIOS.](https://www.isumsoft.com/computer/enable-virtualization-technology-vt-x-in-bios-or-uefi.html)
-  Then, turn on Hyper-V. [[Check here to see how to turn on Hyper-V.](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v)
+  Then, turn on Hyper-V. [Check here to see how to turn on Hyper-V.](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v)
   Finally, download Docker Desktop software for Windows and install,
   [Click here to check instructions](https://docs.docker.com/docker-for-windows/install/)
 
 - **Legacy solution**: For older Mac and Windows systems that do not meet the requirements of Docker Desktop for Mac and
   Docker Desktop for Windows, you can install Docker Toolbox to use Docker.
 
-  Download Docker Toolbox for macOS or Windows and install.
-  [Click here to check instructions](https://docs.docker.com/toolbox/overview/)
+  [Download the latest version of Docker Toolbox from GitHub repo](https://github.com/docker/toolbox/releases)
+  
+  [Instructions of Docker Toolbox for Windows](https://docs.docker.com/toolbox/toolbox_install_windows/)
+  
+  [Instructions of Docker Toolbox for macOS](https://docs.docker.com/toolbox/toolbox_install_mac/)
 
 ## Change Docker Memory Settings on Windows and macOS
 

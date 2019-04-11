@@ -17,36 +17,34 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
 
+  
+  
     
 
   
+
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Guides for Issues on Windows and macOS System" href="faq_win_mac.html" />
     <link rel="prev" title="Further Analysis and Visualization Guides" href="further_analysis.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
+
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search">
           
 
           
@@ -184,7 +182,7 @@ imargi_convert.sh, imargi_distfilter.sh, imargi_annotate.sh.</li>
 </ul>
 <p>The source code of Dockerfile is shown below:</p>
 <div class="highlight-Docker notranslate"><div class="highlight"><pre><span></span><span class="k">FROM</span><span class="s"> ubuntu:18.04</span>
-<span class="k">ENV</span> TIMEZONE America/Los_Angeles
+<span class="k">ENV</span><span class="s"> TIMEZONE America/Los_Angeles</span>
 
 <span class="k">RUN</span> apt-get update <span class="o">&amp;&amp;</span> <span class="se">\</span>
     apt-get install -y <span class="se">\</span>
@@ -216,11 +214,11 @@ imargi_convert.sh, imargi_distfilter.sh, imargi_annotate.sh.</li>
 
 <span class="k">RUN</span> apt-get -y install locales <span class="o">&amp;&amp;</span> <span class="se">\</span>
     sed -i -e <span class="s1">&#39;s/# \(en_US\.UTF-8 .*\)/\1/&#39;</span> /etc/locale.gen <span class="o">&amp;&amp;</span> locale-gen
-<span class="k">ENV</span> LANG en_US.UTF-8
-<span class="k">ENV</span> LANGUAGE en_US:en
-<span class="k">ENV</span> LC_ALL en_US.UTF-8
+<span class="k">ENV</span><span class="s"> LANG en_US.UTF-8</span>
+<span class="k">ENV</span><span class="s"> LANGUAGE en_US:en</span>
+<span class="k">ENV</span><span class="s"> LC_ALL en_US.UTF-8</span>
 
-<span class="k">COPY</span> ./imargi_* /usr/local/bin/
+COPY ./imargi_* /usr/local/bin/
 <span class="k">RUN</span> chmod +x /usr/local/bin/imargi_* <span class="o">&amp;&amp;</span> mkdir /imargi
 
 <span class="k">WORKDIR</span><span class="s"> /imargi</span>
@@ -250,14 +248,15 @@ sudo usermod -aG docker frank
 Education version.</p>
 <p>First, enable virtualization of your CPU (most of modern Intel CPUs support virtualization).
 <a class="reference external" href="https://www.isumsoft.com/computer/enable-virtualization-technology-vt-x-in-bios-or-uefi.html">Check here to see how to enable it in BIOS.</a>
-Then, turn on Hyper-V. [<a class="reference external" href="https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v">Check here to see how to turn on Hyper-V.</a>
+Then, turn on Hyper-V. <a class="reference external" href="https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v">Check here to see how to turn on Hyper-V.</a>
 Finally, download Docker Desktop software for Windows and install,
 <a class="reference external" href="https://docs.docker.com/docker-for-windows/install/">Click here to check instructions</a></p>
 </li>
 <li><p class="first"><strong>Legacy solution</strong>: For older Mac and Windows systems that do not meet the requirements of Docker Desktop for Mac and
 Docker Desktop for Windows, you can install Docker Toolbox to use Docker.</p>
-<p>Download Docker Toolbox for macOS or Windows and install.
-<a class="reference external" href="https://docs.docker.com/toolbox/overview/">Click here to check instructions</a></p>
+<p><a class="reference external" href="https://github.com/docker/toolbox/releases">Download the latest version of Docker Toolbox from GitHub repo</a></p>
+<p><a class="reference external" href="https://docs.docker.com/toolbox/toolbox_install_windows/">Instructions of Docker Toolbox for Windows</a></p>
+<p><a class="reference external" href="https://docs.docker.com/toolbox/toolbox_install_mac/">Instructions of Docker Toolbox for macOS</a></p>
 </li>
 </ul>
 </div>
@@ -364,7 +363,7 @@ docker run <span class="se">\</span>
         <a href="faq_win_mac.html" class="btn btn-neutral float-right" title="Guides for Issues on Windows and macOS System" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="further_analysis.html" class="btn btn-neutral float-left" title="Further Analysis and Visualization Guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="further_analysis.html" class="btn btn-neutral" title="Further Analysis and Visualization Guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -390,16 +389,36 @@ docker run <span class="se">\</span>
   
 
 
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
