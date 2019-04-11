@@ -71,6 +71,7 @@ The [Technical Notes](./technical_note.md) section shows more technical informat
    further_analysis
    visualization
    technical_note
+   faq_win_mac
    commandline_api
    
 ```

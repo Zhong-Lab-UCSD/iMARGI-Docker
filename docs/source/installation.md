@@ -43,7 +43,9 @@ system, some command lines need to be modified.
 If you are using Windows or macOS, you need to configure the CPU and memory settings of Docker. There is default 2 GB
 limit of memory to Docker on Windows or macOS (no limit on Linux). You must increase it to more than 8 GB.
 You can check the [Technical Notes of change Docker settings](https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#change-docker-memory-settings-on-windows-and-macos)
-to learn how to do it.
+to learn how to do it. You might encounter some other problems caused by system settings specifically to Windows or macOS,
+please check the [Guides for Issues on Windows and macOS System page](https://sysbio.ucsd.edu/imargi_pipeline/faq_win_mac.html)
+to find a solution.
 
 ## Docker Container Usage Instructions
 
@@ -72,9 +74,11 @@ If you are using Docker on Windows, the path is a little different. For example,
 needs to be rewritten as `/d/test/imargi_example`, so the `-v` argument needs to be `-v /d/test/imargi_example:/imargi`.
 When you executed it on Windows, a window might pop up to verify that you want to share the folder.
 
-In the example, a folder `new_dir` will be created in the folder `~/test/`. You can just replace the command part to
-use any tool in the iMARGI Docker container. Besides, there are many other options are useful. For example, you can use
-`--rm` to automatically clean up the container after finished its job. For more usage information of Docker, please
+In the example, the command part will create a sub-folder `new_dir` in the folder `~/test/`. You can replace the
+command part to use any tool in the iMARGI Docker container.
+
+Besides, there are many other Docker options are useful. For example, you can use `--rm` to automatically clean up the
+container after finished its job. For more usage information of Docker, please
 refer to [Docker documentation](https://docs.docker.com/engine/reference/commandline/cli/).
 
 ## Dependencies Instruction
@@ -85,7 +89,7 @@ requires root access to your machine and solid experience of Linux server admini
 
 We cannot guarantee success of local configuration. If you encounter some problems or have suggestions, please view or
 create issues in the [iMARGI-Docker GitHub repo](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker). If you are using Ubuntu
-(18.04), the following command lines we used to configure iMARGI-Docker might help you.
+(18.04), the following command lines we used to configure iMARGI-Docker might be helpful.
 
 ``` bash
 # run with root account

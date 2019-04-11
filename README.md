@@ -83,13 +83,15 @@ Docker installation guides on different OS: More detail instructions can be foun
 [Docker official webpage](https://docs.docker.com/install/).
 
 - **Linux**: Support the most recent 64 bit stable releases of Ubuntu, Debian, Fedora and CentOS. You need `root` or `sudo`
-  privileges. Generally, the following script will automatically install Docker in your system.
+  privileges.
+  
+  Generally, the following two commands will automatically install Docker in your system.
   
   ``` Bash
   sudo curl -fsSL https://get.docker.com |sh -
   
-  # replace frank with you user name
-  sudo usermod -aG docker frank
+  # set Docker user, replace demo_user with you own user name
+  sudo usermod -aG docker demo_user
   ```
 
 - **macOS (modern)**: Docker Desktop for macOS. Support macOS Sierra 10.12 and newer on a Apple computer after 2010.
@@ -102,15 +104,22 @@ Docker installation guides on different OS: More detail instructions can be foun
   
   First, enable virtualization of your CPU (most of modern Intel CPUs support virtualization).
   [Check here to see how to enable it in BIOS.](https://www.isumsoft.com/computer/enable-virtualization-technology-vt-x-in-bios-or-uefi.html)
-  Then, turn on Hyper-V. [[Check here to see how to turn on Hyper-V.](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v)
+  Then, turn on Hyper-V. [Check here to see how to turn on Hyper-V.](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v)
+  
   Finally, download Docker Desktop software for Windows and install,
+  
   [Click here to check instructions](https://docs.docker.com/docker-for-windows/install/)
 
 - **Legacy solution**: For older Mac and Windows systems that do not meet the requirements of Docker Desktop for Mac and
   Docker Desktop for Windows, you can install Docker Toolbox to use Docker.
 
   Download Docker Toolbox for macOS or Windows and install.
-  [Click here to check instructions](https://docs.docker.com/toolbox/overview/)
+
+  [Click here to download the latest version of Docker Toolbox from GitHub](https://github.com/docker/toolbox/releases)
+
+  [Click here to check instructions for Windows](https://docs.docker.com/toolbox/toolbox_install_windows/)
+
+  [Click here to check instructions for macOS](https://docs.docker.com/toolbox/toolbox_install_mac/)
 
 #### 3.2.2. Docker settings
 

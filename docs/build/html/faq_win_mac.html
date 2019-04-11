@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Guides for Issues on Windows and macOS System &mdash; iMARGI Pipeline 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Command-line API" href="commandline_api.html" />
+    <link rel="prev" title="Technical Notes" href="technical_note.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> iMARGI Pipeline
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Tools and Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_example.html">Quick Start Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="step_by_step_illustration.html">Step-by-step Illustration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="further_analysis.html">Further Analysis and Visualization Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical_note.html">Technical Notes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Guides for Issues on Windows and macOS System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#checklist-of-docker-settings">Checklist of Docker Settings</a><ul>
+<li class="toctree-l3"><a class="reference external" href="https://hub.docker.com/editions/community/docker-ce-desktop-windows?tab=description">Download Docker Desktop for Windows</a></li>
+<li class="toctree-l3"><a class="reference external" href="https://hub.docker.com/editions/community/docker-ce-desktop-mac">Download Docker Desktop for macOS</a></li>
+<li class="toctree-l3"><a class="reference external" href="https://github.com/docker/toolbox/releases">Download Docker Toolbox GitHub page</a></li>
+<li class="toctree-l3"><a class="reference external" href="https://docs.docker.com/docker-for-windows/">Instructions of Docker Desktop for Windows</a></li>
+<li class="toctree-l3"><a class="reference external" href="https://docs.docker.com/docker-for-mac/">Instructions of Docker Desktop for macOS</a></li>
+<li class="toctree-l3"><a class="reference external" href="https://docs.docker.com/toolbox/toolbox_install_windows/">Instructions of Docker Toolbox for Windows</a></li>
+<li class="toctree-l3"><a class="reference external" href="https://docs.docker.com/toolbox/toolbox_install_mac/">Instructions of Docker Toolbox for macOS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#issues">Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cannot-install-docker-desktop">Cannot Install Docker Desktop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cannot-find-files">Cannot find files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connection-issue">Connection issue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#keyerror-chr1">KeyError: ‘chr1’</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="commandline_api.html">Command-line API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">iMARGI Pipeline</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Guides for Issues on Windows and macOS System</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="guides-for-issues-on-windows-and-macos-system">
+<h1>Guides for Issues on Windows and macOS System<a class="headerlink" href="#guides-for-issues-on-windows-and-macos-system" title="Permalink to this headline">¶</a></h1>
+<p>iMARGI-Docker can work on any Docker supported system. Generally, We recommend to use it on Linux system, because
+Docker supports Linux system very well. If you are using it on Windows or macOS, you might encounter some small Docker
+configuration problems. As you might not familiar with settings of Docker Desktop or Docker Toolbox, so we collected some
+potential issues you might encountered and guide you to solve them.</p>
+<ul class="simple">
+<li><a class="reference external" href="#guides-for-issues-on-windows-and-macos-system">Guides for Issues on Windows and macOS System</a><ul>
+<li><a class="reference external" href="#checklist-of-docker-settings">Checklist of Docker Settings</a></li>
+<li><a class="reference external" href="#issues">Issues</a><ul>
+<li><a class="reference external" href="#cannot-install-docker-desktop">Cannot Install Docker Desktop</a></li>
+<li><a class="reference external" href="#cannot-find-files">Cannot find files</a></li>
+<li><a class="reference external" href="#connection-issue">Connection issue</a></li>
+<li><a class="reference external" href="#keyerror-chr1">KeyError: ‘chr1’</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="section" id="checklist-of-docker-settings">
+<h2>Checklist of Docker Settings<a class="headerlink" href="#checklist-of-docker-settings" title="Permalink to this headline">¶</a></h2>
+<p><strong>If you encounter any problem, please check these settings first, they can fix all the known problems.</strong></p>
+<ul>
+<li><p class="first">Install the latest stable version of Docker</p>
+<p>First of all, you need to check your system. If your system matches the requirements of Docker Desktop, please use
+Docker Desktop, which is much better than Docker Toolbox. The latest Docker Desktop can be downloaded from Docker
+official web page. However, the latest Docker Toolbox needs to be downloaded from its GitHub repository.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://hub.docker.com/editions/community/docker-ce-desktop-windows?tab=description">Download Docker Desktop for Windows</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://hub.docker.com/editions/community/docker-ce-desktop-mac">Download Docker Desktop for macOS</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/docker/toolbox/releases">Download Docker Toolbox GitHub page</a></li>
+</ul>
+</div>
+</li>
+<li><p class="first">Enable Virtualization</p>
+<p>Docker needs CPU virtualization technology to support Windows and macOS. Most of modern computers support
+virtualization. For Apple computer, it’s enabled as default. For Windows computer, you might need to enable it in BIOS.
+<a class="reference external" href="https://www.isumsoft.com/computer/enable-virtualization-technology-vt-x-in-bios-or-uefi.html">Check here to see how to enable it in BIOS.</a></p>
+<p>Besides, you also need to turn on Hyper-V if you want to use Docker Desktop for Windows 10 Pro, Enterprise or
+Education version.
+<a class="reference external" href="https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v">Check here to see how to turn on Hyper-V.</a></p>
+</li>
+<li><p class="first">Start Docker</p>
+<p>After installing Docker, you need to start it as a backend engine. You can find a Docker icon (whale) in the task bar.
+You can learn the basic usage of Docker Desktop and Docker Toolbox from official docs.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://docs.docker.com/docker-for-windows/">Instructions of Docker Desktop for Windows</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.docker.com/docker-for-mac/">Instructions of Docker Desktop for macOS</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.docker.com/toolbox/toolbox_install_windows/">Instructions of Docker Toolbox for Windows</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.docker.com/toolbox/toolbox_install_mac/">Instructions of Docker Toolbox for macOS</a></li>
+</ul>
+</div>
+</li>
+<li><p class="first">Memory Limit Setting</p>
+<p>Enough memory is important to the iMARGI data processing pipeline. The required amount of memory depends on the size
+of reference genome. For human genome, at least 8GB free memory are required by BWA. Hence,** the memory on the machine
+needs to be more than 8 GB, which usually is 16 GB**. If the memory is not enough, BWA will generate an empty BAM file,
+then it will throw out some strange error information in following steps, such as <code class="docutils literal notranslate"><span class="pre">&quot;KeyError:</span> <span class="pre">'chr1'&quot;</span></code>.</p>
+<ul class="simple">
+<li><strong>System memory requirement: 16 GB.</strong></li>
+<li>If you are using Docker Desktop for Windows or macOS, you can easily change the settings by right click the
+Docker icon (Whale) in the task bar, then go to <em>Settings</em> -&gt; <em>Advanced</em> to change memory and CPU limits.</li>
+<li>If you are using Docker Toolbox for Windows or macOS, which uses VirtualBox as backend, so you need to open <em>VirtualBox</em>,
+then stop <em>default VM</em>, select it and click on <em>settings</em>, then make changes as you want.</li>
+</ul>
+</li>
+<li><p class="first">Shared Folder</p>
+<p>When we use iMARGI-Docker, we need to ‘mount’ the data analysis working directory to the container using <code class="docutils literal notranslate"><span class="pre">-v</span></code> option.
+Usually, it will be automatically mounted when you use <code class="docutils literal notranslate"><span class="pre">-v</span></code> option. However, if you encounter some problems similar
+to “file not found”, you need to check the shared folder in the Docker Desktop setting panel or VirtualBox settings.
+Besides, in Windows, the path of folder is different to Linux. For example, <code class="docutils literal notranslate"><span class="pre">C:/Users/test</span> <span class="pre">space/imargi_example</span></code> needs
+to be written as <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">&quot;/c/Users/test</span> <span class="pre">space/imargi_example&quot;:/imargi</span></code>.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="issues">
+<h2>Issues<a class="headerlink" href="#issues" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cannot-install-docker-desktop">
+<h3>Cannot Install Docker Desktop<a class="headerlink" href="#cannot-install-docker-desktop" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>CPU virtualization enabled?</li>
+<li>Hyper-V enabled for Docker Desktop? Only Windows 10 Pro, Enterprise or Education version.</li>
+<li>Windows 10 Home version? Pleae use Docker Toolbox.</li>
+</ul>
+<p><a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#install-docker-on-different-systems">Check detail information in Technical Notes</a></p>
+</div>
+<div class="section" id="cannot-find-files">
+<h3>Cannot find files<a class="headerlink" href="#cannot-find-files" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Is that folder or drive shared in Docker? Check Docker Desktop setting panel or VirtualBox settings.</li>
+<li>Is the path correct? For example, <code class="docutils literal notranslate"><span class="pre">C:/Users/test</span> <span class="pre">space/imargi_example</span></code> needs to be written as
+<code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">&quot;/c/Users/test</span> <span class="pre">space/imargi_example&quot;:/imargi</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="connection-issue">
+<h3>Connection issue<a class="headerlink" href="#connection-issue" title="Permalink to this headline">¶</a></h3>
+<p>This issue was reported in an old version of Docker Toolbox on Windows. The error information might be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wsarecv</span><span class="p">:</span> <span class="n">A</span> <span class="n">connection</span> <span class="n">attempt</span> <span class="n">failed</span> <span class="n">because</span> <span class="n">the</span> <span class="n">connected</span> <span class="n">party</span> <span class="n">did</span> <span class="ow">not</span> <span class="n">properly</span> <span class="n">respond</span> <span class="n">after</span> <span class="n">a</span> <span class="n">period</span> <span class="n">of</span> <span class="n">time</span><span class="p">,</span> <span class="ow">or</span> <span class="n">established</span> <span class="n">connection</span> <span class="n">failed</span> <span class="n">because</span> <span class="n">connected</span> <span class="n">host</span> <span class="n">has</span> <span class="n">failed</span> <span class="n">to</span> <span class="n">respond</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>We found that it might be a bug of old Docker Toolbox. So update to the newest version will fix the problem, such as
+<a class="reference external" href="https://github.com/docker/toolbox/releases">version 18.09.3</a>.</p>
+</div>
+<div class="section" id="keyerror-chr1">
+<h3>KeyError: ‘chr1’<a class="headerlink" href="#keyerror-chr1" title="Permalink to this headline">¶</a></h3>
+<p>It’s caused by insufficient memory and BWA. The memory required by BWA depends on the size of the reference genome. For
+the human genome, it needs about 6 GB free memory for building or loading index files. If the memory is not enough,
+BWA will generate an empty BAM file without any warning or error information. Then in the following steps of the
+pipeline will throw a lot of error information containing <code class="docutils literal notranslate"><span class="pre">KeyError</span> <span class="pre">'chr1'</span></code>.</p>
+<p>So, generally, the system should have more than 8 GB total physical memory, usually it’s 16 GB.</p>
+<p>Besides, there is memory limit setting of Docker on Windows and Mac. The default memory limit is 2 GB. You need to
+increase it to 8 GB. <a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#change-docker-memory-settings-on-windows-and-macos">Check detail information in Technical Notes</a></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="commandline_api.html" class="btn btn-neutral float-right" title="Command-line API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="technical_note.html" class="btn btn-neutral float-left" title="Technical Notes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zhong Lab, UCSD. iMARGI-Docker code licensed under the BSD 2 License. Documentation licensed under CC BY 3.0
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
