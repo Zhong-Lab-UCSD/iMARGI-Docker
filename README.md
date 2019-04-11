@@ -209,8 +209,8 @@ genome. Please download the following gzip compressed `bwa_index` folder and dec
             ├── bwa_index_hg38.amb
             ├── bwa_index_hg38.ann
             ├── bwa_index_hg38.bwt
-            ├── sample_R1.fastq.pac
-            └── sample_R2.fastq.sa
+            ├── bwa_index_hg38.pac
+            └── bwa_index_hg38.sa
 ```
 
 ### 4.2. Testing Command
