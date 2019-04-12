@@ -31,18 +31,27 @@ the following specs:
 ### Software Requirements
 
 iMARGI-Docker only requires Docker. You can use [Docker Community Edition (CE)](https://docs.docker.com/install/).
+**We recommend using Linux system**, because it's much easier to setup and its filesystem is better for large file
+processing. You can install Docker CE with two commands on well supported 64-bit Linux distributions, including Ubuntu,
+Debian, Fedora, and CentOS.
+
+``` Bash
+sudo curl -fsSL https://get.docker.com |sh -
+
+# set Docker user, replace demo_user with you own user name,
+# then you can use docker command without sudo
+sudo usermod -aG docker demo_user
+```
+
 Docker supports all the mainstream OS, such as Linux, Windows and macOS. You can check the
 [Technical Notes of installing Docker on different systems](https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#install-docker-on-different-systems)
-to learn how to do it.
+to learn how to install Docker on other systems.
 
-We recommend using Linux system, because it's much easier to setup and its filesystem is better for large file
-processing. All the example command lines here and in the documentation are ran on a Linux system. Most of time, the
-operations in macOS is the same as in Linux system, as it's also a Unix system. However, if you are using Windows
-system, some command lines need to be modified.
-
-If you are using Windows or macOS, you need to configure the CPU and memory settings of Docker. There is default 2 GB
-limit of memory to Docker on Windows or macOS (no limit on Linux). You must increase it to more than 8 GB.
-You can check the [Technical Notes of change Docker settings](https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#change-docker-memory-settings-on-windows-and-macos)
+Most of time, the operations in macOS is the same as in Linux system, as it's also a Unix system. However, if you are
+using Windows system, some command lines need to be modified. Besides, you need to configure the CPU and memory settings
+of Docker. There is default 2 GB limit of memory to Docker on Windows or macOS (no limit on Linux). You must increase it
+to more than 8 GB. You can check the
+[Technical Notes of change Docker settings](https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#change-docker-memory-settings-on-windows-and-macos)
 to learn how to do it. You might encounter some other problems caused by system settings specifically to Windows or macOS,
 please check the [Guides for Issues on Windows and macOS System page](https://sysbio.ucsd.edu/imargi_pipeline/faq_win_mac.html)
 to find a solution.

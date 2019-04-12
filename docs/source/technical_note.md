@@ -71,13 +71,16 @@ There are official docs of Docker installation guides for different OS, which ca
 Here are only some essential instructions. Install Docker on Linux is the easiest.
 
 - **Linux**: Support the most recent 64 bit stable releases of Ubuntu, Debian, Fedora and CentOS. You need `root` or `sudo`
-  privileges. Generally, the following script will automatically install Docker in your system.
+  privileges. Generally, the following commands will automatically install Docker in your system. The second command
+  will allow you to run `docker` commands without `sudo` privileges.
+  [Learn more in the official documentation.](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
   
   ``` Bash
   sudo curl -fsSL https://get.docker.com |sh -
   
-  # replace frank with you user name
-  sudo usermod -aG docker frank
+  # set Docker user, replace demo_user with you own user name,
+  # then you can use docker command without sudo
+  sudo usermod -aG docker demo_user
   ```
 
 - **macOS (modern)**: Docker Desktop for macOS. Support macOS Sierra 10.12 and newer on a Apple computer after 2010.

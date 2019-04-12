@@ -125,6 +125,11 @@ if [ ! -z "$ref_fa" ]; then
         bwa index -p $ref_dir/bwa_index/bwa_index_$ref_name $ref_fa
         bwa_index=$ref_dir"/bwa_index/bwa_index_"$ref_name
     else
+        [ ! -f "${bwa_index}.amb" ] && echo "Error!! BWA index files not correct: "$bwa_index && usage
+        [ ! -f "${bwa_index}.ann" ] && echo "Error!! BWA index files not correct: "$bwa_index && usage
+        [ ! -f "${bwa_index}.bwt" ] && echo "Error!! BWA index files not correct: "$bwa_index && usage
+        [ ! -f "${bwa_index}.pac" ] && echo "Error!! BWA index files not correct: "$bwa_index && usage
+        [ ! -f "${bwa_index}.sa" ] && echo "Error!! BWA index files not correct: "$bwa_index && usage
         date
         echo ">>>>>>>>>>>>>>>> Ref: bwa index argument exist. Directly use the bwa index "$bwa_index      
     fi
@@ -166,10 +171,25 @@ bwa mem -t $threads -SP5M $bwa_index \
     2>$output_dir/bwa_output/bwa_log_$base_name.txt | \
     samtools view -@ $threads -Shb - > $output_dir/bwa_output/$base_name.bam
 
+bwa_flag=$( tail -n 3 $output_dir/bwa_output/bwa_log_$base_name.txt | 
+    awk 'BEGIN{flag="ERROR"}{if($0~ /^\[main\] Real time/){flag="OK";}}END{print flag;}' )
+
+
+
+if [[ "$bwa_flag" == "OK" ]]; then
+    tail -n 3 $output_dir/bwa_output/bwa_log_$base_name.txt
+    echo "BWA mapping finished."
+else
+    date
+    echo "BWA mapping ERROR. Check more error log info in  "$output_dir/bwa_output/bwa_log_$base_name.txt
+    tail -n 3 $output_dir/bwa_output/bwa_log_$base_name.txt
+    echo "!!!!!!!!!!!!!!!! Pipeline exit with BWA Error !" && usage
+fi
+
 date
 echo ">>>>>>>>>>>>>>>> Start parsing valid RNA-DNA interactions ..."
 imargi_parse.sh -r $ref_name -c $chromsize -R $rsites -b $output_dir/bwa_output/$base_name.bam \
-    -o $output_dir -G 20 -O 3 -M 1000 -d false -D $output_dir/parse_temp -t $threads
+    -o $output_dir -G $gap -O $offset -M $max_ligation_size -d false -D $output_dir/parse_temp -t $threads
 
 date
 echo "================ iMARGI Pipeline END"
