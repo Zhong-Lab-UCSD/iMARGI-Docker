@@ -5,19 +5,19 @@ RUN apt-get update && \
     apt-get install -y \
     git build-essential libz-dev libbz2-dev liblzma-dev libssl-dev libcurl4-gnutls-dev \
     autoconf automake libncurses5-dev wget gawk parallel && \
-    cd /tmp && git clone https://github.com/lh3/seqtk.git && \
+    cd /tmp && git clone -b 1.3 https://github.com/lh3/seqtk.git && \
     cd seqtk && make && make install && \
-    cd /tmp && git clone https://github.com/samtools/htslib && \
+    cd /tmp && git clone -b 1.9 https://github.com/samtools/htslib && \
     cd htslib && autoheader && autoconf && \
     ./configure --prefix=/usr/local && make && make install && \
-    cd /tmp && git clone https://github.com/samtools/samtools && \
+    cd /tmp && git clone -b 1.9 https://github.com/samtools/samtools && \
     cd samtools && autoheader && autoconf && \
     ./configure --prefix=/usr/local && make && make install && \
-    cd /tmp && git clone https://github.com/lh3/bwa.git && \
+    cd /tmp && git clone -b v0.7.17 https://github.com/lh3/bwa.git && \
     cd bwa && make && cp bwa /usr/local/bin && \
     cd /tmp && git clone https://github.com/nh13/pbgzip && \
     cd pbgzip && sh autogen.sh && ./configure && make && make install && \
-    cd /tmp && git clone https://github.com/lz4/lz4 && \
+    cd /tmp && git clone -b v1.8.3 https://github.com/lz4/lz4 && \
     cd lz4 && make && make install && \
     cd /tmp && wget http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.9.4/sratoolkit.2.9.4-ubuntu64.tar.gz && \
     tar zxvf sratoolkit.2.9.4-ubuntu64.tar.gz && cp -R sratoolkit.2.9.4-ubuntu64/bin/* /usr/local/bin && \
