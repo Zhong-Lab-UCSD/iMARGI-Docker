@@ -5,7 +5,7 @@ RUN apt-get update && \
     apt-get install -y \
     git build-essential libz-dev libbz2-dev liblzma-dev libssl-dev libcurl4-gnutls-dev \
     autoconf automake libncurses5-dev wget gawk parallel && \
-    cd /tmp && git clone -b 1.3 https://github.com/lh3/seqtk.git && \
+    cd /tmp && git clone -b v1.3 https://github.com/lh3/seqtk.git && \
     cd seqtk && make && make install && \
     cd /tmp && git clone -b 1.9 https://github.com/samtools/htslib && \
     cd htslib && autoheader && autoconf && \
