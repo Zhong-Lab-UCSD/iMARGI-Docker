@@ -236,7 +236,7 @@ imargi_convert.sh, imargi_distfilter.sh, imargi_annotate.sh.</li>
 <li><p class="first"><strong>Linux</strong>: Support the most recent 64 bit stable releases of Ubuntu, Debian, Fedora and CentOS. You need <code class="docutils literal notranslate"><span class="pre">root</span></code> or <code class="docutils literal notranslate"><span class="pre">sudo</span></code>
 privileges. Generally, the following commands will automatically install Docker in your system. The second command
 will allow you to run <code class="docutils literal notranslate"><span class="pre">docker</span></code> commands without <code class="docutils literal notranslate"><span class="pre">sudo</span></code> privileges.
-<a class="reference external" href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">Learn more in the official documentation.</a></p>
+<a class="reference external" href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">Learn more from the official documentation.</a></p>
 <div class="highlight-Bash notranslate"><div class="highlight"><pre><span></span>sudo curl -fsSL https://get.docker.com <span class="p">|</span>sh -
 
 <span class="c1"># set Docker user, replace demo_user with you own user name,</span>
@@ -252,13 +252,15 @@ sudo usermod -aG docker demo_user
 <li><p class="first"><strong>Windows 10 (modern)</strong>: Docker Desktop for Windows. Support the latest Windows 10 (64 bit) Pro, Enterprise or
 Education version.</p>
 <p>First, enable virtualization of your CPU (most of modern Intel CPUs support virtualization).
-<a class="reference external" href="https://www.isumsoft.com/computer/enable-virtualization-technology-vt-x-in-bios-or-uefi.html">Check here to see how to enable it in BIOS.</a>
-Then, turn on Hyper-V. <a class="reference external" href="https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v">Check here to see how to turn on Hyper-V.</a>
-Finally, download Docker Desktop software for Windows and install,
+<a class="reference external" href="https://www.isumsoft.com/computer/enable-virtualization-technology-vt-x-in-bios-or-uefi.html">Check here to see how to enable it in BIOS.</a></p>
+<p>Then, turn on Hyper-V. <a class="reference external" href="https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v">Check here to see how to turn on Hyper-V.</a></p>
+<p>Finally, download Docker Desktop software for Windows and install,
 <a class="reference external" href="https://docs.docker.com/docker-for-windows/install/">Click here to check instructions</a></p>
 </li>
 <li><p class="first"><strong>Legacy solution</strong>: For older Mac and Windows systems that do not meet the requirements of Docker Desktop for Mac and
 Docker Desktop for Windows, you can install Docker Toolbox to use Docker.</p>
+<p>First, enable virtualization of your CPU (most of modern Intel CPUs support virtualization).
+<a class="reference external" href="https://www.isumsoft.com/computer/enable-virtualization-technology-vt-x-in-bios-or-uefi.html">Check here to see how to enable it in BIOS.</a></p>
 <p><a class="reference external" href="https://github.com/docker/toolbox/releases">Download the latest version of Docker Toolbox from GitHub repo</a></p>
 <p><a class="reference external" href="https://docs.docker.com/toolbox/toolbox_install_windows/">Instructions of Docker Toolbox for Windows</a></p>
 <p><a class="reference external" href="https://docs.docker.com/toolbox/toolbox_install_mac/">Instructions of Docker Toolbox for macOS</a></p>
@@ -288,15 +290,22 @@ then stop default VM, select it and click on settings, then make changes as you 
 </div>
 <div class="section" id="run-imargi-docker-with-non-root-user">
 <h2>Run iMARGI-Docker with Non-root User<a class="headerlink" href="#run-imargi-docker-with-non-root-user" title="Permalink to this headline">¶</a></h2>
-<p>root (id = 0) is the default user within a container. It will cause some permission problem of some files or directories
-created by Docker container. So it’s better to run iMARGI-Docker container using <code class="docutils literal notranslate"><span class="pre">-u</span> <span class="pre">(--user)</span></code>  option to override the
-default root user with your own user id (UID).</p>
-<p>You can use command <code class="docutils literal notranslate"><span class="pre">id</span></code> in your linux system to get your own UID. For example, my UID is <code class="docutils literal notranslate"><span class="pre">1043</span></code>, so I can run iMARGI-Docker
-with <code class="docutils literal notranslate"><span class="pre">-u</span> <span class="pre">1043</span></code>, then all the output files and directories are all belong to my user ID. You need to replace the <code class="docutils literal notranslate"><span class="pre">1043</span></code>
-with your own UID.</p>
+<p>Linux system has strict user privilege control. root (id = 0) is the default user within a container. It will cause some
+permission problem of some files or directories created by Docker container. So it’s better to run iMARGI-Docker
+container using <code class="docutils literal notranslate"><span class="pre">-u</span> <span class="pre">(--user)</span></code>  option to override the default root user with your own user id (UID).</p>
+<p>First of all, you need to add your user account to <code class="docutils literal notranslate"><span class="pre">docker</span></code> group.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># set Docker user, replace demo_user with you own user name,</span>
+<span class="c1"># then you can use docker command without sudo</span>
+sudo usermod -aG docker demo_user
+</pre></div>
+</div>
+<p>When you run <code class="docutils literal notranslate"><span class="pre">docker</span></code> command, you need <code class="docutils literal notranslate"><span class="pre">-u</span></code> option to specify your user UID. You can use command <code class="docutils literal notranslate"><span class="pre">id</span></code> in your linux
+system to get your own UID. For example, my UID is <code class="docutils literal notranslate"><span class="pre">1043</span></code>, so I can run iMARGI-Docker with <code class="docutils literal notranslate"><span class="pre">-u</span> <span class="pre">1043</span></code>, then all the
+output files and directories are all belong to my user ID. You need to replace the <code class="docutils literal notranslate"><span class="pre">1043</span></code> with your own UID.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>id
-<span class="c1"># uid=1043(frankyan) gid=1048(frankyan)</span>
-docker run --rm -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh <span class="se">\</span>
+<span class="c1"># output of command &#39;id&#39;: uid=1043(frankyan) gid=1048(frankyan) groups=1048(frankyan),998(docker)</span>
+
+docker run --rm -t -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh <span class="se">\</span>
     -r hg38 <span class="se">\</span>
     -N HEK_iMARGI <span class="se">\</span>
     -t <span class="m">16</span> <span class="se">\</span>

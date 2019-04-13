@@ -99,7 +99,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#parsing-parse-mapped-read-pairs-to-valid-rna-dna-interactions">Parsing: parse mapped read pairs to valid RNA-DNA interactions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#output-files">Output Files</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#all-the-output-file-list">All The Output File List</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#the-imargi-pipeline-output-pairs-format">The iMARGI Pipeline Output .pairs Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-imargi-pipeline-output-pairs-format">The iMARGI Pipeline Output <code class="docutils literal notranslate"><span class="pre">.pairs</span></code> Format</a></li>
 </ul>
 </li>
 </ul>
@@ -192,7 +192,7 @@ corresponding tools.</p>
 <li><a class="reference external" href="#parsing-parse-mapped-read-pairs-to-valid-rna-dna-interactions">Parsing: parse mapped read pairs to valid RNA-DNA interactions</a></li>
 <li><a class="reference external" href="#output-files">Output Files</a><ul>
 <li><a class="reference external" href="#all-the-output-file-list">All The Output File List</a></li>
-<li><a class="reference external" href="#the-imargi-pipeline-output-pairs-format">The iMARGI Pipeline Output .pairs Format</a></li>
+<li><a class="reference external" href="#the-imargi-pipeline-output-pairs-format">The iMARGI Pipeline Output <code class="docutils literal notranslate"><span class="pre">.pairs</span></code> Format</a></li>
 </ul>
 </li>
 </ul>
@@ -202,7 +202,7 @@ corresponding tools.</p>
 <h2>The <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> Running Command<a class="headerlink" href="#the-imargi-wrapper-sh-running-command" title="Permalink to this headline">¶</a></h2>
 <p>In the <a class="reference internal" href="quick_example.html"><span class="doc">quick example</span></a> section, we use the following command of <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code>, whose input
 are only sequencing read pairs FASTQ files and reference genome sequence FASTA file.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run --rm -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhonglab/imargi <span class="se">\</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run --rm -t -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhonglab/imargi <span class="se">\</span>
     imargi_wrapper.sh <span class="se">\</span>
     -r hg38 <span class="se">\</span>
     -N test_sample <span class="se">\</span>
@@ -643,7 +643,7 @@ tool <code class="docutils literal notranslate"><span class="pre">imargi_distfil
 </tbody>
 </table></div>
 <div class="section" id="the-imargi-pipeline-output-pairs-format">
-<h3>The iMARGI Pipeline Output .pairs Format<a class="headerlink" href="#the-imargi-pipeline-output-pairs-format" title="Permalink to this headline">¶</a></h3>
+<h3>The iMARGI Pipeline Output <code class="docutils literal notranslate"><span class="pre">.pairs</span></code> Format<a class="headerlink" href="#the-imargi-pipeline-output-pairs-format" title="Permalink to this headline">¶</a></h3>
 <p>The default final output file is <code class="docutils literal notranslate"><span class="pre">final_test_sample.pairs.gz</span></code> which is in .pairs format. .pairs file format is designed
 by 4DN DCIC. You can read its
 <a class="reference external" href="https://github.com/4dn-dcic/pairix/blob/master/pairs_format_specification">specification document</a>.</p>

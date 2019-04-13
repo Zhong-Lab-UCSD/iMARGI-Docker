@@ -201,7 +201,8 @@ Besides, fast IO storage is better, such as SSD.</li>
 <strong>We recommend using Linux system</strong>, because it’s much easier to setup and its filesystem is better for large file
 processing. You can install Docker CE with two commands on well supported 64-bit Linux distributions, including Ubuntu,
 Debian, Fedora, and CentOS.</p>
-<div class="highlight-Bash notranslate"><div class="highlight"><pre><span></span>sudo curl -fsSL https://get.docker.com <span class="p">|</span>sh -
+<div class="highlight-Bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># install Docker, support Ubuntu, Debian, Fedora, and CentOS</span>
+sudo curl -fsSL https://get.docker.com <span class="p">|</span>sh -
 
 <span class="c1"># set Docker user, replace demo_user with you own user name,</span>
 <span class="c1"># then you can use docker command without sudo</span>
@@ -232,20 +233,28 @@ iMARGI pipeline using the docker container than installing and configuring all t
 </div>
 <p>To use the tools in the iMARGI Docker image, you need to run a Docker container. Here is an example of creating a
 new directory with <code class="docutils literal notranslate"><span class="pre">mkdir</span></code> command through a Docker container.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/test:/imargi zhonglab/imargi mkdir new_dir
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run --rm -t -u <span class="m">1043</span> -v ~/test:/imargi zhonglab/imargi mkdir new_dir
 </pre></div>
 </div>
-<p><img alt="_images/docker_command_example.png" src="_images/docker_command_example.png" /></p>
-<p>You should know the <code class="docutils literal notranslate"><span class="pre">-v</span></code> or <code class="docutils literal notranslate"><span class="pre">--volume</span></code> option, which assigns the <code class="docutils literal notranslate"><span class="pre">~/test</span></code> directory on your host machine to the
-working directory <code class="docutils literal notranslate"><span class="pre">/imargi</span></code> of the iMARGI container. The container can only operate the files in <code class="docutils literal notranslate"><span class="pre">~/test</span></code> directory.
-If you are using Docker on Windows, the path is a little different. For example, Windows path <code class="docutils literal notranslate"><span class="pre">D:\test\imargi_example</span></code>
-needs to be rewritten as <code class="docutils literal notranslate"><span class="pre">/d/test/imargi_example</span></code>, so the <code class="docutils literal notranslate"><span class="pre">-v</span></code> argument needs to be <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">/d/test/imargi_example:/imargi</span></code>.
-When you executed it on Windows, a window might pop up to verify that you want to share the folder.</p>
-<p>In the example, the command part will create a sub-folder <code class="docutils literal notranslate"><span class="pre">new_dir</span></code> in the folder <code class="docutils literal notranslate"><span class="pre">~/test/</span></code>. You can replace the
-command part to use any tool in the iMARGI Docker container.</p>
-<p>Besides, there are many other Docker options are useful. For example, you can use <code class="docutils literal notranslate"><span class="pre">--rm</span></code> to automatically clean up the
-container after finished its job. For more usage information of Docker, please
-refer to <a class="reference external" href="https://docs.docker.com/engine/reference/commandline/cli/">Docker documentation</a>.</p>
+<p><img alt="_images/docker_command_example.png" src="_images/docker_command_example.png" />docker command example</p>
+<p>The option part shows the main option parameters of running a docker command. For more usage information of Docker, please
+refer to <a class="reference external" href="https://docs.docker.com/engine/reference/commandline/cli/">Docker official documentation</a>.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">--rm</span></code>: By default a container’s file system persists even after the container exits. Hence, the container file
+systems can really pile up. <code class="docutils literal notranslate"><span class="pre">--rm</span></code> option will automatically clean up the container after the container exits.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-t</span></code>: Allocate a pseudo-TTY. Without <code class="docutils literal notranslate"><span class="pre">-t</span></code>, you cannot use <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">c</span></code> to stop the run.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-u</span> <span class="pre">1043</span></code>: Run docker with your own UID of your Linux system (use <code class="docutils literal notranslate"><span class="pre">id</span></code> command to check your own UID and replace
+<code class="docutils literal notranslate"><span class="pre">1043</span></code> with it) to avoid file/dir permission problem.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-v</span></code>: The <code class="docutils literal notranslate"><span class="pre">-v</span></code> or <code class="docutils literal notranslate"><span class="pre">--volume</span></code> option mounts the <code class="docutils literal notranslate"><span class="pre">~/test</span></code> directory on your host machine to the working directory <code class="docutils literal notranslate"><span class="pre">/imargi</span></code> of
+the iMARGI-Docker container, which is the default working space of iMARGI-Docker. So the container can operate the
+files in <code class="docutils literal notranslate"><span class="pre">~/test</span></code> directory. If you are using Docker on Windows, the path is a little different. For example, Windows
+path <code class="docutils literal notranslate"><span class="pre">D:\test\imargi_example</span></code> needs to be rewritten as <code class="docutils literal notranslate"><span class="pre">/d/test/imargi_example</span></code>, so the <code class="docutils literal notranslate"><span class="pre">-v</span></code> argument needs to be <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">/d/test/imargi_example:/imargi</span></code>.
+When you executed it on Windows, a window might pop up to verify that you want to share the folder.</li>
+</ul>
+<p>The command executed part in the example, <code class="docutils literal notranslate"><span class="pre">mkdir</span> <span class="pre">new_dir</span></code>, creates a folder <code class="docutils literal notranslate"><span class="pre">new_dir</span></code> in the default working space of
+the container, which is <code class="docutils literal notranslate"><span class="pre">/imargi</span></code>. As we used <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">~/test:/imargi</span></code> option, so the <code class="docutils literal notranslate"><span class="pre">~/test/</span></code>directory on your host machine
+has been mounted as <code class="docutils literal notranslate"><span class="pre">/imargi</span></code> in the iMARGI-Docker container. So the <code class="docutils literal notranslate"><span class="pre">new_dir</span></code> folder will show in your <code class="docutils literal notranslate"><span class="pre">~/test/</span></code> directory.
+You can change the command part to use any tool in the iMARGI Docker container.</p>
 </div>
 <div class="section" id="dependencies-instruction">
 <h2>Dependencies Instruction<a class="headerlink" href="#dependencies-instruction" title="Permalink to this headline">¶</a></h2>
@@ -259,19 +268,19 @@ create issues in the <a class="reference external" href="https://github.com/Zhon
 apt-get update
 apt-get install git build-essential libz-dev libbz2-dev liblzma-dev libssl-dev libcurl4-gnutls-dev <span class="se">\</span>
     autoconf automake libncurses5-dev wget gawk parallel
-<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/lh3/seqtk.git <span class="o">&amp;&amp;</span> <span class="se">\</span>
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone -b v1.3 https://github.com/lh3/seqtk.git <span class="o">&amp;&amp;</span> <span class="se">\</span>
     <span class="nb">cd</span> seqtk <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make install
-<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/samtools/htslib <span class="o">&amp;&amp;</span> <span class="se">\</span>
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone -b <span class="m">1</span>.9 https://github.com/samtools/htslib <span class="o">&amp;&amp;</span> <span class="se">\</span>
     <span class="nb">cd</span> htslib <span class="o">&amp;&amp;</span> autoheader <span class="o">&amp;&amp;</span> autoconf <span class="o">&amp;&amp;</span> <span class="se">\</span>
     ./configure --prefix<span class="o">=</span>/usr/local <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make install
-<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/samtools/samtools <span class="o">&amp;&amp;</span> <span class="se">\</span>
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone -b <span class="m">1</span>.9 https://github.com/samtools/samtools <span class="o">&amp;&amp;</span> <span class="se">\</span>
     <span class="nb">cd</span> samtools <span class="o">&amp;&amp;</span> autoheader <span class="o">&amp;&amp;</span> autoconf <span class="o">&amp;&amp;</span> <span class="se">\</span>
     ./configure --prefix<span class="o">=</span>/usr/local <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make install
-<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/lh3/bwa.git <span class="o">&amp;&amp;</span> <span class="se">\</span>
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone -b v0.7.17 https://github.com/lh3/bwa.git <span class="o">&amp;&amp;</span> <span class="se">\</span>
     <span class="nb">cd</span> bwa <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> cp bwa /usr/local/bin
 <span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/nh13/pbgzip <span class="o">&amp;&amp;</span> <span class="se">\</span>
     <span class="nb">cd</span> pbgzip <span class="o">&amp;&amp;</span> sh autogen.sh <span class="o">&amp;&amp;</span> ./configure <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make install
-<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/lz4/lz4 <span class="o">&amp;&amp;</span> <span class="se">\</span>
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone -b v1.8.3 https://github.com/lz4/lz4 <span class="o">&amp;&amp;</span> <span class="se">\</span>
     <span class="nb">cd</span> lz4 <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make install
 <span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> wget http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.9.4/sratoolkit.2.9.4-ubuntu64.tar.gz <span class="o">&amp;&amp;</span> <span class="se">\</span>
     tar zxvf sratoolkit.2.9.4-ubuntu64.tar.gz <span class="o">&amp;&amp;</span> cp -R sratoolkit.2.9.4-ubuntu64/bin/* /usr/local/bin
@@ -279,14 +288,9 @@ apt-get install git build-essential libz-dev libbz2-dev liblzma-dev libssl-dev l
 apt-get install -y python3-dev libopenblas-dev python3-pip
 pip3 install numpy cython scipy pandas click
 pip3 install pairtools cooler HTSeq
-
-<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/Zhong-Lab-UCSD/iMARGI-Docker.git <span class="o">&amp;&amp;</span><span class="se">\</span>
-    cp iMARGI-Docker/src/imargi_* /usr/local/bin/
-
-chmod +x /usr/local/bin/imargi_*
 </pre></div>
 </div>
-<p>The following table shows all the required tools with simple descriptions. Some of these tools, such as <code class="docutils literal notranslate"><span class="pre">bash</span></code>, <code class="docutils literal notranslate"><span class="pre">sort</span></code>
+<p>The following table shows all the dependencies with simple descriptions. Some of these tools, such as <code class="docutils literal notranslate"><span class="pre">bash</span></code>, <code class="docutils literal notranslate"><span class="pre">sort</span></code>
 and <code class="docutils literal notranslate"><span class="pre">zcat</span></code> are usually default installed in most of Linux distributions. Besides, you might need root access or
 compiling tools on Linux system to install some of these tools.</p>
 <table border="1" class="docutils">
@@ -401,63 +405,74 @@ compiling tools on Linux system to install some of these tools.</p>
 <td>Linux package "zcat"</td>
 <td>Readout compressed text file</td>
 </tr>
+</tbody>
+</table><p>After you installed all those dependencies, you need to get all the iMARGI-Docker tools from its GitHub repository:</p>
+<p><a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker">https://github.com/Zhong-Lab-UCSD/iMARGI-Docker</a></p>
+<p>You can <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> the master branch, which is the same as the latest release. And then copy all the script tools named
+with prefix <code class="docutils literal notranslate"><span class="pre">imargi_</span></code> to your executable PATH, such as the following commands.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/Zhong-Lab-UCSD/iMARGI-Docker.git <span class="o">&amp;&amp;</span><span class="se">\</span>
+    cp iMARGI-Docker/src/imargi_* /usr/local/bin/
+
+chmod +x /usr/local/bin/imargi_*
+</pre></div>
+</div>
+<p>The iMARGI-Docker script tools are listed in the table below.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Tool</th>
+<th>Installation</th>
+<th>Brief description</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td>imargi_wrapper.sh</td>
-<td>0.1</td>
 <td>Download and <code>chmod +x</code></td>
 <td>All-in-one pipeline wrapper</td>
 </tr>
 <tr>
 <td>imargi_clean.sh</td>
-<td>0.1</td>
 <td>Download and <code>chmod +x</code></td>
 <td>Clean iMARGI paired end fastq files</td>
 </tr>
 <tr>
 <td>imargi_parse.sh</td>
-<td>0.1</td>
 <td>Download and <code>chmod +x</code></td>
 <td>Parse BAM to valid RNA-DNA interaction pairs</td>
 </tr>
 <tr>
 <td>imargi_stats.sh</td>
-<td>0.1</td>
 <td>Download and <code>chmod +x</code></td>
 <td>Simple stats report of .pairs file</td>
 </tr>
 <tr>
 <td>imargi_convert.sh</td>
-<td>0.1</td>
 <td>Download and <code>chmod +x</code></td>
 <td>Convert .pairs format to other formats</td>
 </tr>
 <tr>
 <td>imargi_distfilter.sh</td>
-<td>0.1</td>
 <td>Download and <code>chmod +x</code></td>
 <td>Filter .pairs or BEDPE file with genomic distance threshold</td>
 </tr>
 <tr>
 <td>imargi_rsfrags.sh</td>
-<td>0.1</td>
 <td>Download and <code>chmod +x</code></td>
 <td>Generate restriction fragment BED file</td>
 </tr>
 <tr>
 <td>imargi_restrict.py</td>
-<td>0.1</td>
 <td>Download and <code>chmod +x</code></td>
 <td>Restriction site analysis of .pairs file</td>
 </tr>
 <tr>
 <td>imargi_annotate.sh</td>
-<td>0.1</td>
 <td>Download and <code>chmod +x</code></td>
 <td>Annotate RNA/DNA-ends with genomic annotations</td>
 </tr>
 <tr>
 <td>imargi_ant.py</td>
-<td>0.1</td>
 <td>Download and <code>chmod +x</code></td>
 <td>Annotate RNA/DNA-ends with genomic annotations, used by imargi_annotate.sh</td>
 </tr>

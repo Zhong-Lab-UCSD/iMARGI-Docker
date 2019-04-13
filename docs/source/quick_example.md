@@ -129,7 +129,7 @@ cd ~/imargi_example
 # replace "-u 1043" with your own UID, see the tips below
 # replace "-v ~/imargi_example:/imargi" with your working directory if not ~/imargi_example
 
-docker run --rm -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
+docker run --rm -t -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
     imargi_wrapper.sh \
     -r hg38 \
     -N test_sample \
@@ -145,6 +145,8 @@ docker run --rm -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
 > 
 > - `--rm`: By default a container’s file system persists even after the container exits. Hence, the container file
 > systems can really pile up. `--rm` option will automatically clean up the container after the container exits.
+> 
+> - `-t`: Allocate a pseudo-TTY. Without `-t`, you cannot use `Ctrl + c` to stop the run.
 > 
 > - `-u 1043`: Run docker with your own UID of your Linux system (use `id` command to check your own UID and replace
 >   `1043` with it) to avoid file/dir permission problem.
@@ -170,7 +172,8 @@ docker run --rm -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
 >   [technical note of iMARGI pipeline documentation](https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#solve-bwa-index-failure-problem) for
 >   detail.
 
-It will take about 10 minutes to complete the whole processing pipeline to the demo dataset (with `-i` bwa index argument).
+It will take about 10 minutes to complete the whole processing pipeline to the demo dataset on our computer
+(with `-i` bwa index argument).
 
 Step | Time | Speed up suggestion
 ---------|----------|----------
@@ -183,14 +186,16 @@ interaction pair parsing | 1 min | More CPU cores with `-t`.
 
 ## Output of iMARGI Pipeline
 
-Once the iMARGI Pipeline has completed, all the result files are in the output directory. The tree structure of the
+Once the iMARGI Pipeline has completed, all the result files are in the output directory. The final tree structure of the
 whole working directory is shown below. The final RNA-DNA interaction map is in the `final_test_sample.pairs.gz` file,
-which is a compressed .pairs format file and can be used for further analysis. All the intermediate result files are
+which is a compressed `.pairs` format file and can be used for further analysis. All the intermediate result files are
 also kept in several sub-directories. As we used the minimum input requirements, so the pipeline automatically
 generated several new reference files in the same directory of reference genome, including chromosome sizes, bwa index
 and AluI digestion fragments. When processing new dataset, you can reuse these new generated reference files with
-corresponding arguments instead of only using `-g` argument, which will save you some time and disk space. For more
-detail, please check the [Step-by-step Illustration](./step_by_step_illustration.md) and
+corresponding arguments instead of only using `-g` argument, which will save you some time and disk space.
+Besides, there is a simple stats file, `pipelineStats_test_sample.log`, which reports the total processed read pairs
+number, BWA mapping stats and number of valid RNA-DNA interaction in the final `.pairs.gz` file. For more detail, please
+check the [Step-by-step Illustration](./step_by_step_illustration.md) and
 [Command-line API](./commandline_api.md) sections.
 
 ``` bash

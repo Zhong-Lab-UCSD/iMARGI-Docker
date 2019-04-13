@@ -19,7 +19,7 @@ corresponding tools.
   - [Parsing: parse mapped read pairs to valid RNA-DNA interactions](#parsing-parse-mapped-read-pairs-to-valid-rna-dna-interactions)
   - [Output Files](#output-files)
     - [All The Output File List](#all-the-output-file-list)
-    - [The iMARGI Pipeline Output .pairs Format](#the-imargi-pipeline-output-pairs-format)
+    - [The iMARGI Pipeline Output `.pairs` Format](#the-imargi-pipeline-output-pairs-format)
 
 ## The `imargi_wrapper.sh` Running Command
 
@@ -27,7 +27,7 @@ In the [quick example](./quick_example.md) section, we use the following command
 are only sequencing read pairs FASTQ files and reference genome sequence FASTA file.
 
 ``` bash
-docker run --rm -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
+docker run --rm -t -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
     imargi_wrapper.sh \
     -r hg38 \
     -N test_sample \
@@ -299,7 +299,7 @@ The table below briefly described all the output files.
 |Pipeline stats log| `pipelineStats_test_sample.log`  | `./`    | Simple number report of processed number of reads|
 
 
-### The iMARGI Pipeline Output .pairs Format
+### The iMARGI Pipeline Output `.pairs` Format
 
 The default final output file is `final_test_sample.pairs.gz` which is in .pairs format. .pairs file format is designed
 by 4DN DCIC. You can read its

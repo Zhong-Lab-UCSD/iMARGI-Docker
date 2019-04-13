@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 PROGNAME=$0
 
 usage() {
@@ -81,12 +82,10 @@ t_pbgzip=$(( $threads - 1 ))
 
 echo "Start cleaning:"
 
-echo "    Remove first 2 bases of R1 reads and merge:"
-echo "        $R1"
+echo "    Remove first 2 bases of R1 reads and merge: " $R1_str
 zcat $R1_str | seqtk trimfq -b 2 - | pbgzip -n $t_pbgzip -t 0 -c  > $clean_R1
 
-echo "    Copy and merge (if needed) R2 reads:"
-echo "        $R2"
+echo "    Copy and merge (if needed) R2 reads: "$R2_str
 cat $R2_str > $clean_R2
 
 echo "Finished: cleaned fastq files are:"

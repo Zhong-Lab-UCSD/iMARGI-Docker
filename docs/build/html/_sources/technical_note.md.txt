@@ -73,7 +73,7 @@ Here are only some essential instructions. Install Docker on Linux is the easies
 - **Linux**: Support the most recent 64 bit stable releases of Ubuntu, Debian, Fedora and CentOS. You need `root` or `sudo`
   privileges. Generally, the following commands will automatically install Docker in your system. The second command
   will allow you to run `docker` commands without `sudo` privileges.
-  [Learn more in the official documentation.](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+  [Learn more from the official documentation.](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
   
   ``` Bash
   sudo curl -fsSL https://get.docker.com |sh -
@@ -93,13 +93,18 @@ Here are only some essential instructions. Install Docker on Linux is the easies
   
   First, enable virtualization of your CPU (most of modern Intel CPUs support virtualization).
   [Check here to see how to enable it in BIOS.](https://www.isumsoft.com/computer/enable-virtualization-technology-vt-x-in-bios-or-uefi.html)
+  
   Then, turn on Hyper-V. [Check here to see how to turn on Hyper-V.](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v)
+  
   Finally, download Docker Desktop software for Windows and install,
   [Click here to check instructions](https://docs.docker.com/docker-for-windows/install/)
 
 - **Legacy solution**: For older Mac and Windows systems that do not meet the requirements of Docker Desktop for Mac and
   Docker Desktop for Windows, you can install Docker Toolbox to use Docker.
 
+  First, enable virtualization of your CPU (most of modern Intel CPUs support virtualization).
+  [Check here to see how to enable it in BIOS.](https://www.isumsoft.com/computer/enable-virtualization-technology-vt-x-in-bios-or-uefi.html)
+  
   [Download the latest version of Docker Toolbox from GitHub repo](https://github.com/docker/toolbox/releases)
   
   [Instructions of Docker Toolbox for Windows](https://docs.docker.com/toolbox/toolbox_install_windows/)
@@ -133,18 +138,27 @@ There isn't any limitation to Docker on Linux system, so don't worry about it.
 
 ## Run iMARGI-Docker with Non-root User
 
-root (id = 0) is the default user within a container. It will cause some permission problem of some files or directories
-created by Docker container. So it's better to run iMARGI-Docker container using `-u (--user)`  option to override the
-default root user with your own user id (UID).
+Linux system has strict user privilege control. root (id = 0) is the default user within a container. It will cause some
+permission problem of some files or directories created by Docker container. So it's better to run iMARGI-Docker
+container using `-u (--user)`  option to override the default root user with your own user id (UID).
 
-You can use command `id` in your linux system to get your own UID. For example, my UID is `1043`, so I can run iMARGI-Docker
-with `-u 1043`, then all the output files and directories are all belong to my user ID. You need to replace the `1043`
-with your own UID.
+First of all, you need to add your user account to `docker` group.
+
+``` bash
+# set Docker user, replace demo_user with you own user name,
+# then you can use docker command without sudo
+sudo usermod -aG docker demo_user
+```
+
+When you run `docker` command, you need `-u` option to specify your user UID. You can use command `id` in your linux
+system to get your own UID. For example, my UID is `1043`, so I can run iMARGI-Docker with `-u 1043`, then all the
+output files and directories are all belong to my user ID. You need to replace the `1043` with your own UID.
 
 ``` bash
 id
-# uid=1043(frankyan) gid=1048(frankyan)
-docker run --rm -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh \
+# output of command 'id': uid=1043(frankyan) gid=1048(frankyan) groups=1048(frankyan),998(docker)
+
+docker run --rm -t -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi imargi_wrapper.sh \
     -r hg38 \
     -N HEK_iMARGI \
     -t 16 \

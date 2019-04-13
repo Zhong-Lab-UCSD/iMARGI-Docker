@@ -34,6 +34,7 @@ RUN apt-get -y install locales && \
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
+ENV PYTHONUNBUFFERED=0
 
 COPY ./imargi_* /usr/local/bin/
 RUN chmod +x /usr/local/bin/imargi_* && mkdir /imargi

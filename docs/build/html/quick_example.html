@@ -302,7 +302,7 @@ We used <code class="docutils literal notranslate"><span class="pre">-N</span> <
 <span class="c1"># replace &quot;-u 1043&quot; with your own UID, see the tips below</span>
 <span class="c1"># replace &quot;-v ~/imargi_example:/imargi&quot; with your working directory if not ~/imargi_example</span>
 
-docker run --rm -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhonglab/imargi <span class="se">\</span>
+docker run --rm -t -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhonglab/imargi <span class="se">\</span>
     imargi_wrapper.sh <span class="se">\</span>
     -r hg38 <span class="se">\</span>
     -N test_sample <span class="se">\</span>
@@ -319,6 +319,7 @@ docker run --rm -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhong
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">--rm</span></code>: By default a container’s file system persists even after the container exits. Hence, the container file
 systems can really pile up. <code class="docutils literal notranslate"><span class="pre">--rm</span></code> option will automatically clean up the container after the container exits.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-t</span></code>: Allocate a pseudo-TTY. Without <code class="docutils literal notranslate"><span class="pre">-t</span></code>, you cannot use <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">c</span></code> to stop the run.</li>
 <li><code class="docutils literal notranslate"><span class="pre">-u</span> <span class="pre">1043</span></code>: Run docker with your own UID of your Linux system (use <code class="docutils literal notranslate"><span class="pre">id</span></code> command to check your own UID and replace
 <code class="docutils literal notranslate"><span class="pre">1043</span></code> with it) to avoid file/dir permission problem.</li>
 <li><code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">~/imargi_example:/imargi</span></code>: It mounts the <code class="docutils literal notranslate"><span class="pre">~/imargi_example</span></code> directory in your host machine to workspace of the
@@ -341,7 +342,8 @@ volume. Please read the
 detail.</li>
 </ul>
 </div></blockquote>
-<p>It will take about 10 minutes to complete the whole processing pipeline to the demo dataset (with <code class="docutils literal notranslate"><span class="pre">-i</span></code> bwa index argument).</p>
+<p>It will take about 10 minutes to complete the whole processing pipeline to the demo dataset on our computer
+(with <code class="docutils literal notranslate"><span class="pre">-i</span></code> bwa index argument).</p>
 <table border="1" class="docutils">
 <thead>
 <tr>
@@ -385,14 +387,16 @@ detail.</li>
 </table></div>
 <div class="section" id="output-of-imargi-pipeline">
 <h2>Output of iMARGI Pipeline<a class="headerlink" href="#output-of-imargi-pipeline" title="Permalink to this headline">¶</a></h2>
-<p>Once the iMARGI Pipeline has completed, all the result files are in the output directory. The tree structure of the
+<p>Once the iMARGI Pipeline has completed, all the result files are in the output directory. The final tree structure of the
 whole working directory is shown below. The final RNA-DNA interaction map is in the <code class="docutils literal notranslate"><span class="pre">final_test_sample.pairs.gz</span></code> file,
-which is a compressed .pairs format file and can be used for further analysis. All the intermediate result files are
+which is a compressed <code class="docutils literal notranslate"><span class="pre">.pairs</span></code> format file and can be used for further analysis. All the intermediate result files are
 also kept in several sub-directories. As we used the minimum input requirements, so the pipeline automatically
 generated several new reference files in the same directory of reference genome, including chromosome sizes, bwa index
 and AluI digestion fragments. When processing new dataset, you can reuse these new generated reference files with
-corresponding arguments instead of only using <code class="docutils literal notranslate"><span class="pre">-g</span></code> argument, which will save you some time and disk space. For more
-detail, please check the <a class="reference internal" href="step_by_step_illustration.html"><span class="doc">Step-by-step Illustration</span></a> and
+corresponding arguments instead of only using <code class="docutils literal notranslate"><span class="pre">-g</span></code> argument, which will save you some time and disk space.
+Besides, there is a simple stats file, <code class="docutils literal notranslate"><span class="pre">pipelineStats_test_sample.log</span></code>, which reports the total processed read pairs
+number, BWA mapping stats and number of valid RNA-DNA interaction in the final <code class="docutils literal notranslate"><span class="pre">.pairs.gz</span></code> file. For more detail, please
+check the <a class="reference internal" href="step_by_step_illustration.html"><span class="doc">Step-by-step Illustration</span></a> and
 <a class="reference internal" href="commandline_api.html"><span class="doc">Command-line API</span></a> sections.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~/imargi_example/
     ├── data
