@@ -2,6 +2,16 @@
 
 We created several script tools. Here we show the usage and source code of all these tools.
 
+- [Command-line API](#command-line-api)
+  - [imargi_wrapper.sh](#imargi_wrappersh)
+  - [imargi_clean.sh](#imargi_cleansh)
+  - [imargi_rsfrags.sh](#imargi_rsfragssh)
+  - [imargi_parse.sh](#imargi_parsesh)
+  - [imargi_stats.sh](#imargi_statssh)
+  - [imargi_distfilter.sh](#imargi_distfiltersh)
+  - [imargi_convert.sh](#imargi_convertsh)
+  - [imargi_annotate.sh](#imargi_annotatesh)
+
 ## imargi_wrapper.sh
 
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_wrapper.sh)

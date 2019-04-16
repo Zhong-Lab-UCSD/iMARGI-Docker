@@ -13,9 +13,10 @@ fewer cells for the experiment while obtaining more informative sequencing read 
 
 Here, we introduce the sequencing data analysis pipeline for iMARGI, which is the most critical step for computational
 workflow of analyzing RNA-genome interactions. The pipeline is distributed in a Docker image,
-[iMARGI-Docker](https://hub.docker.com/r/zhonglab/imargi/), which delivers all the iMARGI data analysis related tools,
-such as bwa <a id="a4">[[4]](#f4)</a> and pairtools <a id="a5">[[5]](#f5)</a>. iMARGI-Docker source code is licensed
-under the [BSD 2 license](./src/LICENSE), and it's hosted at [GitHub](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker).
+[iMARGI-Docker](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker), which delivers all the iMARGI data analysis related
+tools, such as bwa <a id="a4">[[4]](#f4)</a> and pairtools <a id="a5">[[5]](#f5)</a>. iMARGI-Docker source code is licensed
+under the [BSD 2 license](./src/LICENSE), and the pre-built Docker image is hosted at
+[Docker Hub](https://hub.docker.com/r/zhonglab/imargi).
 
 Generally, the pipeline includes three main steps:
 
@@ -70,6 +71,7 @@ The [Technical Notes](./technical_note.md) section shows more technical informat
    further_analysis
    visualization
    technical_note
+   faq_win_mac
    commandline_api
    
 ```

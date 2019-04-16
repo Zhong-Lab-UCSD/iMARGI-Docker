@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Further Analysis and Visualization Guides &mdash; iMARGI Pipeline 1.0 documentation</title>
+  <title>Further Analysis and Visualization Guides &mdash; iMARGI Pipeline 1.1 documentation</title>
   
 
   
@@ -17,36 +17,34 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
 
+  
+  
     
 
   
+
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Technical Notes" href="technical_note.html" />
     <link rel="prev" title="Step-by-step Illustration" href="step_by_step_illustration.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
+
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search">
           
 
           
@@ -100,6 +98,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="technical_note.html">Technical Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq_win_mac.html">Guides for Issues on Windows and macOS System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="commandline_api.html">Command-line API</a></li>
 </ul>
 
@@ -185,7 +184,7 @@
 <p>When you got the processed RNA-DNA interaction data in .pairs format, you definitely want to know some basic data
 statistics, such as number of intra- and inter-chromosomal interactions. We provide <code class="docutils literal notranslate"><span class="pre">imargi_stats.sh</span></code> to generate a
 simple text data statistics report. The example command is:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/imargi_example:/imargi zhonglab/imargi imargi_stats.sh <span class="se">\</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run --rm -t -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhonglab/imargi imargi_stats.sh <span class="se">\</span>
     -D 5end <span class="se">\</span>
     -d <span class="m">200000</span> <span class="se">\</span>
     -i ./output/final_HEK_iMARGI.pairs.gz <span class="se">\</span>
@@ -213,7 +212,7 @@ the .pairs data.</p>
 interactions between nascent transcripts and their neighboring genomic sequences. We usually filter out those proximal
 interactions with a distance threshold, which depends on the requirements of further analysis. We provide
 <code class="docutils literal notranslate"><span class="pre">imargi_distfilter.sh</span></code> tool for filtering interaction based on interaction genomic distance. The example command is:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/imargi_example:/imargi zhonglab/imargi imargi_distfilter.sh <span class="se">\</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run --rm -t -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhonglab/imargi imargi_distfilter.sh <span class="se">\</span>
     -D 5end <span class="se">\</span>
     -d <span class="m">20000</span> <span class="se">\</span>
     -i ./output/final_HEK_iMARGI.pairs.gz <span class="se">\</span>
@@ -231,7 +230,7 @@ The distance is directly calculated based on the mapped 5’ end position (defau
 RNA-DNA interactions. Using <code class="docutils literal notranslate"><span class="pre">imargi_annotate.sh</span></code>, users can annotate both RNA and DNA ends with gene annotations in
 GTF/GFF format or any other genomic features in a simple BED file (each line is a named genomic feature). The example
 command below will generate two new gene annotation columns named as gene1 and gene2 in the output .pairs format file.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/imargi_example:/imargi zhonglab/imargi imargi_annotate.sh <span class="se">\</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run --rm -t -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhonglab/imargi imargi_annotate.sh <span class="se">\</span>
     -A gtf <span class="se">\</span>
     -a ./ref/gencode.v24.annotation.gtf <span class="se">\</span>
     -l gene <span class="se">\</span>
@@ -273,7 +272,7 @@ file, i.e., 5’ end genomic coordinate, then set <code class="docutils literal 
 <p>For further analysis and visualization, other formats instead of .pairs format might be needed. We provide
 <code class="docutils literal notranslate"><span class="pre">imargi_convert.sh</span></code> for converting formats. It can convert .pairs format to BEDPE, .cool and GIVE interaction format
 with different <code class="docutils literal notranslate"><span class="pre">-f</span></code> argument options. The example command is below:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run -v ~/imargi_example:/imargi zhonglab/imargi imargi_convert.sh <span class="se">\</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run --rm -t -u <span class="m">1043</span> -v ~/imargi_example:/imargi zhonglab/imargi imargi_convert.sh <span class="se">\</span>
     -f bedpe <span class="se">\</span>
     -i ./output/final_HEK_iMARGI.pairs.gz <span class="se">\</span>
     -o ./output/final_HEK_iMARGI.bedpe.gz
@@ -320,7 +319,7 @@ learn how to use it.</p>
         <a href="technical_note.html" class="btn btn-neutral float-right" title="Technical Notes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="step_by_step_illustration.html" class="btn btn-neutral float-left" title="Step-by-step Illustration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="step_by_step_illustration.html" class="btn btn-neutral" title="Step-by-step Illustration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -346,16 +345,36 @@ learn how to use it.</p>
   
 
 
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

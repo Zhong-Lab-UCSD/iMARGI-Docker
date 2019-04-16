@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; iMARGI Pipeline 1.0 documentation</title>
+  <title>Overview &mdash; iMARGI Pipeline 1.1 documentation</title>
   
 
   
@@ -17,35 +17,33 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
 
+  
+  
     
 
   
+
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Tools and Installation" href="installation.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
+
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search">
           
 
           
@@ -88,6 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="step_by_step_illustration.html">Step-by-step Illustration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="further_analysis.html">Further Analysis and Visualization Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="technical_note.html">Technical Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq_win_mac.html">Guides for Issues on Windows and macOS System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="commandline_api.html">Command-line API</a></li>
 </ul>
 
@@ -164,9 +163,10 @@ fewer cells for the experiment while obtaining more informative sequencing read 
 <i><center>Schematic overview of the iMARGI experimental protocol </i><a id="a3"><a class="reference external" href="#f3">[3]</a></a></center></p>
 <p>Here, we introduce the sequencing data analysis pipeline for iMARGI, which is the most critical step for computational
 workflow of analyzing RNA-genome interactions. The pipeline is distributed in a Docker image,
-<a class="reference external" href="https://hub.docker.com/r/zhonglab/imargi/">iMARGI-Docker</a>, which delivers all the iMARGI data analysis related tools,
-such as bwa <a id="a4"><a class="reference external" href="#f4">[4]</a></a> and pairtools <a id="a5"><a class="reference external" href="#f5">[5]</a></a>. iMARGI-Docker source code is licensed
-under the <a class="reference external" href="./src/LICENSE">BSD 2 license</a>, and it’s hosted at <a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker">GitHub</a>.</p>
+<a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker">iMARGI-Docker</a>, which delivers all the iMARGI data analysis related
+tools, such as bwa <a id="a4"><a class="reference external" href="#f4">[4]</a></a> and pairtools <a id="a5"><a class="reference external" href="#f5">[5]</a></a>. iMARGI-Docker source code is licensed
+under the <a class="reference external" href="./src/LICENSE">BSD 2 license</a>, and the pre-built Docker image is hosted at
+<a class="reference external" href="https://hub.docker.com/r/zhonglab/imargi">Docker Hub</a>.</p>
 <p>Generally, the pipeline includes three main steps:</p>
 <ul class="simple">
 <li>Cleaning: Clean paired-end sequencing reads in FASTQ format</li>
@@ -202,16 +202,23 @@ HiGlass <a id="a7"><a class="reference external" href="#f7">[7]</a></a> for inte
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Tools and Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#system-requirements">System Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#hardware-requirements">Hardware Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#software-requirements">Software Requirements</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#docker-container-usage-instructions">Docker Container Usage Instructions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies-instruction">Dependencies Instruction</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quick_example.html">Quick Start Example</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="quick_example.html#pull-the-imargi-docker-image">Pull the iMARGI Docker Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_example.html#install-docker-and-start-docker-service">Install Docker and Start Docker Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_example.html#install-imargi-docker">Install iMARGI-Docker</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quick_example.html#example-data-preparation">Example Data Preparation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="quick_example.html#set-working-directory">Set Working Directory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="quick_example.html#prepare-fastq-files-of-paired-end-sequencing">Prepare FASTQ Files of Paired-end Sequencing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="quick_example.html#download-reference-genome">Download Reference Genome</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_example.html#download-bwa-index-files">Download BWA Index Files</a></li>
 <li class="toctree-l3"><a class="reference internal" href="quick_example.html#checklist-of-preparation">Checklist of Preparation</a></li>
 </ul>
 </li>
@@ -232,7 +239,7 @@ HiGlass <a id="a7"><a class="reference external" href="#f7">[7]</a></a> for inte
 <li class="toctree-l2"><a class="reference internal" href="step_by_step_illustration.html#parsing-parse-mapped-read-pairs-to-valid-rna-dna-interactions">Parsing: parse mapped read pairs to valid RNA-DNA interactions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="step_by_step_illustration.html#output-files">Output Files</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="step_by_step_illustration.html#all-the-output-file-list">All The Output File List</a></li>
-<li class="toctree-l3"><a class="reference internal" href="step_by_step_illustration.html#the-imargi-pipeline-output-pairs-format">The iMARGI Pipeline Output .pairs Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="step_by_step_illustration.html#the-imargi-pipeline-output-pairs-format">The iMARGI Pipeline Output <code class="docutils literal notranslate"><span class="pre">.pairs</span></code> Format</a></li>
 </ul>
 </li>
 </ul>
@@ -251,8 +258,21 @@ HiGlass <a id="a7"><a class="reference external" href="#f7">[7]</a></a> for inte
 </li>
 <li class="toctree-l1"><a class="reference internal" href="technical_note.html">Technical Notes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="technical_note.html#dockerfile">Dockerfile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="technical_note.html#install-docker-on-different-systems">Install Docker on Different systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="technical_note.html#change-docker-memory-settings-on-windows-and-macos">Change Docker Memory Settings on Windows and macOS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="technical_note.html#run-imargi-docker-with-non-root-user">Run iMARGI-Docker with Non-root User</a></li>
 <li class="toctree-l2"><a class="reference internal" href="technical_note.html#solve-bwa-index-failure-problem">Solve <code class="docutils literal notranslate"><span class="pre">bwa</span> <span class="pre">index</span></code> Failure Problem</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq_win_mac.html">Guides for Issues on Windows and macOS System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="faq_win_mac.html#checklist-of-docker-settings">Checklist of Docker Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq_win_mac.html#issues">Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="faq_win_mac.html#cannot-install-docker-desktop">Cannot Install Docker Desktop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq_win_mac.html#cannot-find-files">Cannot find files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq_win_mac.html#connection-issue">Connection issue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq_win_mac.html#keyerror-chr1">KeyError: ‘chr1’</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="commandline_api.html">Command-line API</a><ul>
@@ -313,16 +333,36 @@ HiGlass <a id="a7"><a class="reference external" href="#f7">[7]</a></a> for inte
   
 
 
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

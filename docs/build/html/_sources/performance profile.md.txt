@@ -1,7 +1,7 @@
 ## bwa index
 
 ```
-docker run -v ~/research/MARGI_4DN/imargi_example:/imargi zhonglab/imargi bwa index \
+docker run --rm -t -u 1043 -v ~/research/MARGI_4DN/imargi_example:/imargi zhonglab/imargi bwa index \
     -p ./ref/bwa_index/bwa_index_GRCh38 ./ref/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta
 ```
 

@@ -11,7 +11,8 @@ iMARGI-Docker distributes the iMARGI sequencing data processing pipeline
     - [3.1. Hardware Requirements](#31-hardware-requirements)
     - [3.2. Software Requirements](#32-software-requirements)
       - [3.2.1. Docker Installation](#321-docker-installation)
-      - [3.2.2. Docker settings](#322-docker-settings)
+      - [3.2.2. Start Docker service](#322-start-docker-service)
+      - [3.2.3. Docker settings (macOS or Windows)](#323-docker-settings-macos-or-windows)
     - [3.3. iMARGI-Docker Installation](#33-imargi-docker-installation)
       - [3.3.1. Pull from Docker Hub](#331-pull-from-docker-hub)
       - [3.3.2. Build with Dockerfile](#332-build-with-dockerfile)
@@ -70,26 +71,40 @@ the following specs:
 
 ### 3.2. Software Requirements
 
+iMARGI-Docker only requires Docker installed on your computer.
+You can use [Docker Community Edition (CE)](https://docs.docker.com/install/).
+
+Although Docker supports all the mainstream OS, such as Linux, Windows and macOS,
+**we strongly recommend using Linux system**, because it's much easier to setup and its filesystem is better for large
+file processing. You can install Docker CE with only two commands on well supported 64-bit Linux distributions, including
+Ubuntu, Debian, Fedora, and CentOS.
+
+Keep in mind, **all the example command lines here and in the documentation are based on a Linux system (Ubuntu)**.
+Most of time, the operations in macOS is the same as in Linux system, as it's also a Unix system. However, if you are
+using Windows system, some command lines need to be modified. Besides, you need to do additional configurations
+of Docker on Windows or macOS system.
+
 #### 3.2.1. Docker Installation
 
-iMARGI-Docker only requires Docker. You can use [Docker Community Edition (CE)](https://docs.docker.com/install/).
-Docker supports all the mainstream OS, such as Linux, Windows and macOS. We recommend using Linux system, because its
-filesystem is better for large file processing. All the example command lines here and in the documentation are ran
-on a Linux system. Most of time, the operations in macOS is the same as in Linux system, as it's also a Unix system.
-However, if you are using Windows system, some command lines need to be modified. Besides, you need to configure the
-CPU and memory settings of Docker on Windows or macOS system.
+First of all, check whether you have installed Docker on your system. For Linux users, input command `docker -v` in
+terminal. If the output shows the Docker version, such as `Docker version 18.09.5, build e8ff056`, it means Docker has
+been installed on the system. For macOS and Windows users, you can check your Application / Program list to find
+Docker Desktop or Docker Toolbox.
 
-Docker installation guides on different OS: More detail instructions can be found in
-[Docker official webpage](https://docs.docker.com/install/).
+Here are some essential instructions for installing Docker on different systems. Install Docker on Linux is the easiest.
 
 - **Linux**: Support the most recent 64 bit stable releases of Ubuntu, Debian, Fedora and CentOS. You need `root` or `sudo`
-  privileges. Generally, the following script will automatically install Docker in your system.
+  privileges. Generally, the following commands will automatically install Docker in your system. The second command
+  will allow you to run `docker` commands without `sudo` privileges.
+  [Learn more from the official documentation.](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
   
   ``` Bash
+  # install Docker on Ubuntu, Debian, Fedora, and CentOS
   sudo curl -fsSL https://get.docker.com |sh -
   
-  # replace frank with you user name
-  sudo usermod -aG docker frank
+  # set Docker user, replace demo_user with you own user name,
+  # then you can use docker command without sudo
+  sudo usermod -aG docker demo_user
   ```
 
 - **macOS (modern)**: Docker Desktop for macOS. Support macOS Sierra 10.12 and newer on a Apple computer after 2010.
@@ -102,17 +117,50 @@ Docker installation guides on different OS: More detail instructions can be foun
   
   First, enable virtualization of your CPU (most of modern Intel CPUs support virtualization).
   [Check here to see how to enable it in BIOS.](https://www.isumsoft.com/computer/enable-virtualization-technology-vt-x-in-bios-or-uefi.html)
-  Then, turn on Hyper-V. [[Check here to see how to turn on Hyper-V.](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v)
+  
+  Then, turn on Hyper-V. [Check here to see how to turn on Hyper-V.](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v)
+  
   Finally, download Docker Desktop software for Windows and install,
   [Click here to check instructions](https://docs.docker.com/docker-for-windows/install/)
 
 - **Legacy solution**: For older Mac and Windows systems that do not meet the requirements of Docker Desktop for Mac and
   Docker Desktop for Windows, you can install Docker Toolbox to use Docker.
 
-  Download Docker Toolbox for macOS or Windows and install.
-  [Click here to check instructions](https://docs.docker.com/toolbox/overview/)
+  First, enable virtualization of your CPU (most of modern Intel CPUs support virtualization).
+  [Check here to see how to enable it in BIOS.](https://www.isumsoft.com/computer/enable-virtualization-technology-vt-x-in-bios-or-uefi.html)
+  
+  [Download the latest version of Docker Toolbox from GitHub repo](https://github.com/docker/toolbox/releases)
+  
+  [Instructions of Docker Toolbox for Windows](https://docs.docker.com/toolbox/toolbox_install_windows/)
+  
+  [Instructions of Docker Toolbox for macOS](https://docs.docker.com/toolbox/toolbox_install_mac/)
 
-#### 3.2.2. Docker settings
+If you are using macOS or Windows, you can check the
+[Technical Notes of installing Docker on different systems](https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#install-docker-on-different-systems)
+to learn how to install Docker on other systems.
+
+#### 3.2.2. Start Docker service
+
+After installation, you need to start the Docker service (Docker daemon).
+
+For some Linux systems, such as Ubuntu, the Docker service might automatically start after installation. You can check
+it by run a demo `hello-world` test container by the command below. It will tell you "your installation appears to be
+working correctly" if your Docker service has been started.
+
+``` Bash
+# test Docker service
+docker run --rm hello-world
+```
+
+If the service hasn't been started, you can choose a proper Linux command to start it. And then test again.
+
+- Ubuntu, Debian, Fedora: `sudo service docker start`
+
+- CentOS: `sudo systemctl start docker`
+
+For macOS and Windows users, you need to start the Docker Desktop or Docker Toolbox application.
+
+#### 3.2.3. Docker settings (macOS or Windows)
 
 For macOS and Windows, there are CPU and memory limitations to Docker, which are 1 CPU core and 2 GB memory as default.
 The memory is far from the requirement of BWA for human genome, which will cause ERROR. So it must be changed to more
@@ -185,13 +233,14 @@ genome is too large for us to host it in GitHub repo. You can be download it use
 
 - [GRCh38_no_alt_analysis_set_GCA_000001405.15](https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/@@download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz)
 
-It needs to be decompressed using `gunzip -d` command on Linux/macOS. If your system is Windows, you can use 7Zip
-software to decompress the `.gz` file. Besides, you can also use the `gunzip` tool delivered in iMARGI-Docker.
+**It needs to be decompressed** using `gunzip -d` or `gzip -d` command on Linux/macOS. If your system is Windows, you can
+use 7Zip or other software to decompress the `.gz` file. Besides, you can also use the `gunzip` tool delivered in iMARGI-Docker.
 
 #### 4.1.3. bwa index data
 
-As `bwa index` process will cost a lot of time (more than 1 hour), we suggest to download our pre-built index files for the reference
-genome. Please download the following gzip compressed `bwa_index` folder and decompress it (`tar zxvf`) on your machine.
+As `bwa index` process will cost a lot of time (more than 1 hour), we suggest to download our pre-built index files for
+the reference genome. Please download the following gzip compressed `bwa_index` folder and decompress it
+(`tar zxvf`) on your machine.
 
 - [bwa index files](https://sysbio.ucsd.edu/imargi_pipeline/bwa_index.tar.gz)
 
@@ -218,7 +267,12 @@ genome. Please download the following gzip compressed `bwa_index` folder and dec
 We can use one command line to perform the whole pipeline to the testing data.
 
 ``` bash
-docker run --rm -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
+cd ~/imargi_example
+
+# replace "-u 1043" with your own UID, see the tips below
+# replace "-v ~/imargi_example:/imargi" with your working directory if not ~/imargi_example
+
+docker run --rm -t -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
     imargi_wrapper.sh \
     -r hg38 \
     -N test_sample \
@@ -231,6 +285,11 @@ docker run --rm -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
 ```
 
 *Tips:*
+- `--rm`: By default a container’s file system persists even after the container exits. Hence, the container file
+  systems can really pile up. `--rm` option will automatically clean up the container after the container exits.
+
+- `-t`: Allocate a pseudo-TTY. With `-t`, you can use `Ctrl + c` to stop the run in terminal. However, without `-t`, you
+  have to use `docker ps -a` to check your run container id and then use `docker stop <container_id>` to stop the run.
 
 - `-u 1043`: Run docker with your own UID of your Linux system (use `id` command to check your UID) to avoid file/dir
   permission problem.
@@ -244,24 +303,18 @@ docker run --rm -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
 - The command line is long, so `\` was used for splitting it into multiple lines in the example. It's a Linux or macOS
   style. However, in Windows, you need to replace `\` with `^`.
 
-- `-i`: Building bwa index will cost a lot time, so we used the pre-built index files with `-i` argument. There
-  are some other arguments can be used for pre-generated files, such as `-R` for restriction fragment BED file and
-  `-c` for chromsize file.See more details in the
+- `-i`: Building BWA index will cost a lot time, so we used the pre-built index files with `-i` argument. If you don't
+  supply BWA index files, the `imargi_wrapper.sh` will generated it automatically based on the reference genome sequence
+  supplied by `-g` parameter. Building BWA index needs large memory as we required (16 GB). There
+  are some other arguments can be used for pre-generated files, such as `-R` for restriction fragment BED file
+  (the automatically generated file is named as `AluI_frags.bed.gz`) and `-c` for chromsize file. See more details in the
   [documentation of command line API section](https://sysbio.ucsd.edu/imargi_pipeline/commandline_api.html#imargi-wrapper-sh)
-
-- `-i`: If you don't supply bwa index files, the `imargi_wrapper.sh` will generated     it automatically. It works
-  perfectly on Linux system. However, it doesn't work on Windows and macOS because `bwa index` use `fsync` when build
-  large genome index, which cannot handle different driver formats (`-v` mount Windows/macOS driver to Linux container).
-  So it's better to build it in advance. In fact, there's a solution to the problem if you are familiar with Docker
-  volume. Please read the
-  [technical note of iMARGI pipeline documentation](https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#solve-bwa-index-failure-problem) for
-  detail.
 
 ### 4.3. Testing Results
 
 #### 4.3.1. Running Time Profile
 
-It took about 10 minutes to perform the pipeline (with `-i` bwa index argument).
+It took about 10 minutes to perform the pipeline on our computer (with `-i` bwa index argument).
 
 Step | Time | Speed up suggestion
 ---------|----------|----------
@@ -278,7 +331,9 @@ The output result files are in the folder assign with `-o` argument. The final o
 analysis is `final_test_sample.pairs.gz`. Besides, multiple intermediate output files of each step are in the
 `clean_fastq`, `bwa_output`, and `parse_temp` sub-directories of the `output` directory. In addition, the generated
 chromosome size file, bwa index folder and restriction fragment BED file are all in the `ref` directory, in which the
-reference genome FASTA file is. Here is the final directory structure after completing the pipeline.
+reference genome FASTA file is. Besides, there is also a simple stats file, `pipelineStats_test_sample.log`, which reports the
+total processed read pairs number, BWA mapping stats and number of valid RNA-DNA interaction in the
+final `.pairs.gz` file. Here is the final directory structure after completing the pipeline.
 
 ``` bash
 ~/imargi_example/

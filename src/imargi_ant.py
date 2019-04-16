@@ -133,6 +133,8 @@ def read_bed(ant_file, stranded = True):
     return ant
 
 def annotate_region(ant, chr_str, pos, strand, match_length, min_over, strand_type):  
+    if chr_str == '!':
+        return '.'
     ant_region = set()
     # change 1-based to zero-based genomic coordinate
     if strand == "+":
@@ -198,7 +200,7 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
 
     col_names = header[-1].split(' ')
     if col_names[0] != '#columns:':
-        sys.stderr.write('The last tow of .pairs header is not a valid col_names row (start with \'#columns:\')!\n')
+        sys.stderr.write('The last row of .pairs header is not a valid col_names row (start with \'#columns:\')!\n')
         raise SystemExit(1)       
     col_names.pop(0)
 
@@ -212,7 +214,7 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
         if i not in ['s', 'r', 'n']:
             sys.stderr.write('Invalid strand specific type for annotation!\n')
             raise SystemExit(1)
-    if ant_mode.lower == 'both':
+    if ant_mode.lower() == 'both':
         header[-1] = header[-1] + ' ' + ' '.join(ant_col)
     else:
         header[-1] = header[-1] + ' ' + ant_col[0]
@@ -243,6 +245,8 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
             if cigar_idx[0] == 'false':
                 match_length1 = 1
             else:
+                if cigar1 == '*':
+                    cigar1 = '1M'
                 match_length1 = sum([i.ref_iv.length for i in HTSeq.parse_cigar(cigar1)])            
             ant_str = annotate_region(ant, chrom1, pos1, strand1, match_length1, min_over[0], strand_type[0])
         elif ant_mode.lower() == 'dna':
@@ -251,6 +255,8 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
             if cigar_idx[0] == 'false':
                 match_length2 = 1
             else:
+                if cigar2 == '*':
+                    cigar2 = '1M'
                 match_length2 = sum([i.ref_iv.length for i in HTSeq.parse_cigar(cigar2)])    
             ant_str = annotate_region(ant, chrom2, pos2, strand2, match_length2, min_over[0], strand_type[0])
         else:
@@ -259,6 +265,8 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
             if cigar_idx[0] == 'false':
                 match_length1 = 1
             else:
+                if cigar1 == '*':
+                    cigar1 = '1M'
                 match_length1 = sum([i.ref_iv.length for i in HTSeq.parse_cigar(cigar1)])            
             ant_str = annotate_region(ant, chrom1, pos1, strand1, match_length1, min_over[0], strand_type[0])
             chrom2, pos2, strand2, cigar2 = cols[_pairsam_format.COL_C2], int(cols[_pairsam_format.COL_P2]), \
@@ -266,6 +274,8 @@ def annotate_pairs(pairs_path, ant, ant_mode, ant_col, strand_type, min_over, ci
             if cigar_idx[1] == 'false':
                 match_length2 = 1
             else:
+                if cigar2 == '*':
+                    cigar2 = '1M'
                 match_length2 = sum([i.ref_iv.length for i in HTSeq.parse_cigar(cigar2)])    
             ant_str += _pairsam_format.PAIRSAM_SEP + \
                 annotate_region(ant, chrom2, pos2, strand2, match_length2, min_over[1], strand_type[1])
