@@ -31,9 +31,9 @@ the following specs:
 ### Software Requirements
 
 iMARGI-Docker only requires Docker. You can use [Docker Community Edition (CE)](https://docs.docker.com/install/).
-**We recommend using Linux system**, because it's much easier to setup and its filesystem is better for large file
-processing. You can install Docker CE with two commands on well supported 64-bit Linux distributions, including Ubuntu,
-Debian, Fedora, and CentOS.
+**We recommend using mainstream Linux system (64-bit), including Ubuntu, Debian, Fedora, and CentOS.** Because it's
+much easier to setup and its filesystem is better for large file processing. You can install Docker CE with two commands
+on these well supported Linux distributions.
 
 ``` Bash
 # install Docker, support Ubuntu, Debian, Fedora, and CentOS
@@ -56,6 +56,15 @@ to more than 8 GB. You can check the
 to learn how to do it. You might encounter some other problems caused by system settings specifically to Windows or macOS,
 please check the [Guides for Issues on Windows and macOS System page](https://sysbio.ucsd.edu/imargi_pipeline/faq_win_mac.html)
 to find a solution.
+
+After installation, the Docker service might be automatically started on some system (such as Ubuntu), but for other
+systems, it needs to be started manually with root privilege. Start the Docker service. You can choose a proper Linux
+command to start it.
+
+- Ubuntu, Debian, Fedora: `sudo service docker start`
+- CentOS: `sudo systemctl start docker`
+  
+For macOS and Windows users, you need to start the Docker Desktop or Docker Toolbox application.
 
 ## Docker Container Usage Instructions
 

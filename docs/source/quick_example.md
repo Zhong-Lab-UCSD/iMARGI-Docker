@@ -6,7 +6,8 @@ Please go to the [Step-by-step Illustration](./step_by_step_illustration.md) sec
 the pipeline.
 
 - [Quick Start Example](#quick-start-example)
-  - [Pull the iMARGI Docker Image](#pull-the-imargi-docker-image)
+  - [Install Docker and Start Docker Service](#install-docker-and-start-docker-service)
+  - [Install iMARGI-Docker](#install-imargi-docker)
   - [Example Data Preparation](#example-data-preparation)
     - [Set Working Directory](#set-working-directory)
     - [Prepare FASTQ Files of Paired-end Sequencing](#prepare-fastq-files-of-paired-end-sequencing)
@@ -16,7 +17,52 @@ the pipeline.
   - [Perform iMARGI Pipeline in One Command](#perform-imargi-pipeline-in-one-command)
   - [Output of iMARGI Pipeline](#output-of-imargi-pipeline)
 
-## Pull the iMARGI Docker Image
+## Install Docker and Start Docker Service
+
+- Check system requirements.
+  
+  16 GB memory is required. Recommend 64-bit Linux systems, including Ubuntu, Debian, Fedora and CentOS. All the
+  commands below are ran on Linux system.
+  [Check here for more information](https://sysbio.ucsd.edu/imargi_pipeline/installation.html#hardware-requirements)
+
+- Install Docker.
+  
+  You can check whether Docker is installed on your computer by command `docker –v`. If the output shows the Docker
+  version, such as `Docker version 18.09.5, build e8ff056`, it means Docker has been installed on the system.
+  Otherwise, you need to install it first.
+  
+  For recommended Linux distributions, including Ubuntu, Debian, Fedora and CentOS, users can install Docker using
+  the command below (root privilege is required, `sudo`). For macOS and Windows users, please check the instructions in
+  [Technical Notes](https://sysbio.ucsd.edu/imargi_pipeline/installation.html#system-requirements).
+  
+  ``` Bash
+  sudo curl -fsSL https://get.docker.com |sh –
+  ```
+
+- Add user’s non-root account to Docker user group.
+
+  Give the user account authority to use Docker without root privilege. For Linux users, use the command below. macOS
+  and Windows users don't need to do this.
+  
+  ``` Bash
+  # replace the placeholder demo_user with real user name  
+  sudo usermod -aG docker demo_user
+  ```
+
+- Start the Docker service.
+  
+  Input command `docker info` in terminal. If the output shows information such as `Cannot connect to the Docker daemon`,
+  you need to start the service manually with root privilege. You can choose a proper Linux command to start it.
+
+  - Ubuntu, Debian, Fedora: `sudo service docker start`
+
+  - CentOS: `sudo systemctl start docker`
+  
+  For macOS and Windows users, you need to start the Docker Desktop or Docker Toolbox application.
+
+## Install iMARGI-Docker
+
+You can install iMARGI-Docker in one `pull` command
 
 ```bash
 docker pull zhonglab/imargi
