@@ -196,9 +196,9 @@ Besides, fast IO storage is better, such as SSD.</li>
 <div class="section" id="software-requirements">
 <h3>Software Requirements<a class="headerlink" href="#software-requirements" title="Permalink to this headline">¶</a></h3>
 <p>iMARGI-Docker only requires Docker. You can use <a class="reference external" href="https://docs.docker.com/install/">Docker Community Edition (CE)</a>.
-<strong>We recommend using Linux system</strong>, because it’s much easier to setup and its filesystem is better for large file
-processing. You can install Docker CE with two commands on well supported 64-bit Linux distributions, including Ubuntu,
-Debian, Fedora, and CentOS.</p>
+<strong>We recommend using mainstream Linux system (64-bit), including Ubuntu, Debian, Fedora, and CentOS.</strong> Because it’s
+much easier to setup and its filesystem is better for large file processing. You can install Docker CE with two commands
+on these well supported Linux distributions.</p>
 <div class="highlight-Bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># install Docker, support Ubuntu, Debian, Fedora, and CentOS</span>
 sudo curl -fsSL https://get.docker.com <span class="p">|</span>sh -
 
@@ -218,6 +218,14 @@ to more than 8 GB. You can check the
 to learn how to do it. You might encounter some other problems caused by system settings specifically to Windows or macOS,
 please check the <a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/faq_win_mac.html">Guides for Issues on Windows and macOS System page</a>
 to find a solution.</p>
+<p>After installation, the Docker service might be automatically started on some system (such as Ubuntu), but for other
+systems, it needs to be started manually with root privilege. Start the Docker service. You can choose a proper Linux
+command to start it.</p>
+<ul class="simple">
+<li>Ubuntu, Debian, Fedora: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">service</span> <span class="pre">docker</span> <span class="pre">start</span></code></li>
+<li>CentOS: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">docker</span></code></li>
+</ul>
+<p>For macOS and Windows users, you need to start the Docker Desktop or Docker Toolbox application.</p>
 </div>
 </div>
 <div class="section" id="docker-container-usage-instructions">

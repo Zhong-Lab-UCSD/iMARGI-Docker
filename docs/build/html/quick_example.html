@@ -84,7 +84,8 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Tools and Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start Example</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#pull-the-imargi-docker-image">Pull the iMARGI Docker Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-docker-and-start-docker-service">Install Docker and Start Docker Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-imargi-docker">Install iMARGI-Docker</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#example-data-preparation">Example Data Preparation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#set-working-directory">Set Working Directory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#prepare-fastq-files-of-paired-end-sequencing">Prepare FASTQ Files of Paired-end Sequencing</a><ul>
@@ -179,7 +180,8 @@ Please go to the <a class="reference internal" href="step_by_step_illustration.h
 the pipeline.</p>
 <ul class="simple">
 <li><a class="reference external" href="#quick-start-example">Quick Start Example</a><ul>
-<li><a class="reference external" href="#pull-the-imargi-docker-image">Pull the iMARGI Docker Image</a></li>
+<li><a class="reference external" href="#install-docker-and-start-docker-service">Install Docker and Start Docker Service</a></li>
+<li><a class="reference external" href="#install-imargi-docker">Install iMARGI-Docker</a></li>
 <li><a class="reference external" href="#example-data-preparation">Example Data Preparation</a><ul>
 <li><a class="reference external" href="#set-working-directory">Set Working Directory</a></li>
 <li><a class="reference external" href="#prepare-fastq-files-of-paired-end-sequencing">Prepare FASTQ Files of Paired-end Sequencing</a></li>
@@ -193,8 +195,47 @@ the pipeline.</p>
 </ul>
 </li>
 </ul>
-<div class="section" id="pull-the-imargi-docker-image">
-<h2>Pull the iMARGI Docker Image<a class="headerlink" href="#pull-the-imargi-docker-image" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="install-docker-and-start-docker-service">
+<h2>Install Docker and Start Docker Service<a class="headerlink" href="#install-docker-and-start-docker-service" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Check system requirements.</p>
+<p>16 GB memory is required. Recommend 64-bit Linux systems, including Ubuntu, Debian, Fedora and CentOS. All the
+commands below are ran on Linux system.
+<a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/installation.html#hardware-requirements">Check here for more information</a></p>
+</li>
+<li><p class="first">Install Docker.</p>
+<p>You can check whether Docker is installed on your computer by command <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">–v</span></code>. If the output shows the Docker
+version, such as <code class="docutils literal notranslate"><span class="pre">Docker</span> <span class="pre">version</span> <span class="pre">18.09.5,</span> <span class="pre">build</span> <span class="pre">e8ff056</span></code>, it means Docker has been installed on the system.
+Otherwise, you need to install it first.</p>
+<p>For recommended Linux distributions, including Ubuntu, Debian, Fedora and CentOS, users can install Docker using
+the command below (root privilege is required, <code class="docutils literal notranslate"><span class="pre">sudo</span></code>). For macOS and Windows users, please check the instructions in
+<a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/installation.html#system-requirements">Technical Notes</a>.</p>
+<div class="highlight-Bash notranslate"><div class="highlight"><pre><span></span>sudo curl -fsSL https://get.docker.com <span class="p">|</span>sh –
+</pre></div>
+</div>
+</li>
+<li><p class="first">Add user’s non-root account to Docker user group.</p>
+<p>Give the user account authority to use Docker without root privilege. For Linux users, use the command below. macOS
+and Windows users don’t need to do this.</p>
+<div class="highlight-Bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># replace the placeholder demo_user with real user name  </span>
+sudo usermod -aG docker demo_user
+</pre></div>
+</div>
+</li>
+<li><p class="first">Start the Docker service.</p>
+<p>Input command <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">info</span></code> in terminal. If the output shows information such as <code class="docutils literal notranslate"><span class="pre">Cannot</span> <span class="pre">connect</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">Docker</span> <span class="pre">daemon</span></code>,
+you need to start the service manually with root privilege. You can choose a proper Linux command to start it.</p>
+<ul class="simple">
+<li>Ubuntu, Debian, Fedora: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">service</span> <span class="pre">docker</span> <span class="pre">start</span></code></li>
+<li>CentOS: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">docker</span></code></li>
+</ul>
+<p>For macOS and Windows users, you need to start the Docker Desktop or Docker Toolbox application.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="install-imargi-docker">
+<h2>Install iMARGI-Docker<a class="headerlink" href="#install-imargi-docker" title="Permalink to this headline">¶</a></h2>
+<p>You can install iMARGI-Docker in one <code class="docutils literal notranslate"><span class="pre">pull</span></code> command</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull zhonglab/imargi
 </pre></div>
 </div>
