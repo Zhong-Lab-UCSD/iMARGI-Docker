@@ -11,7 +11,8 @@ iMARGI-Docker distributes the iMARGI sequencing data processing pipeline
     - [3.1. Hardware Requirements](#31-hardware-requirements)
     - [3.2. Software Requirements](#32-software-requirements)
       - [3.2.1. Docker Installation](#321-docker-installation)
-      - [3.2.2. Docker settings (macOS or Windows)](#322-docker-settings-macos-or-windows)
+      - [3.2.2. Start Docker service](#322-start-docker-service)
+      - [3.2.3. Docker settings (macOS or Windows)](#323-docker-settings-macos-or-windows)
     - [3.3. iMARGI-Docker Installation](#33-imargi-docker-installation)
       - [3.3.1. Pull from Docker Hub](#331-pull-from-docker-hub)
       - [3.3.2. Build with Dockerfile](#332-build-with-dockerfile)
@@ -78,12 +79,17 @@ Although Docker supports all the mainstream OS, such as Linux, Windows and macOS
 file processing. You can install Docker CE with only two commands on well supported 64-bit Linux distributions, including
 Ubuntu, Debian, Fedora, and CentOS.
 
-Keep in mind, all the example command lines here and in the documentation are ran on a Linux system.
+Keep in mind, **all the example command lines here and in the documentation are based on a Linux system (Ubuntu)**.
 Most of time, the operations in macOS is the same as in Linux system, as it's also a Unix system. However, if you are
 using Windows system, some command lines need to be modified. Besides, you need to do additional configurations
 of Docker on Windows or macOS system.
 
 #### 3.2.1. Docker Installation
+
+First of all, check whether you have installed Docker on your system. For Linux users, input command `docker -v` in
+terminal. If the output shows the Docker version, such as `Docker version 18.09.5, build e8ff056`, it means Docker has
+been installed on the system. For macOS and Windows users, you can check your Application / Program list to find
+Docker Desktop or Docker Toolbox.
 
 Here are some essential instructions for installing Docker on different systems. Install Docker on Linux is the easiest.
 
@@ -133,7 +139,28 @@ If you are using macOS or Windows, you can check the
 [Technical Notes of installing Docker on different systems](https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#install-docker-on-different-systems)
 to learn how to install Docker on other systems.
 
-#### 3.2.2. Docker settings (macOS or Windows)
+#### 3.2.2. Start Docker service
+
+After installation, you need to start the Docker service (Docker daemon).
+
+For some Linux systems, such as Ubuntu, the Docker service might automatically start after installation. You can check
+it by run a demo `hello-world` test container by the command below. It will tell you "your installation appears to be
+working correctly" if your Docker service has been started.
+
+``` Bash
+# test Docker service
+docker run --rm hello-world
+```
+
+If the service hasn't been started, you can choose a proper Linux command to start it. And then test again.
+
+- Ubuntu, Debian, Fedora: `sudo service docker start`
+
+- CentOS: `sudo systemctl start docker`
+
+For macOS and Windows users, you need to start the Docker Desktop or Docker Toolbox application.
+
+#### 3.2.3. Docker settings (macOS or Windows)
 
 For macOS and Windows, there are CPU and memory limitations to Docker, which are 1 CPU core and 2 GB memory as default.
 The memory is far from the requirement of BWA for human genome, which will cause ERROR. So it must be changed to more

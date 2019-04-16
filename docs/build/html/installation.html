@@ -17,36 +17,34 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
 
+  
+  
     
 
   
+
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Quick Start Example" href="quick_example.html" />
     <link rel="prev" title="Overview" href="index.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
+
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search">
           
 
           
@@ -227,7 +225,18 @@ to find a solution.</p>
 <p>An iMARGI Docker image is available in <a class="reference external" href="https://hub.docker.com/r/zhonglab/imargi">Docker-Hub</a>, and its source files are
 hosted in <a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker">iMARGI-Docker GitHub repo</a>. It’s much easier to apply the
 iMARGI pipeline using the docker container than installing and configuring all the required tools.</p>
-<p>First of all, you need to start your Docker daemon. Then you can pull the latest iMARGI Docker image to your sever.</p>
+<p>First of all, you need to start your Docker service (daemon).</p>
+<p>For some Linux systems, such as Ubuntu, the Docker service might automatically start after installation. You can check
+it by run a demo <code class="docutils literal notranslate"><span class="pre">hello-world</span></code> test container by the command below. It will tell you “your installation appears to be
+working correctly” if your Docker service has been started.</p>
+<div class="highlight-Bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># test Docker service</span>
+docker run --rm hello-world
+</pre></div>
+</div>
+<p>If the service hasn’t been started, you can choose a proper Linux command to start it. And then test again. For Ubuntu,
+Debian, and Fedora, use <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">service</span> <span class="pre">docker</span> <span class="pre">start</span></code>, and for CentOS, use <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">docker</span></code>. For macOS and
+Windows users, you need to start the Docker Desktop or Docker Toolbox application.</p>
+<p>Then you can install iMARGI-Docker using the following command.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull zhonglab/imargi
 </pre></div>
 </div>
@@ -491,7 +500,7 @@ chmod +x /usr/local/bin/imargi_*
         <a href="quick_example.html" class="btn btn-neutral float-right" title="Quick Start Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -517,16 +526,36 @@ chmod +x /usr/local/bin/imargi_*
   
 
 
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

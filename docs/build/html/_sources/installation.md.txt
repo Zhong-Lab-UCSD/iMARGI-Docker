@@ -63,7 +63,22 @@ An iMARGI Docker image is available in [Docker-Hub](https://hub.docker.com/r/zho
 hosted in [iMARGI-Docker GitHub repo](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker). It's much easier to apply the
 iMARGI pipeline using the docker container than installing and configuring all the required tools.
 
-First of all, you need to start your Docker daemon. Then you can pull the latest iMARGI Docker image to your sever.
+First of all, you need to start your Docker service (daemon).
+
+For some Linux systems, such as Ubuntu, the Docker service might automatically start after installation. You can check
+it by run a demo `hello-world` test container by the command below. It will tell you "your installation appears to be
+working correctly" if your Docker service has been started.
+
+``` Bash
+# test Docker service
+docker run --rm hello-world
+```
+
+If the service hasn't been started, you can choose a proper Linux command to start it. And then test again. For Ubuntu,
+Debian, and Fedora, use `sudo service docker start`, and for CentOS, use `sudo systemctl start docker`. For macOS and
+Windows users, you need to start the Docker Desktop or Docker Toolbox application.
+
+Then you can install iMARGI-Docker using the following command.
 
 ```bash
 docker pull zhonglab/imargi
