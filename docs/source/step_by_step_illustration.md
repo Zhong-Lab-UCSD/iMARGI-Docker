@@ -20,7 +20,7 @@ corresponding tools.
   - [Output Files](#output-files)
     - [All The Output File List](#all-the-output-file-list)
     - [The iMARGI Pipeline Output `.pairs` Format](#the-imargi-pipeline-output-pairs-format)
-    - [The pipeline summary log file `pipelineStats_*.log`](#the-pipeline-summary-log-file-pipelinestats_log)
+    - [The pipeline summary log file](#the-pipeline-summary-log-file)
 
 ## The `imargi_wrapper.sh` Running Command
 
@@ -347,7 +347,7 @@ The first 7 columns are standard information, 8-18 are extra information. All th
 | 17           | frag2_end   | int      | end position of assigned restriction fragment of R2 (DNA-end) |
 | 18           | dist2_rsite | int      | distance between 5' end mapping position of R2 and the nearest restriction digestion site position             |
 
-### The pipeline summary log file `pipelineStats_*.log`
+### The pipeline summary log file
 
 When the pipeline finished, it will also generate a simple pipeline summary log file, named as `pipelineStats_*.log`. It
 reports the sequencing mapping QC result at the first line. If it shows "Sequence mapping QC failed", your data might
@@ -401,7 +401,7 @@ Here we describe each line of the log file (TAB separated text file).
 
 Here is the output `pipelineStats_test_sample.log` file in our example.
 
-```
+``` 
 Sequence mapping QC failed
 (#unique_mapped_pairs + #single_side_unique_mapped)/#total_read_pairs   0.777777
 #total_valid_interactions/#unique_mapped_pairs  0.761476
