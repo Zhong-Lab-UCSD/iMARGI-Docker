@@ -240,7 +240,7 @@ generated several new reference files in the same directory of reference genome,
 and AluI digestion fragments. When processing new dataset, you can reuse these new generated reference files with
 corresponding arguments instead of only using `-g` argument, which will save you some time and disk space.
 Besides, there is a pipeline summary log file, `pipelineStats_test_sample.log`, which reports the sequence mapping QC
-result (pass or failed), total processed read pairs number, BWA mapping stats and number of valid RNA-DNA interaction
+result (passed or failed), total processed read pairs number, BWA mapping stats and number of valid RNA-DNA interaction
 in the final `.pairs.gz` file. For more detail, please check the
 [documentation of output file descriptions](https://sysbio.ucsd.edu/imargi_pipeline/step_by_step_illustration.html#output-files).
 

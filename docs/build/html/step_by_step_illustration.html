@@ -797,8 +797,8 @@ non-dup unique mapping read pairs, final valid read pairs and so on.</p>
 <p>Here we describe each line of the log file (TAB separated text file).</p>
 <ul>
 <li><p class="first">Line 1: <code class="docutils literal notranslate"><span class="pre">Sequence</span> <span class="pre">mapping</span> <span class="pre">QC</span></code></p>
-<p>It’s the sequencing mapping QC result, which can be <code class="docutils literal notranslate"><span class="pre">pass</span></code> or <code class="docutils literal notranslate"><span class="pre">failed</span></code>). It’s concluded based on the value of line 2
-and 3. Only when both values of line 2 and 3 are greater than threshold 0.5, it can be concluded as <code class="docutils literal notranslate"><span class="pre">pass</span></code>.</p>
+<p>It’s the sequencing mapping QC result, which can be <code class="docutils literal notranslate"><span class="pre">passed</span></code> or <code class="docutils literal notranslate"><span class="pre">failed</span></code>). It’s concluded based on the value of line 2
+and 3. Only when both values of line 2 and 3 are greater than threshold 0.5, it can be concluded as <code class="docutils literal notranslate"><span class="pre">passed</span></code>.</p>
 </li>
 <li><p class="first">Line 2: <code class="docutils literal notranslate"><span class="pre">(#unique_mapped_pairs</span> <span class="pre">+</span> <span class="pre">#single_side_unique_mapped)/#total_read_pairs</span></code></p>
 <p>Mapping rate of at least one side of read pairs uniquely mapped to genome. It can be calculated by dividing the sum of
@@ -831,7 +831,7 @@ by dividing line 8 by line 6.</p>
 </li>
 </ul>
 <p>Here is the output <code class="docutils literal notranslate"><span class="pre">pipelineStats_test_sample.log</span></code> file in our example.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Sequence</span> <span class="n">mapping</span> <span class="n">QC</span> <span class="k">pass</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Sequence</span> <span class="n">mapping</span> <span class="n">QC</span> <span class="n">passed</span>
 <span class="p">(</span><span class="c1">#unique_mapped_pairs + #single_side_unique_mapped)/#total_read_pairs   0.777777</span>
 <span class="c1">#total_valid_interactions/#unique_mapped_pairs  0.761476</span>
 <span class="n">total_read_pairs</span>    <span class="mi">900000</span>

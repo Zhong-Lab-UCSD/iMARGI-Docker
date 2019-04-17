@@ -332,7 +332,7 @@ analysis is `final_test_sample.pairs.gz`. Besides, multiple intermediate output 
 `clean_fastq`, `bwa_output`, and `parse_temp` sub-directories of the `output` directory. In addition, the generated
 chromosome size file, bwa index folder and restriction fragment BED file are all in the `ref` directory, in which the
 reference genome FASTA file is. Besides, there is also a simple stats file, `pipelineStats_test_sample.log`, which reports the
-sequencing mapping QC result (pass or failed), total processed read pairs number, BWA mapping stats and number of valid
+sequencing mapping QC result (passed or failed), total processed read pairs number, BWA mapping stats and number of valid
 RNA-DNA interaction in the final `.pairs.gz` file. For more detail, please check the
 [documentation of output file descriptions](https://sysbio.ucsd.edu/imargi_pipeline/step_by_step_illustration.html#output-files).
 
