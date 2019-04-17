@@ -56,7 +56,7 @@ If you encounter any problems, please create issues in this GitHub repo.
 
 ### 3.1. Hardware Requirements
 
-There isn't specific high performance hardware requirements of running iMARGI-Docker. However, as iMARGI generates hugh
+There isn't specific high performance hardware requirements of running iMARGI-Docker. However, as iMARGI generates huge
 amount of sequencing data, usually more than 300 million read pairs, so a high performance computer will save you a lot
 of time. Generally, a faster multi-core CPU, larger memory and hard drive storage will benefits you a lot. We suggest
 the following specs:
@@ -332,8 +332,11 @@ analysis is `final_test_sample.pairs.gz`. Besides, multiple intermediate output 
 `clean_fastq`, `bwa_output`, and `parse_temp` sub-directories of the `output` directory. In addition, the generated
 chromosome size file, bwa index folder and restriction fragment BED file are all in the `ref` directory, in which the
 reference genome FASTA file is. Besides, there is also a simple stats file, `pipelineStats_test_sample.log`, which reports the
-total processed read pairs number, BWA mapping stats and number of valid RNA-DNA interaction in the
-final `.pairs.gz` file. Here is the final directory structure after completing the pipeline.
+sequencing mapping QC result (pass or failed), total processed read pairs number, BWA mapping stats and number of valid
+RNA-DNA interaction in the final `.pairs.gz` file. For more detail, please check the
+[documentation of output file descriptions](https://sysbio.ucsd.edu/imargi_pipeline/step_by_step_illustration.html#output-files).
+
+Here is the final directory structure after completing the pipeline.
 
 ``` bash
 ~/imargi_example/
