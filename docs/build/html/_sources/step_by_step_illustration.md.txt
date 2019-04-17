@@ -401,8 +401,8 @@ Here we describe each line of the log file (TAB separated text file).
 
 Here is the output `pipelineStats_test_sample.log` file in our example.
 
-```
-Sequence mapping QC failed
+``` 
+Sequence mapping QC pass
 (#unique_mapped_pairs + #single_side_unique_mapped)/#total_read_pairs   0.777777
 #total_valid_interactions/#unique_mapped_pairs  0.761476
 total_read_pairs    900000
