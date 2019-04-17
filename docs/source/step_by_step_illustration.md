@@ -358,8 +358,8 @@ Here we describe each line of the log file (TAB separated text file).
 
 - Line 1: `Sequence mapping QC`
   
-  It's the sequencing mapping QC result, which can be `pass` or `failed`). It's concluded based on the value of line 2
-  and 3. Only when both values of line 2 and 3 are greater than threshold 0.5, it can be concluded as `pass`.
+  It's the sequencing mapping QC result, which can be `passed` or `failed`). It's concluded based on the value of line 2
+  and 3. Only when both values of line 2 and 3 are greater than threshold 0.5, it can be concluded as `passed`.
 
 - Line 2: `(#unique_mapped_pairs + #single_side_unique_mapped)/#total_read_pairs`
   
@@ -402,7 +402,7 @@ Here we describe each line of the log file (TAB separated text file).
 Here is the output `pipelineStats_test_sample.log` file in our example.
 
 ``` 
-Sequence mapping QC pass
+Sequence mapping QC passed
 (#unique_mapped_pairs + #single_side_unique_mapped)/#total_read_pairs   0.777777
 #total_valid_interactions/#unique_mapped_pairs  0.761476
 total_read_pairs    900000
