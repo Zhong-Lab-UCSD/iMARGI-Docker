@@ -213,11 +213,11 @@ awk -v pass_mapping=$pass_mapping -v pass_valid=$pass_valid \
             print "Sequence mapping QC\tpassed";
         }else{print "Sequence mapping QC\tfailed"};
         print "(#unique_mapped_pairs + #single_side_unique_mapped)/#total_read_pairs", qc_mapping;
-        print "#total_valid_interactions/#non_dup_unique_mapped_pairs", qc_valid;
+        print "#total_valid_interactions/#nondup_unique_mapped_pairs", qc_valid;
         print "total_read_pairs", count_raw["total"];
         print "single_side_unique_mapped", count_raw["total_single_sided_mapped"];
         print "unique_mapped_pairs", count_raw["total_mapped"];
-        print "non_dup_unique_mapped_pairs", count_raw["total_nodups"];
+        print "nondup_unique_mapped_pairs", count_raw["total_nodups"];
         print "total_valid_interactions", count["total"];
         print "inter_chr", count["trans"];
         print "intra_chr", count["cis"];
