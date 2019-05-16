@@ -37,6 +37,7 @@ ENV LC_ALL en_US.UTF-8
 ENV PYTHONUNBUFFERED=0
 
 COPY ./imargi_* /usr/local/bin/
-RUN chmod +x /usr/local/bin/imargi_* && mkdir /imargi
+RUN chmod +x /usr/local/bin/imargi_* && mkdir /imargi && \
+    sed -i -e 's/^\/repository\/user\/main\/public\/root = "$(HOME)\/ncbi\/public"/\/repository\/user\/main\/public\/root = "\/imargi"/' /usr/local/bin/ncbi/default.kfg
 
 WORKDIR /imargi

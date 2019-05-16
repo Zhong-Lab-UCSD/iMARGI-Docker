@@ -50,9 +50,11 @@ while getopts :r:c:R:b:o:Q:G:O:M:d:D:t:h opt; do
 done
 
 # threshold of: (#paired_unique_mapping + #single_side_unique_mapping) / #total_read_pairs
-pass_mapping=0.3
+pass_mapping=0.2
+warn_mapping=0.5
 # threshold of: #final_valid_pairs / #paired_unique_mapping
-pass_valid=0.5
+pass_valid=0.25
+warn_valid=0.5
 
 [ -z "$ref_name" ] && echo "Error!! Please provide reference genome name with -r" && usage
 [ ! -f "$chromsize" ] && echo "Error!! Chomosome size file not exist: "$chromsize && usage
@@ -199,7 +201,8 @@ pairtools stats \
 
 rm $all_pairs
 
-awk -v pass_mapping=$pass_mapping -v pass_valid=$pass_valid \
+awk -v pass_mapping=$pass_mapping -v warn_mapping=$warn_mapping \
+    -v pass_valid=$pass_valid -v warn_valid=$warn_valid \
     'BEGIN{
         FS="\t"; OFS="\t"
     }FNR==NR{
@@ -210,7 +213,11 @@ awk -v pass_mapping=$pass_mapping -v pass_valid=$pass_valid \
         qc_mapping=(count_raw["total_single_sided_mapped"] + count_raw["total_mapped"])/count_raw["total"];
         qc_valid=count["total"]/count_raw["total_nodups"];
         if(qc_mapping >= pass_mapping && qc_valid >= pass_valid){
-            print "Sequence mapping QC\tpassed";
+            warn_message="";
+            if(qc_mapping < warn_mapping || qc_valid < warn_valid){
+                warn_message=" (The sequence mapping rates are lower than average. Experimental repetition or improvements are recommended.)"
+            };
+            print "Sequence mapping QC\tpassed"warn_message;
         }else{print "Sequence mapping QC\tfailed"};
         print "(#unique_mapped_pairs + #single_side_unique_mapped)/#total_read_pairs", qc_mapping;
         print "#total_valid_interactions/#nondup_unique_mapped_pairs", qc_valid;
