@@ -50,7 +50,7 @@ while getopts :r:c:R:b:o:Q:G:O:M:d:D:t:h opt; do
 done
 
 # threshold of: (#paired_unique_mapping + #single_side_unique_mapping) / #total_read_pairs
-pass_mapping=0.5
+pass_mapping=0.3
 # threshold of: #final_valid_pairs / #paired_unique_mapping
 pass_valid=0.5
 
@@ -208,16 +208,16 @@ awk -v pass_mapping=$pass_mapping -v pass_valid=$pass_valid \
         if(FNR<9){count[$1]=$2}else{exit};
     }END{
         qc_mapping=(count_raw["total_single_sided_mapped"] + count_raw["total_mapped"])/count_raw["total"];
-        qc_valid=count["total"]/count_raw["total_mapped"];
+        qc_valid=count["total"]/count_raw["total_nodups"];
         if(qc_mapping >= pass_mapping && qc_valid >= pass_valid){
             print "Sequence mapping QC\tpassed";
         }else{print "Sequence mapping QC\tfailed"};
         print "(#unique_mapped_pairs + #single_side_unique_mapped)/#total_read_pairs", qc_mapping;
-        print "#total_valid_interactions/#unique_mapped_pairs", qc_valid;
+        print "#total_valid_interactions/#non_dup_unique_mapped_pairs", qc_valid;
         print "total_read_pairs", count_raw["total"];
         print "single_side_unique_mapped", count_raw["total_single_sided_mapped"];
         print "unique_mapped_pairs", count_raw["total_mapped"];
-        print "non_dup_unique_mapped_paris", count_raw["total_nodups"];
+        print "non_dup_unique_mapped_pairs", count_raw["total_nodups"];
         print "total_valid_interactions", count["total"];
         print "inter_chr", count["trans"];
         print "intra_chr", count["cis"];
