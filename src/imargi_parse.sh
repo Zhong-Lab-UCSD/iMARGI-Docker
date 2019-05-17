@@ -50,7 +50,7 @@ while getopts :r:c:R:b:o:Q:G:O:M:d:D:t:h opt; do
 done
 
 # threshold of: (#paired_unique_mapping + #single_side_unique_mapping) / #total_read_pairs
-pass_mapping=0.2
+pass_mapping=0.25
 warn_mapping=0.5
 # threshold of: #final_valid_pairs / #paired_unique_mapping
 pass_valid=0.25
