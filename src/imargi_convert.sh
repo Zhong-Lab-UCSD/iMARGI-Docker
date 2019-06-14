@@ -4,29 +4,36 @@ PROGNAME=$0
 
 usage() {
     cat << EOF >&2
-    Usage: $PROGNAME [-f <file_format>] [-k <keep_cols>] [-b <bin_size>] [-i <input_file>] [-o <output_file>] 
+    Usage: $PROGNAME [-f <file_format>] [-k <keep_cols>] [-b <bin_size>] [-r <resolution>] [-i <input_file>] [-o <output_file>] 
 
     Dependency: gzip, awk, cool
     This script can convert .pairs format to BEDPE, .cool, and GIVE interaction format.
-    -f : The target format, only accept 'cool', 'bedpe' and 'give'. For 'cool', it will generate
-         a ".cool" file with defined resolution of -b option and a multi-resolution ".mcool" file
-         based on the ".cool" file. For 'bedpe', the output will be pbgzip compressed file. So
-         keep in mind to name the output_file '-o' with '.gz' extesion.
+    -f : The target format, only accept 'cool', 'bedpe' and 'give'. For 'cool', it will generate a ".cool" file
+         with defined resolution of -b option and a -r defined multi-resolution ".mcool" file based on the ".cool" file.
+         For 'bedpe', the output will be pbgzip compressed file. So keep in mind to name the output_file '-o' with
+         '.gz' extesion. For 'give', the output is a normal text file.
     -k : Keep extra information column in BEDPE. Columns ids in .pairs file you want to keep.
          For example, 'cigar1,cigar2'. Default value is "", i.e., drop all extra cols.
-    -b : bin size for cool format. Default is 5000.
+    -b : bin size for cool format. Default is 1000.
+    -r : resolution for cool/mcool format. Integers separated by comma. The values of resolution must be integer
+         multiples of the bin size defined by -b option.
+         Default is 1000,2000,5000,10000,25000,50000,100000,250000,500000,1000000,2500000,5000000,10000000
     -i : Input file.
-    -o : Output file. BEDPE output is gzip compressed file. cool output are .cool and .mcool files.
+    -o : Output file.
+         BEDPE output is gzip compressed file, so it's better to have a .gz file extension.
+         cool output are two files, .cool and .mcool. The -o option assigns the name of .cool file, it must use .cool as
+         extension. The .mcool file will be generated based on the .cool file with .mcool extension.
     -h : Show usage help
 EOF
     exit 1
 }
 
-while getopts :f:k:b:i:o:h opt; do
+while getopts :f:k:b:r:i:o:h opt; do
     case $opt in
         f) format=${OPTARG};;
         k) keep_cols=${OPTARG};;
         b) bin_size=${OPTARG};;
+        r) resolution=${OPTARG};;
         i) input_file=${OPTARG};;
         o) output_file=${OPTARG};;
         h) usage;;
@@ -34,13 +41,24 @@ while getopts :f:k:b:i:o:h opt; do
 done
 
 [ -z "$keep_cols" ] && keep_cols=""
-[ -z "$bin_size" ] && bin_size=5000
+[ -z "$bin_size" ] && bin_size=1000
+if ! [[ "$bin_size" =~ ^[0-9]+$ ]]; then
+    echo "Error!! Only integer number is acceptable for -b" && usage 
+fi
+[ -z "$resolution" ] && resolution="1000,2000,5000,10000,25000,50000,100000,250000,500000,1000000,2500000,5000000,10000000"
+if ! [[ "$resolution" =~ ^([0-9]+,)*[0-9]+$ ]]; then
+    echo "Error!! Only integer numbers separated by comma is acceptable for -r" && usage 
+fi
 [ ! -f "$input_file" ] && echo "Error!! Input file not exist: "$input_file && usage
 [ -f "$output_file" ] && echo "Error!! Output file already exist: "$output_file && usage
 
 if [ "$format" == "bedpe" ]; then
     echo ">>>>>>>>> Start: Convert .pairs format $input_file to BEDPE format $output_file ..."
     date
+    if ! [[ "$output_file" =~ \.gz$ ]]; then
+        echo "Warning! Output BEDPE file is a compressed file. It's better to use .gz extension file name." 
+    fi
+
     zcat $input_file | \
         awk  -v keep_cols="$keep_cols" 'BEGIN{OFS="\t"}{
             if(NR % 1000000 == 0){print NR" records processed ..." > "/dev/stderr" }
@@ -189,15 +207,22 @@ if [ "$format" == "give" ]; then
 fi
 
 if [ "$format" == "cool" ]; then
-    echo ">>>>>>>>> Start: Convert .pairs format $input_file to cool format $output_file in $bin_size resolution ..."
+    if ! [[ "$output_file" =~ \.cool$ ]]; then
+        echo "Error! When use -f cool, the -o option must have .cool extension, such as '-o test.cool'." && usage
+    fi
+    echo ">>>>>>>>> Start: Convert .pairs format $input_file to cool/mcool format ..."
+    echo "          ~~~~~~~~~ $output_file in ${bin_size} bp single-resolution"
+    echo "          ~~~~~~~~~ ${output_file/%cool/mcool} in [${resolution}] bp multi-resolution"
     date
-    chrom_size="chromsize."$RANDOM
 
+    chrom_size="chromsize."$RANDOM
+    
     zcat $input_file | awk 'BEGIN{OFS="\t"}{if($0 !~ /^#/){exit;}; if($0 ~/^#chromsize/){print $2, $3};}' > $chrom_size
 
     cooler cload pairs --no-symmetric-upper --chrom1 2 --pos1 3 --chrom2 4 --pos2 5 \
         $chrom_size:$bin_size $input_file $output_file
-    cooler zoomify $output_file
+
+    cooler zoomify -r $resolution $output_file
     rm $chrom_size
 fi
 
