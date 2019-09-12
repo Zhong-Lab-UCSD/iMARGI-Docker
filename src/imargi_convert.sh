@@ -48,6 +48,11 @@ while getopts :f:k:b:r:T:i:o:h opt; do
     esac
 done
 
+[  -z "$format" ] && echo "Error!! Format parameter is required. Set with '-f'." && usage
+if [[ "$format" != "bedpe" ]] && [[ "$format" != "give" ]]  && [[ "$format" != "cool" ]]; then
+    echo "Error!! Only 'bedpe', 'give' or 'cool' is acceptable for '-f'." && usage
+fi
+
 [ -z "$keep_cols" ] && keep_cols=""
 
 [ -z "$bin_size" ] && bin_size=1000

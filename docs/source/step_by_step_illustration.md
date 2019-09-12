@@ -402,14 +402,14 @@ Here we describe each line of the log file (TAB separated text file).
 Here is the output `pipelineStats_test_sample.log` file in our example.
 
 ``` 
-Sequence mapping QC passed
-(#unique_mapped_pairs + #single_side_unique_mapped)/#total_read_pairs   0.777777
-#total_valid_interactions/#unique_mapped_pairs  0.761476
-total_read_pairs    900000
-single_side_unique_mapped   2
-unique_mapped_pairs 699997
-non_dup_unique_mapped_paris 691967
-total_valid_interactions    533031
-inter_chr   244163
-intra_chr   288868
+Sequence mapping QC     passed
+(#unique_mapped_pairs + #single_side_unique_mapped)/#total_read_pairs   0.785859
+#total_valid_interactions/#nondup_unique_mapped_pairs   0.768195
+total_read_pairs        900000
+single_side_unique_mapped       3342
+unique_mapped_pairs     703931
+nondup_unique_mapped_pairs      694706
+total_valid_interactions        533670
+inter_chr       244208
+intra_chr       289462
 ```
