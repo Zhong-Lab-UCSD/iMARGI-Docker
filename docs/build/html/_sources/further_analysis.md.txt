@@ -141,7 +141,9 @@ is an Jupyter Notebook version of HiGlass, [jupyter-higlass](https://github.com/
 generate `.mcool` file for HiGlass using `imargi_convert.sh` script. When HiGlass rendering the heatmap view from the
 `.mcool` file, it uses a X-Y coordinates system, where X is `c1:p1` and Y is `c2:p2`, so it will show a heatmap of
 DNA x RNA matrix, i.e., row is DNA and column is RNA (such as the figure below). Currently, if you want to transpose it,
-you have to generate a transposed `.mcool` file. Set `-T true` when you `imargi_convert.sh` script.
+you have to generate a transposed `.mcool` file. Set `-T true` when you use `imargi_convert.sh` script. The HiGlass team
+will add "customizable transpose" function to its control panel in next update version, then you won't need to care
+about this.
 
 ![HiGLass view (row is DNA and column is RNA)](./figures/higlass_view.png)
 
