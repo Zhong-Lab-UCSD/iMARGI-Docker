@@ -7,9 +7,11 @@ usage() {
 
     ---------------------------------------------------------------------------
     Usage: $PROGNAME [-r <ref_name>] [-N <base_name>] [-g <ref_fasta>]
-                     [-c <chromSize_file>] [-i <bwa_index>] [-R <restrict_sites>]
-                     [-G <max_inter_align_gap>] [-O <offset_restriction_site>] [-M <max_ligation_size>]
-                     [-t <threads>] [-1 <fastq.gz_R1>] [-2 <fastq.gz_R2>] [-o <output_dir>] 
+                     [-c <chromSize_file>] [-i <bwa_index>] [-R <restrict_sites>] 
+                     [-Q <min_mapq>] [-G <max_inter_align_gap>]
+                     [-O <offset_restriction_site>] [-M <max_ligation_size>] [-t <threads>]
+                     [-1 <fastq.gz_R1>] [-2 <fastq.gz_R2>]
+                     [-o <output_dir>] 
     
     Dependency: seqtk, samtools, bwa, pairtools, pbgzip
 
@@ -23,6 +25,7 @@ usage() {
     -c : Chromosome size file.
     -i : bwa index
     -R : DNA restriction enzyme digestion fragments bed file.
+    -Q : Min MAPQ value for parsing as unique mapping. Default 1.
     -G : Max inter align gap for pairtools parsing. Default 20. It will allow R1 5' end clipping.
     -O : Max offset bases for filtering pairs based on R2 5' end positions to restriction sites. Default 3.
     -M : Max size of ligation fragment for sequencing. It's used for filtering unligated DNA sequence.
@@ -43,7 +46,7 @@ parameter_error() {
     usage
 }
 
-while getopts :r:N:g:c:i:R:G:O:M:t:1:2:o:h opt; do
+while getopts :r:N:g:c:i:R:Q:G:O:M:t:1:2:o:h opt; do
     case $opt in
         r) ref_name=${OPTARG};;
         N) base_name=${OPTARG};;
@@ -51,6 +54,7 @@ while getopts :r:N:g:c:i:R:G:O:M:t:1:2:o:h opt; do
         c) chromsize=${OPTARG};;
         i) bwa_index=${OPTARG};;
         R) rsites=${OPTARG};;
+        Q) mapq=${OPTARG};;
         G) gap=${OPTARG};;
         O) offset=${OPTARG};;
         M) max_ligation_size=${OPTARG};;
@@ -79,6 +83,11 @@ echo "==================== iMARGI Pipeline BEGIN at $(date '+%Y-%m-%d %H:%M:%S %
 [ -z "$base_name" ] && echo "Error!! Please provide base name for result files with -N" && parameter_error
 
 [ ! -d "$output_dir" ] && echo "Error!! Output directory not exist: "$output_dir && parameter_error
+
+[  -z "$mapq" ] && echo "Use default min mapq 1 for pairtools parsing." && mapq=1
+if ! [[ "$mapq" =~ ^[0-9]+$ ]]; then
+    echo "Error!! Only integer number is acceptable for -Q" && parameter_error 
+fi
 
 [  -z "$gap" ] && echo "Use default max inter align gap for pairtools parsing." && gap=20
 if ! [[ "$gap" =~ ^[0-9]+$ ]]; then
@@ -223,6 +232,6 @@ fi
 
 echo ">>>>>>>>>>>>>>>>[$(date '+%m-%d %H:%M:%S')] Start parsing, deduplicating, and filtering RNA-DNA interactions ..."
 imargi_parse.sh -r $ref_name -c $chromsize -R $rsites -b $output_dir/bwa_output/$base_name.bam \
-    -o $output_dir -G $gap -O $offset -M $max_ligation_size -d false -D $output_dir/parse_temp -t $threads
+    -o $output_dir -Q $mapq -G $gap -O $offset -M $max_ligation_size -d false -D $output_dir/parse_temp -t $threads
 
 echo "==================== iMARGI Pipeline END at at $(date '+%Y-%m-%d %H:%M:%S %Z') ===================="

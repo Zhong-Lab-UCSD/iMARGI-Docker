@@ -20,8 +20,8 @@ usage() {
     -o : Output directoy
     -Q : Min MAPQ value, default 1.
     -G : Max inter align gap for pairtools parsing. Default 20. It will allow R1 5' end clipping.
-    -O : Max mis-offset bases for filtering pairs based on R2 5' end positions to restriction sites. Default 0.
-    -M : Max size of ligation fragment for sequencing. It's used for filtering unligated DNA sequence.
+    -O : Max mis-offset bases for filtering pairs based on R2 5' end positions to restriction sites. Default 3.
+    -M : Max size of ligation fragment for sequencing. It's used for filtering unligated DNA sequence. Default 1000.
     -d : Flag of dropping. Default is false, i.e., output all the intermediate results.
     -D : Directory for intermediate results. Works when -d false. Default is a sub-folder "intermediate_results" 
          in output directory.
@@ -62,9 +62,9 @@ warn_valid=0.5
 [ ! -f "$bamfile" ] && echo "Error!! BAM file not exist: "$bamfile && usage
 [ ! -d "$output_dir" ] && echo "Error!! Output directory not exist: "$output_dir && usage
 
-[  -z "$mapq" ] && echo "Use default min mapq for pairtools parsing." && mapq=20
+[  -z "$mapq" ] && echo "Use default min mapq 1 for pairtools parsing." && mapq=1
 if ! [[ "$mapq" =~ ^[0-9]+$ ]]; then
-    echo "Error!! Only integer number is acceptable for -g" && usage 
+    echo "Error!! Only integer number is acceptable for -Q" && usage 
 fi
 
 [  -z "$gap" ] && echo "Use default max inter align gap for pairtools parsing." && gap=20
@@ -72,7 +72,7 @@ if ! [[ "$gap" =~ ^[0-9]+$ ]]; then
     echo "Error!! Only integer number is acceptable for -g" && usage 
 fi
 
-[  -z "$offset" ] && echo "Use default offset 0'." && offset=0
+[  -z "$offset" ] && echo "Use default offset 3'." && offset=3
 if ! [[ "$offset" =~ ^[0-9]+$ ]]; then
     echo "Error!! Only integer number is acceptable for -O" && usage 
 fi
@@ -111,16 +111,6 @@ duplication_pairs=$inter_dir"/duplication_"$filebase".pairs.gz"
 final_pairs=$output_dir"/final_"$filebase".pairs.gz"
 drop_pairs=$inter_dir"/drop_"$filebase".pairs.gz"
 stats=$inter_dir"/stats_final_"$filebase".txt"
-# ummapped_pairsam=$inter_dir"/unmapped_"$filebase".pairsam.gz"
-# duplication_pairs=$inter_dir"/duplication_"$filebase".pairs.gz"
-# dedup_pairsam=$inter_dir"/dedup_"$filebase".pairsam.gz"
-# dedup_bam=$inter_dir"/dedup_"$filebase".bam"
-# final_pairs=$output_dir"/final_"$filebase".pairs.gz"
-# final_bam=$output_dir"/final_"$filebase".bam"
-# drop_pairsam=$inter_dir"/drop_"$filebase".pairsam.gz"
-# stats=$output_dir"/stats_final_"$filebase".txt"
-# tmp_dir=$inter_dir"/"$RANDOM
-# mkdir $tmp_dir
 
 date
 echo "Start parsing ..."

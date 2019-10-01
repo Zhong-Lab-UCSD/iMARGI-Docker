@@ -180,9 +180,11 @@
 <h2>imargi_wrapper.sh<a class="headerlink" href="#imargi-wrapper-sh" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_wrapper.sh"><em>Source Code</em></a></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    Usage: $PROGNAME [-r &lt;ref_name&gt;] [-N &lt;base_name&gt;] [-g &lt;ref_fasta&gt;]
-                     [-c &lt;chromSize_file&gt;] [-i &lt;bwa_index&gt;] [-R &lt;restrict_sites&gt;]
-                     [-G &lt;max_inter_align_gap&gt;] [-O &lt;offset_restriction_site&gt;] [-M &lt;max_ligation_size&gt;]
-                     [-t &lt;threads&gt;] [-1 &lt;fastq.gz_R1&gt;] [-2 &lt;fastq.gz_R2&gt;] [-o &lt;output_dir&gt;] 
+                     [-c &lt;chromSize_file&gt;] [-i &lt;bwa_index&gt;] [-R &lt;restrict_sites&gt;] 
+                     [-Q &lt;min_mapq&gt;] [-G &lt;max_inter_align_gap&gt;]
+                     [-O &lt;offset_restriction_site&gt;] [-M &lt;max_ligation_size&gt;] [-t &lt;threads&gt;]
+                     [-1 &lt;fastq.gz_R1&gt;] [-2 &lt;fastq.gz_R2&gt;]
+                     [-o &lt;output_dir&gt;]
     
     Dependency: seqtk, samtools, bwa, pairtools, pbgzip
 
@@ -196,6 +198,7 @@
     -c : Chromosome size file.
     -i : bwa index
     -R : DNA restriction enzyme digestion fragments bed file.
+    -Q : Min MAPQ value for parsing as unique mapping. Default 1.
     -G : Max inter align gap for pairtools parsing. Default 20. It will allow R1 5&#39; end clipping.
     -O : Max offset bases for filtering pairs based on R2 5&#39; end positions to restriction sites. Default 3.
     -M : Max size of ligation fragment for sequencing. It&#39;s used for filtering unligated DNA sequence.
@@ -255,7 +258,7 @@
 <div class="section" id="imargi-parse-sh">
 <h2>imargi_parse.sh<a class="headerlink" href="#imargi-parse-sh" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_parse.sh"><em>Source Code</em></a></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>   Usage: $PROGNAME [-r &lt;ref_name&gt;] [-c &lt;chromSize_file&gt;] [-R &lt;restrict_sites&gt;] [-b &lt;bam_file&gt;] [-o &lt;output_dir&gt;] 
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    Usage: $PROGNAME [-r &lt;ref_name&gt;] [-c &lt;chromSize_file&gt;] [-R &lt;restrict_sites&gt;] [-b &lt;bam_file&gt;] [-o &lt;output_dir&gt;] 
                      [-Q &lt;min_mapq&gt;] [-G &lt;max_inter_align_gap&gt;] [-O &lt;offset_restriction_site&gt;] [-M &lt;max_ligation_size&gt;]
                      [-d &lt;drop&gt;] [-D &lt;intermediate_dir&gt;] [-t &lt;threads&gt;] 
     
@@ -271,8 +274,8 @@
     -o : Output directoy
     -Q : Min MAPQ value, default 1.
     -G : Max inter align gap for pairtools parsing. Default 20. It will allow R1 5&#39; end clipping.
-    -O : Max mis-offset bases for filtering pairs based on R2 5&#39; end positions to restriction sites. Default 0.
-    -M : Max size of ligation fragment for sequencing. It&#39;s used for filtering unligated DNA sequence.
+    -O : Max mis-offset bases for filtering pairs based on R2 5&#39; end positions to restriction sites. Default 3.
+    -M : Max size of ligation fragment for sequencing. It&#39;s used for filtering unligated DNA sequence. Default 1000.
     -d : Flag of dropping. Default is false, i.e., output all the intermediate results.
     -D : Directory for intermediate results. Works when -d false. Default is a sub-folder &quot;intermediate_results&quot; 
          in output directory.
@@ -329,20 +332,33 @@
 <div class="section" id="imargi-convert-sh">
 <h2>imargi_convert.sh<a class="headerlink" href="#imargi-convert-sh" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_convert.sh"><em>Source Code</em></a></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    Usage: <span class="nv">$PROGNAME</span> <span class="o">[</span>-f &lt;file_format&gt;<span class="o">]</span> <span class="o">[</span>-k &lt;keep_cols&gt;<span class="o">]</span> <span class="o">[</span>-b &lt;bin_size&gt;<span class="o">]</span> <span class="o">[</span>-i &lt;input_file&gt;<span class="o">]</span> <span class="o">[</span>-o &lt;output_file&gt;<span class="o">]</span> 
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>    Usage: $PROGNAME [-f &lt;file_format&gt;] [-k &lt;keep_cols&gt;] 
+                     [-b &lt;bin_size&gt;] [-r &lt;resolution&gt;] [-T &lt;transpose&gt;] 
+                     [-i &lt;input_file&gt;] [-o &lt;output_file&gt;] 
 
     Dependency: gzip, awk, cool
     This script can convert .pairs format to BEDPE, .cool, and GIVE interaction format.
-    -f : The target format, only accept <span class="s1">&#39;cool&#39;</span>, <span class="s1">&#39;bedpe&#39;</span> and <span class="s1">&#39;give&#39;</span>. For <span class="s1">&#39;cool&#39;</span>, it will generate
-         a <span class="s2">&quot;.cool&quot;</span> file with defined resolution of -b option and a multi-resolution <span class="s2">&quot;.mcool&quot;</span> file
-         based on the <span class="s2">&quot;.cool&quot;</span> file. For <span class="s1">&#39;bedpe&#39;</span>, the output will be pbgzip compressed file. So
-         keep in mind to name the output_file <span class="s1">&#39;-o&#39;</span> with <span class="s1">&#39;.gz&#39;</span> extesion.
-    -k : Keep extra information column in BEDPE. Columns ids in .pairs file you want to keep.
-         For example, <span class="s1">&#39;cigar1,cigar2&#39;</span>. Default value is <span class="s2">&quot;&quot;</span>, i.e., drop all extra cols.
-    -b : bin size <span class="k">for</span> cool format. Default is <span class="m">5000</span>.
+    -f : The target format, only accept &#39;cool&#39;, &#39;bedpe&#39; and &#39;give&#39;. For &#39;cool&#39;, it will generate a &quot;.cool&quot; file
+         with defined resolution of -b option and a -r defined multi-resolution &quot;.mcool&quot; file based on the &quot;.cool&quot; file.
+         For &#39;bedpe&#39;, the output will be pbgzip compressed file. So keep in mind to name the output_file &#39;-o&#39; with
+         &#39;.gz&#39; extesion. For &#39;give&#39;, the output is a normal text file.
+    -k : (Only for BEDPE) Keep extra information column in BEDPE. Columns ids in .pairs file you want to keep.
+         For example, &#39;cigar1,cigar2&#39;. Default value is &quot;&quot;, i.e., drop all extra cols.
+    -b : (Only for cool/mcool) bin size for cool format. Default is 1000.
+    -r : (Only for cool/mcool) resolution for cool/mcool format. Integers separated by comma. The values of resolution
+         must be integer multiples of the bin size defined by -b option.
+         Default is 1000,2000,5000,10000,25000,50000,100000,250000,500000,1000000,2500000,5000000,10000000
+    -T : (Only for cool/mcool) mcool file can be visualized by HiGlass. Currently the heatmap orientation cannot be
+         set in HiGlass control panel. So if you want to transpose the interaction map in HiGlass, you need to generate
+         a transposed mcool file. The default value is &#39;fasle&#39;, i.e., no transpose, the RNA-DNA interactions will be
+         mapped to a X-Y system as a DNA x RNA contact matrix. If set &#39;-T true&#39;, then the generated cool/mcool file is 
+         transposed, which is RNA x DNA contact matrix.
     -i : Input file.
-    -o : Output file. BEDPE output is gzip compressed file. cool output are .cool and .mcool files.
-    -h : Show usage <span class="nb">help</span>
+    -o : Output file.
+         BEDPE output is gzip compressed file, so it&#39;s better to have a .gz file extension.
+         cool output are two files, .cool and .mcool. The -o option assigns the name of .cool file, it must use .cool as
+         extension. The .mcool file will be generated based on the .cool file with .mcool extension.
+    -h : Show usage help
 </pre></div>
 </div>
 </div>

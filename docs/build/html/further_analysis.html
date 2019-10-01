@@ -295,7 +295,14 @@ software, <a class="reference external" href="http://higlass.io/">HiGlass</a> an
 convert .pairs file to .cool/.mcool file.
 Please read the <a class="reference external" href="https://github.com/higlass/higlass/wiki">HiGlass documentation</a> to know how to use it. Besides, there
 is an Jupyter Notebook version of HiGlass, <a class="reference external" href="https://github.com/higlass/higlass-jupyter">jupyter-higlass</a>.</p>
-<p><img alt="_images/higlass_view.png" src="_images/higlass_view.png" />HiGLass view</p>
+<p><strong>Note:</strong> In the iMARGI <code class="docutils literal notranslate"><span class="pre">.pairs</span></code> file, coordinate of RNA is <code class="docutils literal notranslate"><span class="pre">c1:p1</span></code> and coordinate of DNA is <code class="docutils literal notranslate"><span class="pre">c2:p2</span></code>. We can directly
+generate <code class="docutils literal notranslate"><span class="pre">.mcool</span></code> file for HiGlass using <code class="docutils literal notranslate"><span class="pre">imargi_convert.sh</span></code> script. When HiGlass rendering the heatmap view from the
+<code class="docutils literal notranslate"><span class="pre">.mcool</span></code> file, it uses a X-Y coordinates system, where X is <code class="docutils literal notranslate"><span class="pre">c1:p1</span></code> and Y is <code class="docutils literal notranslate"><span class="pre">c2:p2</span></code>, so it will show a heatmap of
+DNA x RNA matrix, i.e., row is DNA and column is RNA (such as the figure below). Currently, if you want to transpose it,
+you have to generate a transposed <code class="docutils literal notranslate"><span class="pre">.mcool</span></code> file. Set <code class="docutils literal notranslate"><span class="pre">-T</span> <span class="pre">true</span></code> when you use <code class="docutils literal notranslate"><span class="pre">imargi_convert.sh</span></code> script. The HiGlass team
+will add “customizable transpose” function to its control panel in next update version, then you won’t need to care
+about this.</p>
+<p><img alt="_images/higlass_view.png" src="_images/higlass_view.png" />HiGLass view (row is DNA and column is RNA)</p>
 </div>
 <div class="section" id="give">
 <h3>GIVE<a class="headerlink" href="#give" title="Permalink to this headline">¶</a></h3>

@@ -18,9 +18,11 @@ We created several script tools. Here we show the usage and source code of all t
 
 ``` bash
     Usage: $PROGNAME [-r <ref_name>] [-N <base_name>] [-g <ref_fasta>]
-                     [-c <chromSize_file>] [-i <bwa_index>] [-R <restrict_sites>]
-                     [-G <max_inter_align_gap>] [-O <offset_restriction_site>] [-M <max_ligation_size>]
-                     [-t <threads>] [-1 <fastq.gz_R1>] [-2 <fastq.gz_R2>] [-o <output_dir>] 
+                     [-c <chromSize_file>] [-i <bwa_index>] [-R <restrict_sites>] 
+                     [-Q <min_mapq>] [-G <max_inter_align_gap>]
+                     [-O <offset_restriction_site>] [-M <max_ligation_size>] [-t <threads>]
+                     [-1 <fastq.gz_R1>] [-2 <fastq.gz_R2>]
+                     [-o <output_dir>]
     
     Dependency: seqtk, samtools, bwa, pairtools, pbgzip
 
@@ -34,6 +36,7 @@ We created several script tools. Here we show the usage and source code of all t
     -c : Chromosome size file.
     -i : bwa index
     -R : DNA restriction enzyme digestion fragments bed file.
+    -Q : Min MAPQ value for parsing as unique mapping. Default 1.
     -G : Max inter align gap for pairtools parsing. Default 20. It will allow R1 5' end clipping.
     -O : Max offset bases for filtering pairs based on R2 5' end positions to restriction sites. Default 3.
     -M : Max size of ligation fragment for sequencing. It's used for filtering unligated DNA sequence.
@@ -96,7 +99,7 @@ We created several script tools. Here we show the usage and source code of all t
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_parse.sh)
 
 ``` bash
-   Usage: $PROGNAME [-r <ref_name>] [-c <chromSize_file>] [-R <restrict_sites>] [-b <bam_file>] [-o <output_dir>] 
+    Usage: $PROGNAME [-r <ref_name>] [-c <chromSize_file>] [-R <restrict_sites>] [-b <bam_file>] [-o <output_dir>] 
                      [-Q <min_mapq>] [-G <max_inter_align_gap>] [-O <offset_restriction_site>] [-M <max_ligation_size>]
                      [-d <drop>] [-D <intermediate_dir>] [-t <threads>] 
     
@@ -112,8 +115,8 @@ We created several script tools. Here we show the usage and source code of all t
     -o : Output directoy
     -Q : Min MAPQ value, default 1.
     -G : Max inter align gap for pairtools parsing. Default 20. It will allow R1 5' end clipping.
-    -O : Max mis-offset bases for filtering pairs based on R2 5' end positions to restriction sites. Default 0.
-    -M : Max size of ligation fragment for sequencing. It's used for filtering unligated DNA sequence.
+    -O : Max mis-offset bases for filtering pairs based on R2 5' end positions to restriction sites. Default 3.
+    -M : Max size of ligation fragment for sequencing. It's used for filtering unligated DNA sequence. Default 1000.
     -d : Flag of dropping. Default is false, i.e., output all the intermediate results.
     -D : Directory for intermediate results. Works when -d false. Default is a sub-folder "intermediate_results" 
          in output directory.
@@ -173,19 +176,32 @@ We created several script tools. Here we show the usage and source code of all t
 [*Source Code*](https://github.com/Zhong-Lab-UCSD/iMARGI-Docker/blob/master/src/imargi_convert.sh)
 
 ``` bash
-    Usage: $PROGNAME [-f <file_format>] [-k <keep_cols>] [-b <bin_size>] [-i <input_file>] [-o <output_file>] 
+    Usage: $PROGNAME [-f <file_format>] [-k <keep_cols>] 
+                     [-b <bin_size>] [-r <resolution>] [-T <transpose>] 
+                     [-i <input_file>] [-o <output_file>] 
 
     Dependency: gzip, awk, cool
     This script can convert .pairs format to BEDPE, .cool, and GIVE interaction format.
-    -f : The target format, only accept 'cool', 'bedpe' and 'give'. For 'cool', it will generate
-         a ".cool" file with defined resolution of -b option and a multi-resolution ".mcool" file
-         based on the ".cool" file. For 'bedpe', the output will be pbgzip compressed file. So
-         keep in mind to name the output_file '-o' with '.gz' extesion.
-    -k : Keep extra information column in BEDPE. Columns ids in .pairs file you want to keep.
+    -f : The target format, only accept 'cool', 'bedpe' and 'give'. For 'cool', it will generate a ".cool" file
+         with defined resolution of -b option and a -r defined multi-resolution ".mcool" file based on the ".cool" file.
+         For 'bedpe', the output will be pbgzip compressed file. So keep in mind to name the output_file '-o' with
+         '.gz' extesion. For 'give', the output is a normal text file.
+    -k : (Only for BEDPE) Keep extra information column in BEDPE. Columns ids in .pairs file you want to keep.
          For example, 'cigar1,cigar2'. Default value is "", i.e., drop all extra cols.
-    -b : bin size for cool format. Default is 5000.
+    -b : (Only for cool/mcool) bin size for cool format. Default is 1000.
+    -r : (Only for cool/mcool) resolution for cool/mcool format. Integers separated by comma. The values of resolution
+         must be integer multiples of the bin size defined by -b option.
+         Default is 1000,2000,5000,10000,25000,50000,100000,250000,500000,1000000,2500000,5000000,10000000
+    -T : (Only for cool/mcool) mcool file can be visualized by HiGlass. Currently the heatmap orientation cannot be
+         set in HiGlass control panel. So if you want to transpose the interaction map in HiGlass, you need to generate
+         a transposed mcool file. The default value is 'fasle', i.e., no transpose, the RNA-DNA interactions will be
+         mapped to a X-Y system as a DNA x RNA contact matrix. If set '-T true', then the generated cool/mcool file is 
+         transposed, which is RNA x DNA contact matrix.
     -i : Input file.
-    -o : Output file. BEDPE output is gzip compressed file. cool output are .cool and .mcool files.
+    -o : Output file.
+         BEDPE output is gzip compressed file, so it's better to have a .gz file extension.
+         cool output are two files, .cool and .mcool. The -o option assigns the name of .cool file, it must use .cool as
+         extension. The .mcool file will be generated based on the .cool file with .mcool extension.
     -h : Show usage help
 ```
 
