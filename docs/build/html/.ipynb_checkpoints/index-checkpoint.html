@@ -1,0 +1,369 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Overview &mdash; iMARGI Pipeline 1.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tools and Installation" href="installation.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> iMARGI Pipeline
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Tools and Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_example.html">Quick Start Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="step_by_step_illustration.html">Step-by-step Illustration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="further_analysis.html">Further Analysis and Visualization Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical_note.html">Technical Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq_win_mac.html">Guides for Issues on Windows and macOS System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commandline_api.html">Command-line API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">iMARGI Pipeline</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Overview</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>Chromatin associated RNAs (caRNAs) are proposed as a new layer of the epigenome. Interactions of caRNAs with chromatin
+are essential for diverse molecular and cellular functions. To genome-wide determine the potential genomic interaction
+loci of caRNAs, we developed <strong>MARGI</strong> (<strong>MA</strong>pping <strong>R</strong>NA-<strong>G</strong>enome <strong>I</strong>nteractions) <a id="a1"><a class="reference external" href="#f1">[1]</a></a>
+technique as well as its improved version called <em>in situ</em> MARGI
+(<strong>iMARGI</strong>) <a id="a2"><a class="reference external" href="#f2">[2]</a></a><a id="a3" align="center"><a class="reference external" href="#f3">[3]</a></a>. Comparing to
+MARGI, iMARGI carries out the ligation steps in the nuclei instead of in solution. As a result, iMARGI requires much
+fewer cells for the experiment while obtaining more informative sequencing read pairs.</p>
+<p><img alt="_images/iMARGI_protocol.png" src="_images/iMARGI_protocol.png" />
+<i><center>Schematic overview of the iMARGI experimental protocol </i><a id="a3"><a class="reference external" href="#f3">[3]</a></a></center></p>
+<p>Here, we introduce the sequencing data analysis pipeline for iMARGI, which is the most critical step for computational
+workflow of analyzing RNA-genome interactions. The pipeline is distributed in a Docker image,
+<a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker">iMARGI-Docker</a>, which delivers all the iMARGI data analysis related
+tools, such as bwa <a id="a4"><a class="reference external" href="#f4">[4]</a></a> and pairtools <a id="a5"><a class="reference external" href="#f5">[5]</a></a>. iMARGI-Docker source code is licensed
+under the <a class="reference external" href="./src/LICENSE">BSD 2 license</a>, and the pre-built Docker image is hosted at
+<a class="reference external" href="https://hub.docker.com/r/zhonglab/imargi">Docker Hub</a>.</p>
+<p>Generally, the pipeline includes three main steps:</p>
+<ul class="simple">
+<li>Cleaning: Clean paired-end sequencing reads in FASTQ format</li>
+<li>Mapping: Map sequencing reads to reference genome</li>
+<li>Parsing: Parse and filter to get valid RNA-DNA interaction pairs from mapped read pairs</li>
+</ul>
+<p>For convenience, we provide an all-in-one wrapper script <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> to automate the whole pipeline in one
+command line. Users are also able to perform each step separately using its corresponding tool. In addition, we provide
+several tools for preparing data for further analysis and visualization.</p>
+<p><img alt="_images/iMARGI_docker.png" src="_images/iMARGI_docker.png" />
+<i><center>Schematic overview of the iMARGI data analysis pipeline </i><a id="a3"><a class="reference external" href="#f3">[3]</a></a></center></p>
+<p>In this documentation, we illustrate the detail of how to use iMARGI-Docker to perform the pipeline and some
+instructions for further analysis and visualization.</p>
+<p>At first, you need to install Docker CE and pull <a class="reference external" href="https://hub.docker.com/r/zhonglab/imargi/">iMARGI-Docker</a> from
+Docker Hub, See the <a class="reference internal" href="installation.html"><span class="doc">Docker container usage instructions</span></a>. Besides, if you are expert in Linux system
+configuration and you want to install all the dependencies on your own computer, you can install and configure all the
+required tools following the <a class="reference internal" href="installation.html"><span class="doc">dependency tool instructions</span></a>. As there are a bundle of tools need
+to be installed, so we strongly recommend using iMARGI-Docker.</p>
+<p>Then <a class="reference internal" href="quick_example.html"><span class="doc">a quick start example</span></a> shows the simplest all-in-one command used for deciphering the
+RNA-DNA interaction map from a real iMARGI dataset. All the detail instructions of the actual processing steps are
+described in the
+<a class="reference internal" href="step_by_step_illustration.html"><span class="doc">Step-by-step Illustration</span></a> section.</p>
+<p>Besides, we also provide some instructions and tools for further analysis and visualization of RNA-DNA interaction map.
+The <a class="reference internal" href="further_analysis.html"><span class="doc">Further Analysis and Visualization Guides</span></a> section gives you some guides of further
+investigating the RNA-DNA interaction map, including generating simple stats report, filtering by genomic distance,
+converting data formats, annotating RNA/DNA-ends with gene annotations and using GIVE <a id="a6"><a class="reference external" href="#f6">[6]</a></a> or
+HiGlass <a id="a7"><a class="reference external" href="#f7">[7]</a></a> for interactively visualizing RNA-DNA interaction map.</p>
+<p>The <a class="reference internal" href="technical_note.html"><span class="doc">Technical Notes</span></a> section shows more technical information about the iMARGI-Docker image.
+<a class="reference internal" href="commandline_api.html"><span class="doc">Command-line API</span></a> section lists all the usages and parameters of all the scripts.</p>
+<p><strong>Contents:</strong></p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Tools and Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#system-requirements">System Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#hardware-requirements">Hardware Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#software-requirements">Software Requirements</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#docker-container-usage-instructions">Docker Container Usage Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies-instruction">Dependencies Instruction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quick_example.html">Quick Start Example</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quick_example.html#install-docker-and-start-docker-service">Install Docker and Start Docker Service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_example.html#install-imargi-docker">Install iMARGI-Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_example.html#example-data-preparation">Example Data Preparation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quick_example.html#set-working-directory">Set Working Directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_example.html#prepare-fastq-files-of-paired-end-sequencing">Prepare FASTQ Files of Paired-end Sequencing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_example.html#download-reference-genome">Download Reference Genome</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_example.html#download-bwa-index-files">Download BWA Index Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_example.html#checklist-of-preparation">Checklist of Preparation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quick_example.html#perform-imargi-pipeline-in-one-command">Perform iMARGI Pipeline in One Command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_example.html#output-of-imargi-pipeline">Output of iMARGI Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="step_by_step_illustration.html">Step-by-step Illustration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="step_by_step_illustration.html#the-imargi-wrapper-sh-running-command">The <code class="docutils literal notranslate"><span class="pre">imargi_wrapper.sh</span></code> Running Command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="step_by_step_illustration.html#generating-required-reference-files">Generating Required Reference Files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="step_by_step_illustration.html#generating-chromosome-sizes-file">Generating Chromosome Sizes File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="step_by_step_illustration.html#building-bwa-index">Building BWA Index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="step_by_step_illustration.html#generating-restriction-fragment-file">Generating Restriction Fragment File</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="step_by_step_illustration.html#cleaning-clean-read-pairs">Cleaning: clean read pairs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="step_by_step_illustration.html#mapping-map-reads-to-genome">Mapping: map reads to genome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="step_by_step_illustration.html#parsing-parse-mapped-read-pairs-to-valid-rna-dna-interactions">Parsing: parse mapped read pairs to valid RNA-DNA interactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="step_by_step_illustration.html#output-files">Output Files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="step_by_step_illustration.html#all-the-output-file-list">All The Output File List</a></li>
+<li class="toctree-l3"><a class="reference internal" href="step_by_step_illustration.html#the-imargi-pipeline-output-pairs-format">The iMARGI Pipeline Output <code class="docutils literal notranslate"><span class="pre">.pairs</span></code> Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="step_by_step_illustration.html#the-pipeline-summary-log-file">The pipeline summary log file</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="further_analysis.html">Further Analysis and Visualization Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="further_analysis.html#simple-statistics-report">Simple Statistics Report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="further_analysis.html#distance-filtering-of-pairs">Distance Filtering of Pairs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="further_analysis.html#annotation-of-genomic-features">Annotation of Genomic Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="further_analysis.html#data-format-conversion">Data Format Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="further_analysis.html#visualization">Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="further_analysis.html#higlass">HiGlass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="further_analysis.html#give">GIVE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="technical_note.html">Technical Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="technical_note.html#dockerfile">Dockerfile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="technical_note.html#install-docker-on-different-systems">Install Docker on Different systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="technical_note.html#change-docker-memory-settings-on-windows-and-macos">Change Docker Memory Settings on Windows and macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="technical_note.html#run-imargi-docker-with-non-root-user">Run iMARGI-Docker with Non-root User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="technical_note.html#solve-bwa-index-failure-problem">Solve <code class="docutils literal notranslate"><span class="pre">bwa</span> <span class="pre">index</span></code> Failure Problem</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq_win_mac.html">Guides for Issues on Windows and macOS System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="faq_win_mac.html#checklist-of-docker-settings">Checklist of Docker Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq_win_mac.html#issues">Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="faq_win_mac.html#cannot-install-docker-desktop">Cannot Install Docker Desktop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq_win_mac.html#cannot-find-files">Cannot find files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq_win_mac.html#connection-issue">Connection issue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq_win_mac.html#keyerror-chr1">KeyError: ‘chr1’</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="commandline_api.html">Command-line API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="commandline_api.html#imargi-wrapper-sh">imargi_wrapper.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commandline_api.html#imargi-clean-sh">imargi_clean.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commandline_api.html#imargi-rsfrags-sh">imargi_rsfrags.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commandline_api.html#imargi-parse-sh">imargi_parse.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commandline_api.html#imargi-stats-sh">imargi_stats.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commandline_api.html#imargi-distfilter-sh">imargi_distfilter.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commandline_api.html#imargi-convert-sh">imargi_convert.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commandline_api.html#imargi-annotate-sh">imargi_annotate.sh</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p><strong>Reference:</strong></p>
+<p><small><a class="reference external" href="#a1">[1]</a> <span id="f1"></span> Sridhar, B. et al. Systematic Mapping of RNA-Chromatin Interactions In&nbsp;Vivo. Current Biology 27, 602–609 (2017).</small></p>
+<p><small><a class="reference external" href="#a2">[2]</a> <span id="f2"></span> Yan, Z. et al. Genome-wide co-localization of RNA-DNA interactions and fusion RNA pairs. PNAS February 19, 2019, 116 (8) 3328-3337. https://doi.org/10.1073/pnas.1819788116 </small></p>
+<p><small><a class="reference external" href="#a3">[3]</a> <span id="f3"></span> Wu, W., Yan, Z., Wen X. &amp; Zhong, S. iMARGI: Mapping RNA-DNA interactome by sequencing.</small></p>
+<p><small><a class="reference external" href="#a4">[4]</a> <span id="f4"></span> Li, H. &amp; Durbin, R. Fast and accurate short read alignment with Burrows-Wheeler Transform. Bioinformatics, 25:1754-60. (2009).</small></p>
+<p><small><a class="reference external" href="#a5">[5]</a> <span id="f4"></span> <a class="reference external" href="https://github.com/mirnylab/pairtools">https://github.com/mirnylab/pairtools</a> and <a class="reference external" href="https://pairtools.readthedocs.io/en/latest/">https://pairtools.readthedocs.io/en/latest</a></small></p>
+<p><small><a class="reference external" href="#a6">[6]</a> <span id="f4"></span> Cao, X., Yan, Z., Wu, Q., Zheng, A. &amp; Zhong, S. GIVE: portable genome browsers for personal websites. Genome Biology 19, 92 (2018).</small></p>
+<p><small><a class="reference external" href="#a7">[7]</a> <span id="f5"></span> Kerpedjiev, P. et al. HiGlass: web-based visual exploration and analysis of genome interaction maps. Genome Biology 19, 125 (2018).</small></p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="installation.html" class="btn btn-neutral float-right" title="Tools and Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zhong Lab, UCSD. iMARGI-Docker code licensed under the BSD 2 License. Documentation licensed under CC BY 3.0
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

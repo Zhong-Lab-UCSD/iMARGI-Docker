@@ -1,0 +1,569 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tools and Installation &mdash; iMARGI Pipeline 1.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Quick Start Example" href="quick_example.html" />
+    <link rel="prev" title="Overview" href="index.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> iMARGI Pipeline
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tools and Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#system-requirements">System Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hardware-requirements">Hardware Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#software-requirements">Software Requirements</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#docker-container-usage-instructions">Docker Container Usage Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies-instruction">Dependencies Instruction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quick_example.html">Quick Start Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="step_by_step_illustration.html">Step-by-step Illustration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="further_analysis.html">Further Analysis and Visualization Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical_note.html">Technical Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq_win_mac.html">Guides for Issues on Windows and macOS System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commandline_api.html">Command-line API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">iMARGI Pipeline</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Tools and Installation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tools-and-installation">
+<h1>Tools and Installation<a class="headerlink" href="#tools-and-installation" title="Permalink to this headline">¶</a></h1>
+<p>In the iMARGI pipeline, a bundle of tools and several bash scripts created by us are required. For convenience and
+reproducibility, we built <a class="reference external" href="https://hub.docker.com/r/zhonglab/imargi">iMARGI-Docker</a> to distribute the pipeline.
+It delivers all the well configured tools.</p>
+<ul class="simple">
+<li><a class="reference external" href="#tools-and-installation">Tools and Installation</a><ul>
+<li><a class="reference external" href="#system-requirements">System Requirements</a><ul>
+<li><a class="reference external" href="#hardware-requirements">Hardware Requirements</a></li>
+<li><a class="reference external" href="#software-requirements">Software Requirements</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#docker-container-usage-instructions">Docker Container Usage Instructions</a></li>
+<li><a class="reference external" href="#dependencies-instruction">Dependencies Instruction</a></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="system-requirements">
+<h2>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="hardware-requirements">
+<h3>Hardware Requirements<a class="headerlink" href="#hardware-requirements" title="Permalink to this headline">¶</a></h3>
+<p>There isn’t specific high performance hardware requirements of running iMARGI-Docker. However, as iMARGI generates hugh
+amount of sequencing data, usually more than 300 million read pairs, so a high performance computer will save you a lot
+of time. Generally, a faster multi-core CPU, larger memory and hard drive storage will benefits you a lot. We suggest
+the following specs:</p>
+<ul class="simple">
+<li>CPU: At least dual core CPU. More CPU cores will speed up the processing.</li>
+<li>RAM: 16 GB or more. Depends on the size of reference genome. For human genome, at least 8GB free memory are required by BWA,
+so the memory on the machine needs to be more than 8 GB, which usually is 16 GB. <strong>Out of memory will cause ERROR.</strong></li>
+<li>Hard drive storage: Depends on your data, typically at least 160 GB free space is required for 300M 2x100 read pairs.
+Besides, fast IO storage is better, such as SSD.</li>
+</ul>
+</div>
+<div class="section" id="software-requirements">
+<h3>Software Requirements<a class="headerlink" href="#software-requirements" title="Permalink to this headline">¶</a></h3>
+<p>iMARGI-Docker only requires Docker. You can use <a class="reference external" href="https://docs.docker.com/install/">Docker Community Edition (CE)</a>.
+<strong>We recommend using mainstream Linux system (64-bit), including Ubuntu, Debian, Fedora, and CentOS.</strong> Because it’s
+much easier to setup and its filesystem is better for large file processing. You can install Docker CE with two commands
+on these well supported Linux distributions.</p>
+<div class="highlight-Bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># install Docker, support Ubuntu, Debian, Fedora, and CentOS</span>
+sudo curl -fsSL https://get.docker.com <span class="p">|</span>sh -
+
+<span class="c1"># set Docker user, replace demo_user with you own user name,</span>
+<span class="c1"># then you can use docker command without sudo</span>
+sudo usermod -aG docker demo_user
+</pre></div>
+</div>
+<p>Docker supports all the mainstream OS, such as Linux, Windows and macOS. You can check the
+<a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#install-docker-on-different-systems">Technical Notes of installing Docker on different systems</a>
+to learn how to install Docker on other systems.</p>
+<p>Most of time, the operations in macOS is the same as in Linux system, as it’s also a Unix system. However, if you are
+using Windows system, some command lines need to be modified. Besides, you need to configure the CPU and memory settings
+of Docker. There is default 2 GB limit of memory to Docker on Windows or macOS (no limit on Linux). You must increase it
+to more than 8 GB. You can check the
+<a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#change-docker-memory-settings-on-windows-and-macos">Technical Notes of change Docker settings</a>
+to learn how to do it. You might encounter some other problems caused by system settings specifically to Windows or macOS,
+please check the <a class="reference external" href="https://sysbio.ucsd.edu/imargi_pipeline/faq_win_mac.html">Guides for Issues on Windows and macOS System page</a>
+to find a solution.</p>
+<p>After installation, the Docker service might be automatically started on some system (such as Ubuntu), but for other
+systems, it needs to be started manually with root privilege. Start the Docker service. You can choose a proper Linux
+command to start it.</p>
+<ul class="simple">
+<li>Ubuntu, Debian, Fedora: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">service</span> <span class="pre">docker</span> <span class="pre">start</span></code></li>
+<li>CentOS: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">docker</span></code></li>
+</ul>
+<p>For macOS and Windows users, you need to start the Docker Desktop or Docker Toolbox application.</p>
+</div>
+</div>
+<div class="section" id="docker-container-usage-instructions">
+<h2>Docker Container Usage Instructions<a class="headerlink" href="#docker-container-usage-instructions" title="Permalink to this headline">¶</a></h2>
+<p>An iMARGI Docker image is available in <a class="reference external" href="https://hub.docker.com/r/zhonglab/imargi">Docker-Hub</a>, and its source files are
+hosted in <a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker">iMARGI-Docker GitHub repo</a>. It’s much easier to apply the
+iMARGI pipeline using the docker container than installing and configuring all the required tools.</p>
+<p>First of all, you need to start your Docker service (daemon).</p>
+<p>For some Linux systems, such as Ubuntu, the Docker service might automatically start after installation. You can check
+it by run a demo <code class="docutils literal notranslate"><span class="pre">hello-world</span></code> test container by the command below. It will tell you “your installation appears to be
+working correctly” if your Docker service has been started.</p>
+<div class="highlight-Bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># test Docker service</span>
+docker run --rm hello-world
+</pre></div>
+</div>
+<p>If the service hasn’t been started, you can choose a proper Linux command to start it. And then test again. For Ubuntu,
+Debian, and Fedora, use <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">service</span> <span class="pre">docker</span> <span class="pre">start</span></code>, and for CentOS, use <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">docker</span></code>. For macOS and
+Windows users, you need to start the Docker Desktop or Docker Toolbox application.</p>
+<p>Then you can install iMARGI-Docker using the following command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull zhonglab/imargi
+</pre></div>
+</div>
+<p>To use the tools in the iMARGI Docker image, you need to run a Docker container. Here is an example of creating a
+new directory with <code class="docutils literal notranslate"><span class="pre">mkdir</span></code> command through a Docker container.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run --rm -t -u <span class="m">1043</span> -v ~/test:/imargi zhonglab/imargi mkdir new_dir
+</pre></div>
+</div>
+<p><img alt="_images/docker_command_example.png" src="_images/docker_command_example.png" />docker command example</p>
+<p>The option part shows the main option parameters of running a docker command. For more usage information of Docker, please
+refer to <a class="reference external" href="https://docs.docker.com/engine/reference/commandline/cli/">Docker official documentation</a>.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">--rm</span></code>: By default a container’s file system persists even after the container exits. Hence, the container file
+systems can really pile up. <code class="docutils literal notranslate"><span class="pre">--rm</span></code> option will automatically clean up the container after the container exits.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-t</span></code>: Allocate a pseudo-TTY. Without <code class="docutils literal notranslate"><span class="pre">-t</span></code>, you cannot use <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">c</span></code> to stop the run.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-u</span> <span class="pre">1043</span></code>: Run docker with your own UID of your Linux system (use <code class="docutils literal notranslate"><span class="pre">id</span></code> command to check your own UID and replace
+<code class="docutils literal notranslate"><span class="pre">1043</span></code> with it) to avoid file/dir permission problem.</li>
+<li><code class="docutils literal notranslate"><span class="pre">-v</span></code>: The <code class="docutils literal notranslate"><span class="pre">-v</span></code> or <code class="docutils literal notranslate"><span class="pre">--volume</span></code> option mounts the <code class="docutils literal notranslate"><span class="pre">~/test</span></code> directory on your host machine to the working directory <code class="docutils literal notranslate"><span class="pre">/imargi</span></code> of
+the iMARGI-Docker container, which is the default working space of iMARGI-Docker. So the container can operate the
+files in <code class="docutils literal notranslate"><span class="pre">~/test</span></code> directory. If you are using Docker on Windows, the path is a little different. For example, Windows
+path <code class="docutils literal notranslate"><span class="pre">D:\test\imargi_example</span></code> needs to be rewritten as <code class="docutils literal notranslate"><span class="pre">/d/test/imargi_example</span></code>, so the <code class="docutils literal notranslate"><span class="pre">-v</span></code> argument needs to be <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">/d/test/imargi_example:/imargi</span></code>.
+When you executed it on Windows, a window might pop up to verify that you want to share the folder.</li>
+</ul>
+<p>The command executed part in the example, <code class="docutils literal notranslate"><span class="pre">mkdir</span> <span class="pre">new_dir</span></code>, creates a folder <code class="docutils literal notranslate"><span class="pre">new_dir</span></code> in the default working space of
+the container, which is <code class="docutils literal notranslate"><span class="pre">/imargi</span></code>. As we used <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">~/test:/imargi</span></code> option, so the <code class="docutils literal notranslate"><span class="pre">~/test/</span></code>directory on your host machine
+has been mounted as <code class="docutils literal notranslate"><span class="pre">/imargi</span></code> in the iMARGI-Docker container. So the <code class="docutils literal notranslate"><span class="pre">new_dir</span></code> folder will show in your <code class="docutils literal notranslate"><span class="pre">~/test/</span></code> directory.
+You can change the command part to use any tool in the iMARGI Docker container.</p>
+</div>
+<div class="section" id="dependencies-instruction">
+<h2>Dependencies Instruction<a class="headerlink" href="#dependencies-instruction" title="Permalink to this headline">¶</a></h2>
+<p>We strongly recommend using iMARGI-Docker instead of configuring all the dependencies of iMARGI pipeline on your Linux
+server. However, if you really cannot run Docker on your machine, you might want to try to configure these tools. It
+requires root access to your machine and solid experience of Linux server administration.</p>
+<p>We cannot guarantee success of local configuration. If you encounter some problems or have suggestions, please view or
+create issues in the <a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker">iMARGI-Docker GitHub repo</a>. If you are using Ubuntu
+(18.04), the following command lines we used to configure iMARGI-Docker might be helpful.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># run with root account</span>
+apt-get update
+apt-get install git build-essential libz-dev libbz2-dev liblzma-dev libssl-dev libcurl4-gnutls-dev <span class="se">\</span>
+    autoconf automake libncurses5-dev wget gawk parallel
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone -b v1.3 https://github.com/lh3/seqtk.git <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> seqtk <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make install
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone -b <span class="m">1</span>.9 https://github.com/samtools/htslib <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> htslib <span class="o">&amp;&amp;</span> autoheader <span class="o">&amp;&amp;</span> autoconf <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    ./configure --prefix<span class="o">=</span>/usr/local <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make install
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone -b <span class="m">1</span>.9 https://github.com/samtools/samtools <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> samtools <span class="o">&amp;&amp;</span> autoheader <span class="o">&amp;&amp;</span> autoconf <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    ./configure --prefix<span class="o">=</span>/usr/local <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make install
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone -b v0.7.17 https://github.com/lh3/bwa.git <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> bwa <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> cp bwa /usr/local/bin
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/nh13/pbgzip <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> pbgzip <span class="o">&amp;&amp;</span> sh autogen.sh <span class="o">&amp;&amp;</span> ./configure <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make install
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone -b v1.8.3 https://github.com/lz4/lz4 <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> lz4 <span class="o">&amp;&amp;</span> make <span class="o">&amp;&amp;</span> make install
+<span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> wget http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.9.4/sratoolkit.2.9.4-ubuntu64.tar.gz <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    tar zxvf sratoolkit.2.9.4-ubuntu64.tar.gz <span class="o">&amp;&amp;</span> cp -R sratoolkit.2.9.4-ubuntu64/bin/* /usr/local/bin
+
+apt-get install -y python3-dev libopenblas-dev python3-pip
+pip3 install numpy cython scipy pandas click
+pip3 install pairtools cooler HTSeq
+</pre></div>
+</div>
+<p>The following table shows all the dependencies with simple descriptions. Some of these tools, such as <code class="docutils literal notranslate"><span class="pre">bash</span></code>, <code class="docutils literal notranslate"><span class="pre">sort</span></code>
+and <code class="docutils literal notranslate"><span class="pre">zcat</span></code> are usually default installed in most of Linux distributions. Besides, you might need root access or
+compiling tools on Linux system to install some of these tools.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Tool</th>
+<th>Version</th>
+<th>Installation</th>
+<th>Brief description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python</td>
+<td>3.x</td>
+<td><a href="https://www.python.org/downloads/">Following instruction</a></td>
+<td>Running environment for several tools</td>
+</tr>
+<tr>
+<td>seqtk</td>
+<td>1.3</td>
+<td><a href="https://github.com/lh3/seqtk">Following instruction</a></td>
+<td>Processing FASTA/FASTQ files</td>
+</tr>
+<tr>
+<td>bwa</td>
+<td>0.7.17</td>
+<td><a href="https://github.com/lh3/bwa">Following instruction</a></td>
+<td>Mapping reads to reference genome</td>
+</tr>
+<tr>
+<td>samtools</td>
+<td>1.9</td>
+<td><a href="http://www.htslib.org/download/">Following instruction</a></td>
+<td>Manipulating SAM/BAM files</td>
+</tr>
+<tr>
+<td>htslib</td>
+<td>1.9</td>
+<td><a href="http://www.htslib.org/download/">Following instruction</a></td>
+<td>Manipulating SAM/BAM files</td>
+</tr>
+<tr>
+<td>pairtools</td>
+<td>0.2.2</td>
+<td><a href="https://pairtools.readthedocs.io/en/latest/installation.html">Following instruction</a></td>
+<td>Utilities for processing interaction pairs</td>
+</tr>
+<tr>
+<td>lz4</td>
+<td>1.8.3</td>
+<td><a href="https://github.com/lz4/lz4">Following instruction</a></td>
+<td>Extremely fast compression</td>
+</tr>
+<tr>
+<td>pbgzip</td>
+<td>-</td>
+<td><a href="https://github.com/nh13/pbgzip">Following instruction</a></td>
+<td>Compression for Genomics Data</td>
+</tr>
+<tr>
+<td>cooler</td>
+<td>0.8.3</td>
+<td><a href="https://github.com/mirnylab/cooler">Following instruction</a></td>
+<td>Utilities for genomic interaction data</td>
+</tr>
+<tr>
+<td>HTSeq</td>
+<td>0.11.2</td>
+<td><a href="https://htseq.readthedocs.io/en/master/install.html">Following instruction</a></td>
+<td>Utilities for annotating interactions</td>
+</tr>
+<tr>
+<td>SRA Toolkit</td>
+<td>2.9.4</td>
+<td><a href="https://github.com/ncbi/sra-tools">Following instruction</a></td>
+<td>NCBI SRA tools</td>
+</tr>
+<tr>
+<td>GNU parallel</td>
+<td>-</td>
+<td>Linux package "parallel"</td>
+<td>Executing jobs in parallel</td>
+</tr>
+<tr>
+<td><a href="https://www.gnu.org/software/gawk/manual/html_node/Quick-Installation.html">GNU awk</a></td>
+<td>-</td>
+<td>Linux package "gawk", set alias awk</td>
+<td>Text file processing tool</td>
+</tr>
+<tr>
+<td>bash</td>
+<td>-</td>
+<td>Linux package "bash"</td>
+<td>Shell environment</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>-</td>
+<td>Linux package "sort"</td>
+<td>Sort text</td>
+</tr>
+<tr>
+<td>gunzip</td>
+<td>-</td>
+<td>Linux package "gunzip"</td>
+<td>Compression tool</td>
+</tr>
+<tr>
+<td>zcat</td>
+<td>-</td>
+<td>Linux package "zcat"</td>
+<td>Readout compressed text file</td>
+</tr>
+</tbody>
+</table><p>After you installed all those dependencies, you need to get all the iMARGI-Docker tools from its GitHub repository:</p>
+<p><a class="reference external" href="https://github.com/Zhong-Lab-UCSD/iMARGI-Docker">https://github.com/Zhong-Lab-UCSD/iMARGI-Docker</a></p>
+<p>You can <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> the master branch, which is the same as the latest release. And then copy all the script tools named
+with prefix <code class="docutils literal notranslate"><span class="pre">imargi_</span></code> to your executable PATH, such as the following commands.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /tmp <span class="o">&amp;&amp;</span> git clone https://github.com/Zhong-Lab-UCSD/iMARGI-Docker.git <span class="o">&amp;&amp;</span><span class="se">\</span>
+    cp iMARGI-Docker/src/imargi_* /usr/local/bin/
+
+chmod +x /usr/local/bin/imargi_*
+</pre></div>
+</div>
+<p>The iMARGI-Docker script tools are listed in the table below.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Tool</th>
+<th>Installation</th>
+<th>Brief description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>imargi_wrapper.sh</td>
+<td>Download and <code>chmod +x</code></td>
+<td>All-in-one pipeline wrapper</td>
+</tr>
+<tr>
+<td>imargi_clean.sh</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Clean iMARGI paired end fastq files</td>
+</tr>
+<tr>
+<td>imargi_parse.sh</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Parse BAM to valid RNA-DNA interaction pairs</td>
+</tr>
+<tr>
+<td>imargi_stats.sh</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Simple stats report of .pairs file</td>
+</tr>
+<tr>
+<td>imargi_convert.sh</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Convert .pairs format to other formats</td>
+</tr>
+<tr>
+<td>imargi_distfilter.sh</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Filter .pairs or BEDPE file with genomic distance threshold</td>
+</tr>
+<tr>
+<td>imargi_rsfrags.sh</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Generate restriction fragment BED file</td>
+</tr>
+<tr>
+<td>imargi_restrict.py</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Restriction site analysis of .pairs file</td>
+</tr>
+<tr>
+<td>imargi_annotate.sh</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Annotate RNA/DNA-ends with genomic annotations</td>
+</tr>
+<tr>
+<td>imargi_ant.py</td>
+<td>Download and <code>chmod +x</code></td>
+<td>Annotate RNA/DNA-ends with genomic annotations, used by imargi_annotate.sh</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="quick_example.html" class="btn btn-neutral float-right" title="Quick Start Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Zhong Lab, UCSD. iMARGI-Docker code licensed under the BSD 2 License. Documentation licensed under CC BY 3.0
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

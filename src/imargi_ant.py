@@ -158,7 +158,7 @@ def annotate_region(ant, chr_str, pos, strand, match_length, min_over, strand_ty
     else:
         if strand_type == 'r':
             strand = '-' if strand == '+' else '+'
-        else:
+        if strand_type == 'n':
             strand = '.'
 
         if strand == '.':
