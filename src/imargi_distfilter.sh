@@ -66,10 +66,11 @@ zcat $input_file |\
         if(NR % 1000000 == 0){print NR" records processed ..."}
         if($0 ~ /^#/){
             if($0 ~/^#columns/){
-                print "#samheader: @PG\tID:imargi_distfilter.sh\tPN:imargi_distfilter.sh\tCL:"commandline > output_file;
+                PP_ID = gensub(/.+ID:([^\t]+)\t.+/, "\\1", "g", previous_line);
+                print "#samheader: @PG\tID:imargi_distfilter.sh\tPN:imargi_distfilter.sh\tCL:"commandline"\tPP:"PP_ID > output_file;
                 print $0 > output_file;
                 if(filter_flag=="output"){
-                    print "#samheader: @PG\tID:imargi_distfilter.sh\tPN:imargi_distfilter.sh\tCL:"commandline > filterOut_file;
+                    print "#samheader: @PG\tID:imargi_distfilter.sh\tPN:imargi_distfilter.sh\tCL:"commandline"\tPP:"PP_ID > filterOut_file;
                     print $0 > filterOut_file;
                 }
             }else{
@@ -77,6 +78,7 @@ zcat $input_file |\
                 if(filter_flag=="output"){
                     print $0 > filterOut_file;
                 }
+                previous_line = $0;
             }
         }else{
             if($2!=$4){
