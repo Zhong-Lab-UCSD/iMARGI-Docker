@@ -66,10 +66,10 @@ zcat $input_file |\
         if(NR % 1000000 == 0){print NR" records processed ..."}
         if($0 ~ /^#/){
             if($0 ~/^#columns/){
-                print "#samheader: @PG ID:imargi_distfilter.sh\tPN:imargi_distfilter.sh\tCL:"commandline > output_file;
+                print "#samheader: @PG\tID:imargi_distfilter.sh\tPN:imargi_distfilter.sh\tCL:"commandline > output_file;
                 print $0 > output_file;
                 if(filter_flag=="output"){
-                    print "#samheader: @PG ID:imargi_distfilter.sh\tPN:imargi_distfilter.sh\tCL:"commandline > filterOut_file;
+                    print "#samheader: @PG\tID:imargi_distfilter.sh\tPN:imargi_distfilter.sh\tCL:"commandline > filterOut_file;
                     print $0 > filterOut_file;
                 }
             }else{
