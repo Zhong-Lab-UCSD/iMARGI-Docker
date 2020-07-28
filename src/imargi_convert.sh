@@ -82,7 +82,7 @@ if [ "$format" == "bedpe" ]; then
     fi
 
     zcat $input_file | \
-        awk  -v keep_cols="$keep_cols" 'BEGIN{OFS="\t"}{
+        awk  -v keep_cols="$keep_cols" 'BEGIN{OFS="\t"; PROCINFO["sorted_in"] = "@ind_num_asc"}{
             if(NR % 1000000 == 0){print NR" records processed ..." > "/dev/stderr" }
             if($1 == "#columns:"){
                 header="#chrom1\tstart1\tend1\tchrom2\tstart2\tend2\tname\tscore\tstrand1\tstrand2";
@@ -156,9 +156,9 @@ if [ "$format" == "bedpe" ]; then
                 if(length(extra_cols)>0){
                     for(i in extra_cols){
                         if(extra_info==""){
-                            extra_info=$i; 
+                            if($i==""){extra_info="."}else{extra_info=$i}; 
                         }else{
-                            extra_info=extra_info"\t"$i
+                            if($i==""){extra_info=extra_info"\t."}else{extra_info=extra_info"\t"$i};
                         };
                     };
                     print $2, start1, end1, $4, start2, end2, $1, 1, $6, $7, extra_info;
