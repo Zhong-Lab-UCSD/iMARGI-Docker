@@ -36,12 +36,12 @@ Docker image, was built to perform the data processing pipeline in a more conven
 
 This repo hosts the iMARGI-Docker source code with brief introductions. For more detail of performing the iMARGI data
 analysis using iMARGI-Docker, please read our online comprehensive
-[**documentation**](https://sysbio.ucsd.edu/imargi_pipeline).
+[**documentation**](http://sysbiocomp.ucsd.edu/public/frankyan/imargi_pipeline/).
 
 We hope every user can perform the iMARGI pipeline with iMARGI-Docker. However, some old machines or operating systems
 might not support Docker technique, so users have to configure all the tools used in the pipeline to run it locally.
 It can only be done on Linux/macOS, and it requires solid experience in Linux system configuration. Please read the
-[installation dependencies section of iMARGI pipeline documentation](https://sysbio.ucsd.edu/imargi_pipeline/installation.html)
+[installation dependencies section of iMARGI pipeline documentation](http://sysbiocomp.ucsd.edu/public/frankyan/imargi_pipeline/installation.html)
 for details.
 
 If you encounter any problems, please create issues in this GitHub repo.
@@ -50,7 +50,7 @@ If you encounter any problems, please create issues in this GitHub repo.
 
 - src: source code, such as the Dockerfile of iMARGI-Docker
 - data: small chunk of data for testing
-- docs: source file of [documentation](https://sysbio.ucsd.edu/imargi_pipeline)
+- docs: source file of [documentation](http://sysbiocomp.ucsd.edu/public/frankyan/imargi_pipeline/)
 
 ## 3. Installation Guide
 
