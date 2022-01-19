@@ -136,7 +136,7 @@ Here are some essential instructions for installing Docker on different systems.
   [Instructions of Docker Toolbox for macOS](https://docs.docker.com/toolbox/toolbox_install_mac/)
 
 If you are using macOS or Windows, you can check the
-[Technical Notes of installing Docker on different systems](https://sysbio.ucsd.edu/imargi_pipeline/technical_note.html#install-docker-on-different-systems)
+[Technical Notes of installing Docker on different systems](https://sysbiocomp.ucsd.edu/public/frankyan/imargi_pipeline/technical_note.html#install-docker-on-different-systems)
 to learn how to install Docker on other systems.
 
 #### 3.2.2. Start Docker service
@@ -185,7 +185,7 @@ We recommend pulling the iMARGI-Docker image from Docker Hub. You can also re-bu
 source files in `src` folder.
 
 If you cannot use Docker, please read the
-[installation section of iMARGI pipeline documentation](https://sysbio.ucsd.edu/imargi_pipeline/installation.html) for
+[installation section of iMARGI pipeline documentation](https://sysbiocomp.ucsd.edu/public/frankyan/imargi_pipeline/installation.html) for
 alternative instructions.
 
 #### 3.3.1. Pull from Docker Hub
@@ -242,7 +242,7 @@ As `bwa index` process will cost a lot of time (more than 1 hour), we suggest to
 the reference genome. Please download the following gzip compressed `bwa_index` folder and decompress it
 (`tar zxvf`) on your machine.
 
-- [bwa index files](https://sysbio.ucsd.edu/imargi_pipeline/bwa_index.tar.gz)
+- [bwa index files](http://sysbiocomp.ucsd.edu/public/frankyan/imargi_pipeline/bwa_index.tar.gz)
 
 *We assume that you put the data and reference files in the following directory structure.*
 
@@ -308,7 +308,7 @@ docker run --rm -t -u 1043 -v ~/imargi_example:/imargi zhonglab/imargi \
   supplied by `-g` parameter. Building BWA index needs large memory as we required (16 GB). There
   are some other arguments can be used for pre-generated files, such as `-R` for restriction fragment BED file
   (the automatically generated file is named as `AluI_frags.bed.gz`) and `-c` for chromsize file. See more details in the
-  [documentation of command line API section](https://sysbio.ucsd.edu/imargi_pipeline/commandline_api.html#imargi-wrapper-sh)
+  [documentation of command line API section](http://sysbiocomp.ucsd.edu/public/frankyan/imargi_pipeline/commandline_api.html#imargi-wrapper-sh)
 
 ### 4.3. Testing Results
 
@@ -334,7 +334,7 @@ chromosome size file, bwa index folder and restriction fragment BED file are all
 reference genome FASTA file is. Besides, there is also a simple stats file, `pipelineStats_test_sample.log`, which reports the
 sequencing mapping QC result (passed or failed), total processed read pairs number, BWA mapping stats and number of valid
 RNA-DNA interaction in the final `.pairs.gz` file. For more detail, please check the
-[documentation of output file descriptions](https://sysbio.ucsd.edu/imargi_pipeline/step_by_step_illustration.html#output-files).
+[documentation of output file descriptions](https://sysbiocomp.ucsd.edu/public/frankyan/imargi_pipeline/step_by_step_illustration.html#output-files).
 
 Here is the final directory structure after completing the pipeline.
 
