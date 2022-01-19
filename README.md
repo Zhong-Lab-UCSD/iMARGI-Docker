@@ -218,8 +218,8 @@ To test whether you have successfully deployed iMARGI-Docker, you can follow ins
 As real iMARGI sequencing data are always very big, so we randomly extracted a small chunk of real data for software
 testing. The data can be downloaded from the following links.
 
-- [R1 reads](https://sysbio.ucsd.edu/imargi_pipeline/sample_R1.fastq.gz)
-- [R2 reads](https://sysbio.ucsd.edu/imargi_pipeline/sample_R2.fastq.gz)
+- [R1 reads](https://sysbiocomp.ucsd.edu/public/frankyan/imargi_pipeline/sample_R1.fastq.gz)
+- [R2 reads](https://sysbiocomp.ucsd.edu/public/frankyan/imargi_pipeline/sample_R2.fastq.gz)
 
 #### 4.1.2. Reference genome data (FASTA)
 
